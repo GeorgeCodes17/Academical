@@ -1,16 +1,13 @@
 package com.school.views.account;
 
 import com.school.auth.ValidateInputs;
-import com.school.helpers.TokenObject;
 import com.school.views.partials.helpers.AddPlaceholders;
 import com.school.views.partials.helpers.Colors;
-import org.apache.http.util.EntityUtils;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 import static com.school.auth.CreateAccount.createAccount;
 import static com.school.auth.SignIn.signIn;
@@ -106,13 +103,7 @@ public class LoginForm extends JPanel implements ActionListener {
                 return;
             }
 
-            String bearer;
-            try {
-                bearer = EntityUtils.toString(createAccount(inputs).getEntity());
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-            TokenObject.storeToken(bearer);
+            createAccount(inputs);
         } else if (action.equals("Sign In")) {
             ValidateInputs inputs = new ValidateInputs(
                 emailSignIn.getText(),

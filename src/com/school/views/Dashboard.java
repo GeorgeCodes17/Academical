@@ -32,7 +32,7 @@ public class Dashboard {
         statusBoard.setLayout(new BoxLayout(statusBoard, BoxLayout.Y_AXIS));
         statusBoard.setPreferredSize(new Dimension(300, statusBoard.getPreferredSize().height));
         JLabel welcomeMessage = new JLabel("<html>Welcome, <b>" + userInfo.name() + "</b></html>");
-        JLabel firstClassMessage = new JLabel("<html>Your first lesson is " + "<b>Maths</b>" + " at " + "9.00PM</html>");
+        JLabel firstClassMessage = new JLabel("<html>Your first lesson is " + "<b>Maths</b>" + " at " + "<b>9.00PM</b></html>");
 
         welcomeMessage.setBorder(new EmptyBorder(0, 0, 30, 0));
 
