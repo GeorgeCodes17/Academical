@@ -1,5 +1,7 @@
 package com.school.auth;
 
+import static com.school.helpers.ConfigFile.config;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -8,10 +10,11 @@ import java.util.Optional;
 import java.util.Scanner;
 
 public class GetEmailAddressStoredLocal {
-    static final String filePath = ".src/email-logged-in.txt";
+    static final String loginCachePath = config().getProperty("LOGIN_CACHE_PATH");
+
     public static void storeNewEmail(String emailAddress) {
         try {
-            FileWriter fileWriter = new FileWriter(filePath);
+            FileWriter fileWriter = new FileWriter(loginCachePath);
             fileWriter.write(emailAddress);
             fileWriter.close();
         } catch (IOException e) {
@@ -22,7 +25,7 @@ public class GetEmailAddressStoredLocal {
     public static Optional<String> getEmailAddress() throws IOException {
         String emailAddress = null;
         try {
-            File myObj = new File(filePath);
+            File myObj = new File(loginCachePath);
             Scanner myReader = new Scanner(myObj);
             if (myReader.hasNext()) {
                 emailAddress = myReader.nextLine();
@@ -32,5 +35,16 @@ public class GetEmailAddressStoredLocal {
             e.printStackTrace();
         }
         return Optional.ofNullable(emailAddress);
+    }
+
+    public static void deleteEmailAddress() {
+        File file = new File(loginCachePath);
+        try {
+            FileWriter fileWriter = new FileWriter(file);
+            fileWriter.write("");
+            fileWriter.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

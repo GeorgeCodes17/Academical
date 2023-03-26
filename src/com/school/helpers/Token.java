@@ -33,6 +33,22 @@ public class Token {
         }
     }
 
+    public static void deleteToken() {
+        Optional<String> emailAddress;
+        try {
+            emailAddress = GetEmailAddressStoredLocal.getEmailAddress();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        OSXKeychain keychain;
+        try {
+            keychain = OSXKeychain.getInstance();
+            keychain.deleteGenericPassword("Schoolio", emailAddress.get());
+        } catch (OSXKeychainException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static Optional<String> getBearerToken() {
         Optional<String> emailAddress;
         try {

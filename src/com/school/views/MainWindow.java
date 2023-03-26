@@ -32,7 +32,7 @@ public class MainWindow {
         WINDOW.setSize(800, 500);
         WINDOW.getContentPane().setBackground(Color.white);
 
-        WINDOW.add(Index.getHeaderLabel(), BorderLayout.PAGE_START);
+        WINDOW.add(Index.getHeaderLabel(auth), BorderLayout.PAGE_START);
 
         if(auth.loggedIn()) {
             WINDOW.add(new Dashboard(userInfo).displayDashboard(), BorderLayout.CENTER);

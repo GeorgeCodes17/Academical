@@ -14,9 +14,11 @@ public class TokenObject {
     private static final String LOCAL_TOKEN_KEY = "Schoolio";
 
     public static void storeToken(String bearer) {
-        String previousUserEmail;
+        String previousUserEmail = null;
         try {
-            previousUserEmail = GetEmailAddressStoredLocal.getEmailAddress().get();
+            if (GetEmailAddressStoredLocal.getEmailAddress().isPresent()) {
+                previousUserEmail = GetEmailAddressStoredLocal.getEmailAddress().get();
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -28,7 +30,6 @@ public class TokenObject {
         OSXKeychain keychain;
         try {
             keychain = OSXKeychain.getInstance();
-            Optional<String> bearerExists = keychain.findGenericPassword(LOCAL_TOKEN_KEY, newUserEmail);
             if (GetEmailAddressStoredLocal.getEmailAddress().isPresent()) {
                 keychain.deleteGenericPassword(LOCAL_TOKEN_KEY, previousUserEmail);
                 keychain.addGenericPassword(LOCAL_TOKEN_KEY, newUserEmail, bearer);
@@ -49,7 +50,7 @@ public class TokenObject {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        if (!emailAddress.isPresent()) {
+        if (emailAddress.isEmpty()) {
             return Optional.empty();
         }
 
