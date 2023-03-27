@@ -46,6 +46,7 @@ public class Index {
             @Override
             public void mouseClicked(MouseEvent e) {
                 new SignOutHandler().signOut();
+                new MainWindow().show();
             }
 
             @Override

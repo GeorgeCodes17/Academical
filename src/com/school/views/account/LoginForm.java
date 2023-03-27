@@ -3,6 +3,7 @@ package com.school.views.account;
 import com.school.auth.CreateAccount;
 import com.school.auth.SignIn;
 import com.school.auth.ValidateInputs;
+import com.school.views.MainWindow;
 import com.school.views.partials.helpers.AddPlaceholders;
 import com.school.views.partials.helpers.Colors;
 
@@ -103,6 +104,7 @@ public class LoginForm extends JPanel implements ActionListener {
             }
 
             new CreateAccount().createAccount(inputs);
+            new MainWindow().show();
         } else if (action.equals("Sign In")) {
             ValidateInputs inputs = new ValidateInputs(
                 emailSignIn.getText(),
@@ -113,7 +115,9 @@ public class LoginForm extends JPanel implements ActionListener {
                 System.out.println("FAIL");
                 return;
             }
+
             new SignIn().signIn(inputs);
+            new MainWindow().show();
         }
     }
 }
