@@ -1,6 +1,7 @@
 package com.school.api.auth;
 
 import com.school.auth.ValidateInputs;
+import com.school.helpers.ConfigFile;
 import com.school.helpers.TokenObject;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -22,15 +23,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import static com.school.helpers.ConfigFile.config;
-
 public class Authenticate {
-    static final HttpClient client = HttpClientBuilder.create().build();
-    static final Properties config = config();
-    static final String API_URL = config.getProperty("API_URL");
-    static final String OKTA_API_URL = config.getProperty("OKTA_API_URL");
+    final HttpClient client = HttpClientBuilder.create().build();
+    final Properties config = new ConfigFile().config();
+    final String API_URL = config.getProperty("API_URL");
+    final String OKTA_API_URL = config.getProperty("OKTA_API_URL");
 
-    public static void authorize(String accessToken) throws IOException {
+    public void authorize(String accessToken) throws IOException {
         HttpPost getAuthenticated = new HttpPost(API_URL + "authenticate");
         getAuthenticated.addHeader("Authorization", accessToken);
 
@@ -41,7 +40,7 @@ public class Authenticate {
         }
     }
 
-    public static String getUserInfo(String accessToken) throws IOException {
+    public String getUserInfo(String accessToken) throws IOException {
         HttpClient client = HttpClientBuilder.create().build();
         HttpGet getUserInfo = new HttpGet(OKTA_API_URL + "userinfo");
         getUserInfo.addHeader("Authorization", "Bearer " + accessToken);
@@ -54,7 +53,7 @@ public class Authenticate {
         return EntityUtils.toString(response.getEntity());
     }
 
-    public static void getBearerByRefresh(String refreshToken) throws IOException, URISyntaxException {
+    public void getBearerByRefresh(String refreshToken) throws IOException, URISyntaxException {
         HttpClient client = HttpClientBuilder.create().build();
         HttpPost getBearer = new HttpPost(API_URL + "get-bearer-by-refresh");
         getBearer.addHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -66,10 +65,10 @@ public class Authenticate {
             throw new HttpResponseException(status.getStatusCode(), EntityUtils.toString(response.getEntity()));
         }
 
-        TokenObject.storeToken(EntityUtils.toString(response.getEntity()));
+        new TokenObject().storeToken(EntityUtils.toString(response.getEntity()));
     }
 
-    public static HttpResponse getBearerByCreds(String email, String password) throws IOException {
+    public HttpResponse getBearerByCreds(String email, String password) throws IOException {
         HttpClient client = HttpClientBuilder.create().build();
         HttpPost request = new HttpPost(API_URL + "get-bearer-by-creds");
 
@@ -81,7 +80,7 @@ public class Authenticate {
         return client.execute(request);
     }
 
-    public static HttpResponse registerUser(ValidateInputs credentials) throws UnsupportedEncodingException {
+    public HttpResponse registerUser(ValidateInputs credentials) throws UnsupportedEncodingException {
         HttpClient client = HttpClientBuilder.create().build();
         HttpPost request = new HttpPost(API_URL + "register");
         request.setHeader("Content-Type", "application/x-www-form-urlencoded");

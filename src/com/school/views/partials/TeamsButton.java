@@ -11,11 +11,11 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 public class TeamsButton {
-    private static final String TEAMS_ICON_PATH = "src/com/school/views/assets/chat.png";
+    private final String TEAMS_ICON_PATH = "src/com/school/views/assets/chat.png";
 
-    private static final String TEAMS_LOGIN_URL = "https://go.microsoft.com/fwlink/p/?linkid=873020&culture=en-us&country=ww";
+    private final String TEAMS_LOGIN_URL = "https://go.microsoft.com/fwlink/p/?linkid=873020&culture=en-us&country=ww";
 
-    public static JPanel getTeamsButton() {
+    public JPanel getTeamsButton() {
         JButton teamsButton = new JButton("Teams", new ImageIcon(TEAMS_ICON_PATH));
         teamsButton.setFont(new Font("Roboto", Font.PLAIN, 14));
         teamsButton.setBackground(Colors.airSuperiorityBlue75);

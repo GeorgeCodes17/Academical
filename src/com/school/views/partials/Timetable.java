@@ -9,10 +9,10 @@ import java.awt.*;
 
 public class Timetable {
 
-    static final Font HEADER_FONT = new Font("Roboto", Font.BOLD, 16);
-    static final Font TIMETABLE_FONT = new Font("Roboto", Font.PLAIN, 14);
+    final Font HEADER_FONT = new Font("Roboto", Font.BOLD, 16);
+    final Font TIMETABLE_FONT = new Font("Roboto", Font.PLAIN, 14);
 
-    public static JPanel getTimetable() {
+    public JPanel getTimetable() {
         JPanel timetable = new JPanel();
         timetable.setPreferredSize(new Dimension(300, timetable.getPreferredSize().height));
 
@@ -23,7 +23,7 @@ public class Timetable {
         return timetable;
     }
 
-    private static JPanel getTimetableBody() {
+    private JPanel getTimetableBody() {
         JPanel timetableBody = new JPanel(new GridLayout(7, 4));
         timetableBody.setSize(300, timetableBody.getPreferredSize().height);
         timetableBody.setBorder(new RoundedBorder(15, Colors.darkLava));
@@ -59,7 +59,7 @@ public class Timetable {
         return timetableBody;
     }
 
-    private static JLabel timetableItem(String itemText, boolean bold, boolean bottomBorder) {
+    private JLabel timetableItem(String itemText, boolean bold, boolean bottomBorder) {
         JLabel item = new JLabel(itemText, SwingConstants.CENTER);
         item.setFont(bold ? HEADER_FONT : TIMETABLE_FONT);
         if (bottomBorder) {

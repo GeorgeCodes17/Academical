@@ -8,9 +8,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Base64;
 public class AdvancedEncryptionStandard {
-    private static SecretKeySpec secretKey;
+    private SecretKeySpec secretKey;
 
-    public static void setKey(final String myKey) {
+    public void setKey(final String myKey) {
         MessageDigest sha;
         try {
             byte[] key = myKey.getBytes(StandardCharsets.UTF_8);
@@ -22,7 +22,7 @@ public class AdvancedEncryptionStandard {
             e.printStackTrace();
         }
     }
-    public static String decrypt(final String strToDecrypt, final String secret) {
+    public String decrypt(final String strToDecrypt, final String secret) {
         try {
             setKey(secret);
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");

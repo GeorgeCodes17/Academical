@@ -32,7 +32,7 @@ public class MainWindow {
         WINDOW.setSize(800, 500);
         WINDOW.getContentPane().setBackground(Color.white);
 
-        WINDOW.add(Index.getHeaderLabel(auth), BorderLayout.PAGE_START);
+        WINDOW.add(new Index().getHeaderLabel(auth), BorderLayout.PAGE_START);
 
         if(auth.loggedIn()) {
             WINDOW.add(new Dashboard(userInfo).displayDashboard(), BorderLayout.CENTER);
@@ -41,7 +41,7 @@ public class MainWindow {
             WINDOW.add(new LoginForm());
         }
 
-        WINDOW.add(Index.getFooterLabel(), BorderLayout.PAGE_END);
+        WINDOW.add(new Index().getFooterLabel(), BorderLayout.PAGE_END);
     }
 
     private void setFonts() {

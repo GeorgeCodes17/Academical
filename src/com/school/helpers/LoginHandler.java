@@ -11,7 +11,7 @@ import java.net.URISyntaxException;
 import java.util.Map;
 
 public class LoginHandler {
-    static BearerToken bearerToken = new BearerToken(TokenObject.getBearerToken());
+    BearerToken bearerToken = new BearerToken(new TokenObject().getBearerToken());
 
     public AuthStatusEnum authenticate() {
         if (bearerToken.get() != null) {
@@ -25,7 +25,7 @@ public class LoginHandler {
     public User getUserInfo() {
         String userInfo;
         try {
-            userInfo = Authenticate.getUserInfo(bearerToken.getAccessToken());
+            userInfo = new Authenticate().getUserInfo(bearerToken.getAccessToken());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -51,7 +51,7 @@ public class LoginHandler {
 
     private AuthStatusEnum authenticateViaSavedAccessToken() {
         try {
-            Authenticate.authorize(bearerToken.getAccessToken());
+            new Authenticate().authorize(bearerToken.getAccessToken());
         } catch (IOException e) {
             return AuthStatusEnum.LOGGED_OUT;
         }
@@ -60,7 +60,7 @@ public class LoginHandler {
 
     private AuthStatusEnum authenticateViaRefreshToken() {
         try {
-            Authenticate.getBearerByRefresh(bearerToken.getRefreshToken());
+            new Authenticate().getBearerByRefresh(bearerToken.getRefreshToken());
         } catch (IOException | URISyntaxException e) {
             return AuthStatusEnum.LOGGED_OUT;
         }

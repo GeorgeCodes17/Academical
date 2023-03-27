@@ -11,7 +11,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class Index {
-    public static JPanel getHeaderLabel(AuthStatusEnum auth) {
+    public JPanel getHeaderLabel(AuthStatusEnum auth) {
         JPanel header = new JPanel();
         header.setLayout(new BorderLayout());
         header.setBackground(Colors.middleBlue);
@@ -28,7 +28,7 @@ public class Index {
         return header;
     }
 
-    public static JLabel getFooterLabel() {
+    public JLabel getFooterLabel() {
         JLabel footer = new JLabel("Schoolio is a company, established in 2022, created by a developer who couldn't think of a good project to do", SwingConstants.CENTER);
         footer.setBackground(Colors.middleBlue);
         footer.setOpaque(true);
@@ -36,7 +36,7 @@ public class Index {
         return footer;
     }
 
-    public static JLabel getSignOutLink() {
+    public JLabel getSignOutLink() {
         JLabel signOutLink = new JLabel("<html>Sign Out -></html>");
         signOutLink.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         signOutLink.setBorder(new EmptyBorder(0, 0, 0, 25));

@@ -10,10 +10,10 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 public class CreateAccount {
-    public static AuthStatusEnum createAccount(ValidateInputs inputs) {
+    public AuthStatusEnum createAccount(ValidateInputs inputs) {
         HttpResponse response;
         try {
-            response = Authenticate.registerUser(inputs);
+            response = new Authenticate().registerUser(inputs);
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
@@ -27,7 +27,7 @@ public class CreateAccount {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        TokenObject.storeToken(bearer);
+        new TokenObject().storeToken(bearer);
 
         return AuthStatusEnum.LOGGED_IN;
     }

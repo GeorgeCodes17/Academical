@@ -10,43 +10,45 @@ import java.util.HashMap;
 import java.util.Optional;
 
 public class TokenObject {
+    private final GetEmailAddressStoredLocal emailAddressLocal = new GetEmailAddressStoredLocal();
 
-    private static final String LOCAL_TOKEN_KEY = "Schoolio";
+    private final String LOCAL_TOKEN_KEY = "Schoolio";
+    private final TokenHandler tokenHandler = new TokenHandler();
 
-    public static void storeToken(String bearer) {
+    public void storeToken(String bearer) {
         String previousUserEmail = null;
         try {
-            if (GetEmailAddressStoredLocal.getEmailAddress().isPresent()) {
-                previousUserEmail = GetEmailAddressStoredLocal.getEmailAddress().get();
+            if (emailAddressLocal.getEmailAddress().isPresent()) {
+                previousUserEmail = emailAddressLocal.getEmailAddress().get();
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         String idTokenEncoded = new Gson().fromJson(bearer, HashMap.class).get("id_token").toString();
-        HashMap<String,String> idTokenDecoded = GetTokenHandler.decodeJWT(idTokenEncoded);
-        HashMap<String, HashMap<String, String>> idTokenWKeys = GetTokenHandler.JWTToMap(idTokenDecoded);
+        HashMap<String,String> idTokenDecoded = tokenHandler.decodeJWT(idTokenEncoded);
+        HashMap<String, HashMap<String, String>> idTokenWKeys = tokenHandler.JWTToMap(idTokenDecoded);
         String newUserEmail = idTokenWKeys.get("payload").get("email");
 
         OSXKeychain keychain;
         try {
             keychain = OSXKeychain.getInstance();
-            if (GetEmailAddressStoredLocal.getEmailAddress().isPresent()) {
+            if (emailAddressLocal.getEmailAddress().isPresent()) {
                 keychain.deleteGenericPassword(LOCAL_TOKEN_KEY, previousUserEmail);
                 keychain.addGenericPassword(LOCAL_TOKEN_KEY, newUserEmail, bearer);
-                GetEmailAddressStoredLocal.storeNewEmail(newUserEmail);
+                emailAddressLocal.storeNewEmail(newUserEmail);
                 return;
             }
             keychain.addGenericPassword(LOCAL_TOKEN_KEY, newUserEmail, bearer);
-            GetEmailAddressStoredLocal.storeNewEmail(newUserEmail);
+            emailAddressLocal.storeNewEmail(newUserEmail);
         } catch (OSXKeychainException | IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static Optional<String> getBearerToken() {
+    public Optional<String> getBearerToken() {
         Optional<String> emailAddress;
         try {
-            emailAddress = GetEmailAddressStoredLocal.getEmailAddress();
+            emailAddress = emailAddressLocal.getEmailAddress();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

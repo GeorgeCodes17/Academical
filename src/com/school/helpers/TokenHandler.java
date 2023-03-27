@@ -6,7 +6,7 @@ import java.util.Base64;
 import java.util.HashMap;
 
 public class TokenHandler {
-    public static HashMap<String,String> decodeJWT(String token) {
+    public HashMap<String,String> decodeJWT(String token) {
         String[] splitToken = token.split("\\.");
         Base64.Decoder decoder = Base64.getUrlDecoder();
 
@@ -17,9 +17,7 @@ public class TokenHandler {
         return jwtMap;
     }
 
-    public static HashMap<String, HashMap<String, String>> JWTToMap(HashMap<String,String> token) {
-        Base64.Decoder decoder = Base64.getUrlDecoder();
-
+    public HashMap<String, HashMap<String, String>> JWTToMap(HashMap<String,String> token) {
         HashMap<String, HashMap<String,String>> jwtWithKeys = new HashMap<>();
 
         jwtWithKeys.put("header", new Gson().fromJson(token.get("header"), HashMap.class));

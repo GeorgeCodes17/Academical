@@ -1,5 +1,7 @@
 package com.school.views.account;
 
+import com.school.auth.CreateAccount;
+import com.school.auth.SignIn;
 import com.school.auth.ValidateInputs;
 import com.school.views.partials.helpers.AddPlaceholders;
 import com.school.views.partials.helpers.Colors;
@@ -8,9 +10,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import static com.school.auth.CreateAccount.createAccount;
-import static com.school.auth.SignIn.signIn;
 
 public class LoginForm extends JPanel implements ActionListener {
     private java.awt.event.FocusEvent focusEvent;
@@ -103,7 +102,7 @@ public class LoginForm extends JPanel implements ActionListener {
                 return;
             }
 
-            createAccount(inputs);
+            new CreateAccount().createAccount(inputs);
         } else if (action.equals("Sign In")) {
             ValidateInputs inputs = new ValidateInputs(
                 emailSignIn.getText(),
@@ -114,7 +113,7 @@ public class LoginForm extends JPanel implements ActionListener {
                 System.out.println("FAIL");
                 return;
             }
-            signIn(inputs);
+            new SignIn().signIn(inputs);
         }
     }
 }
