@@ -12,4 +12,11 @@ public record User(
         double updatedAt,
         boolean emailVerified
 ) {
+    public User() {
+        this(null, null, null, null, null, null, null, null, 0.0, false);
+    }
+
+    public boolean signedIn() {
+        return this.sub() != null;
+    }
 }

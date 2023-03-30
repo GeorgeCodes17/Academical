@@ -4,7 +4,7 @@ import com.school.auth.GetEmailAddressStoredLocal;
 
 public class SignOutHandler {
     public void signOut() {
-        new Token().deleteToken();
+        new BearerToken().deleteToken();
         new GetEmailAddressStoredLocal().deleteEmailAddress();
     }
 }

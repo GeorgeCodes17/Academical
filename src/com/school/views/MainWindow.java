@@ -1,6 +1,5 @@
 package com.school.views;
 
-import com.school.auth.enums.AuthStatusEnum;
 import com.school.helpers.LoginHandler;
 import com.school.objects.User;
 import com.school.views.account.LoginForm;
@@ -9,39 +8,37 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MainWindow {
-    public AuthStatusEnum auth = new LoginHandler().authenticate();
+    public User userInfo = new LoginHandler().authenticateAndGetUserInfo();
 
-    public User userInfo = null;
-    {
-        if (auth.loggedIn()) {
-            userInfo = new LoginHandler().getUserInfo();
-        }
-    }
+    public static final Font MAIN_FONT = new Font("Roboto", Font.PLAIN, 14);
+    public static final JFrame WINDOW = new JFrame();
 
-    public final JFrame WINDOW;
-    final Font MAIN_FONT = new Font("Roboto", Font.PLAIN, 14);
     public MainWindow() {
+        if (!userInfo.signedIn()) {
+            System.out.println("Signed out");
+        }
         UIManager.getDefaults().put(new JButton().getUIClassID(), "com.school.views.partials.helpers.RoundedButton");
         setFonts();
 
-        WINDOW = new JFrame();
-        WINDOW.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        WINDOW.setVisible(true);
+//        WINDOW.setExtendedState(JFrame.MAXIMIZED_BOTH);
+//        WINDOW.setVisible(true);
         WINDOW.setTitle("Schoolio");
         WINDOW.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         WINDOW.setSize(800, 500);
         WINDOW.getContentPane().setBackground(Color.white);
 
-        WINDOW.add(new Index().getHeaderLabel(auth), BorderLayout.PAGE_START);
+        Index index = new Index();
+        WINDOW.add(index.getHeaderLabel(), BorderLayout.PAGE_START);
 
-        if(auth.loggedIn()) {
-            WINDOW.add(new Dashboard(userInfo).displayDashboard(), BorderLayout.CENTER);
+        if(userInfo.signedIn()) {
+            WINDOW.add(index.getHeaderLabel(), BorderLayout.PAGE_START);
+            WINDOW.add(new Dashboard().displayDashboard(), BorderLayout.CENTER);
+            WINDOW.add(index.getFooterLabel(), BorderLayout.PAGE_END);
         } else {
-            System.out.println("Logged out");
-            WINDOW.add(new LoginForm());
+            WINDOW.add(new LoginForm(), BorderLayout.CENTER);
         }
 
-        WINDOW.add(new Index().getFooterLabel(), BorderLayout.PAGE_END);
+        WINDOW.add(index.getFooterLabel(), BorderLayout.PAGE_END);
     }
 
     private void setFonts() {

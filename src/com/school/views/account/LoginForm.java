@@ -3,6 +3,8 @@ package com.school.views.account;
 import com.school.auth.CreateAccount;
 import com.school.auth.SignIn;
 import com.school.auth.ValidateInputs;
+import com.school.views.Dashboard;
+import com.school.views.Index;
 import com.school.views.MainWindow;
 import com.school.views.partials.helpers.AddPlaceholders;
 import com.school.views.partials.helpers.Colors;
@@ -13,6 +15,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class LoginForm extends JPanel implements ActionListener {
+    private final Index index = new Index();
+
     private java.awt.event.FocusEvent focusEvent;
     JTextField emailCreate = new JTextField();
     JTextField emailSignIn = new JTextField();
@@ -104,7 +108,6 @@ public class LoginForm extends JPanel implements ActionListener {
             }
 
             new CreateAccount().createAccount(inputs);
-            new MainWindow().show();
         } else if (action.equals("Sign In")) {
             ValidateInputs inputs = new ValidateInputs(
                 emailSignIn.getText(),
@@ -117,7 +120,13 @@ public class LoginForm extends JPanel implements ActionListener {
             }
 
             new SignIn().signIn(inputs);
-            new MainWindow().show();
         }
+
+        MainWindow.WINDOW.getContentPane().removeAll();
+        MainWindow.WINDOW.add(index.getHeaderLabel(), BorderLayout.PAGE_START);
+        MainWindow.WINDOW.add(new Dashboard().displayDashboard(), BorderLayout.CENTER);
+        MainWindow.WINDOW.add(index.getFooterLabel(), BorderLayout.PAGE_END);
+        MainWindow.WINDOW.repaint();
+        MainWindow.WINDOW.revalidate();
     }
 }

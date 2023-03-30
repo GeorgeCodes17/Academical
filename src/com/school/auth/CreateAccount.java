@@ -2,7 +2,7 @@ package com.school.auth;
 
 import com.school.api.auth.Authenticate;
 import com.school.auth.enums.AuthStatusEnum;
-import com.school.helpers.TokenObject;
+import com.school.helpers.BearerToken;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 
@@ -27,7 +27,7 @@ public class CreateAccount {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        new TokenObject().storeToken(bearer);
+        new BearerToken().storeToken(bearer);
 
         return AuthStatusEnum.LOGGED_IN;
     }

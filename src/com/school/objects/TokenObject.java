@@ -5,10 +5,10 @@ import com.google.gson.Gson;
 import java.util.HashMap;
 import java.util.Optional;
 
-public class BearerToken {
+public class TokenObject {
     private final String bearer;
 
-    public BearerToken(Optional<String> bearer) {
+    public TokenObject(Optional<String> bearer) {
         this.bearer = bearer.orElse(null);
     }
 

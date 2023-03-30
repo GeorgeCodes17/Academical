@@ -3,7 +3,7 @@ package com.school.helpers;
 import com.google.gson.Gson;
 import com.school.api.auth.Authenticate;
 import com.school.auth.enums.AuthStatusEnum;
-import com.school.objects.BearerToken;
+import com.school.objects.TokenObject;
 import com.school.objects.User;
 
 import java.io.IOException;
@@ -11,10 +11,17 @@ import java.net.URISyntaxException;
 import java.util.Map;
 
 public class LoginHandler {
-    BearerToken bearerToken = new BearerToken(new TokenObject().getBearerToken());
+    TokenObject tokenObject = new TokenObject(new BearerToken().getBearerToken());
+
+    public User authenticateAndGetUserInfo() {
+        if (authenticate().loggedIn()) {
+            return getUserInfo();
+        }
+        return new User();
+    }
 
     public AuthStatusEnum authenticate() {
-        if (bearerToken.get() != null) {
+        if (tokenObject.get() != null) {
             if (authenticateViaSavedAccessToken().loggedIn() || authenticateViaRefreshToken().loggedIn()) {
                 return AuthStatusEnum.LOGGED_IN;
             }
@@ -25,7 +32,7 @@ public class LoginHandler {
     public User getUserInfo() {
         String userInfo;
         try {
-            userInfo = new Authenticate().getUserInfo(bearerToken.getAccessToken());
+            userInfo = new Authenticate().getUserInfo(tokenObject.getAccessToken());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -51,7 +58,7 @@ public class LoginHandler {
 
     private AuthStatusEnum authenticateViaSavedAccessToken() {
         try {
-            new Authenticate().authorize(bearerToken.getAccessToken());
+            new Authenticate().authorize(tokenObject.getAccessToken());
         } catch (IOException e) {
             return AuthStatusEnum.LOGGED_OUT;
         }
@@ -60,7 +67,7 @@ public class LoginHandler {
 
     private AuthStatusEnum authenticateViaRefreshToken() {
         try {
-            new Authenticate().getBearerByRefresh(bearerToken.getRefreshToken());
+            new Authenticate().getBearerByRefresh(tokenObject.getRefreshToken());
         } catch (IOException | URISyntaxException e) {
             return AuthStatusEnum.LOGGED_OUT;
         }

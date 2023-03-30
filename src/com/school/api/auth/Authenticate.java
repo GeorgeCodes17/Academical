@@ -2,7 +2,7 @@ package com.school.api.auth;
 
 import com.school.auth.ValidateInputs;
 import com.school.helpers.ConfigFile;
-import com.school.helpers.TokenObject;
+import com.school.helpers.BearerToken;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
@@ -65,7 +65,7 @@ public class Authenticate {
             throw new HttpResponseException(status.getStatusCode(), EntityUtils.toString(response.getEntity()));
         }
 
-        new TokenObject().storeToken(EntityUtils.toString(response.getEntity()));
+        new BearerToken().storeToken(EntityUtils.toString(response.getEntity()));
     }
 
     public HttpResponse getBearerByCreds(String email, String password) throws IOException {
