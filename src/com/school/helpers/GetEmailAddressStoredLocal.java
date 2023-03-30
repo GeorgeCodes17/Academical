@@ -1,4 +1,4 @@
-package com.school.auth;
+package com.school.helpers;
 
 import com.school.helpers.ConfigFile;
 

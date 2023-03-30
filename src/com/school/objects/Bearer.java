@@ -15,7 +15,11 @@ public class Bearer {
         this.bearer = bearer;
     }
 
-    public boolean isNull() {
+    public boolean isPresent() {
+        return bearer != null;
+    }
+
+    public boolean isEmpty() {
         return bearer == null;
     }
 

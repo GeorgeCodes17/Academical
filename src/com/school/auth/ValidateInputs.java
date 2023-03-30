@@ -1,6 +1,6 @@
 package com.school.auth;
 
-import com.school.auth.enums.ValidateAccountEnum;
+import com.school.enums.ValidateAccountEnum;
 import org.apache.commons.text.StringEscapeUtils;
 
 import java.util.HashMap;

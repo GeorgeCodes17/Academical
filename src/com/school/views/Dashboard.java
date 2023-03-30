@@ -1,6 +1,6 @@
 package com.school.views;
 
-import com.school.helpers.LoginHandler;
+import com.school.api.auth.AuthenticateApi;
 import com.school.objects.User;
 import com.school.views.partials.TeamsButton;
 import com.school.views.partials.Timetable;
@@ -10,8 +10,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class Dashboard {
-    private LoginHandler loginHandler = new LoginHandler();
-    public User userInfo = loginHandler.getUserInfo();
+    public User userInfo = new AuthenticateApi().getUserInfo();
 
     public JPanel displayDashboard() {
         JPanel dashboard = new JPanel();

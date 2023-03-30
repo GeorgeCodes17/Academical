@@ -1,7 +1,6 @@
 package com.school.helpers;
 
 import com.google.gson.Gson;
-import com.school.auth.GetEmailAddressStoredLocal;
 import pt.davidafsilva.apple.OSXKeychain;
 import pt.davidafsilva.apple.OSXKeychainException;
 

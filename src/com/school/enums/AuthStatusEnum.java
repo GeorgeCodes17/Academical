@@ -1,4 +1,4 @@
-package com.school.auth.enums;
+package com.school.enums;
 
 public enum AuthStatusEnum {
     LOGGED_IN,

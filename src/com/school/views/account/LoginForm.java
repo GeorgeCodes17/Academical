@@ -1,7 +1,7 @@
 package com.school.views.account;
 
-import com.school.auth.CreateAccount;
-import com.school.auth.SignIn;
+import com.school.api.auth.AuthenticateApi;
+import com.school.api.auth.BearerTokenApi;
 import com.school.auth.ValidateInputs;
 import com.school.views.Dashboard;
 import com.school.views.Index;
@@ -15,6 +15,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class LoginForm extends JPanel implements ActionListener {
+    private final AuthenticateApi authenticate = new AuthenticateApi();
+    private final BearerTokenApi bearerToken = new BearerTokenApi();
     private final Index index = new Index();
 
     private java.awt.event.FocusEvent focusEvent;
@@ -107,7 +109,7 @@ public class LoginForm extends JPanel implements ActionListener {
                 return;
             }
 
-            new CreateAccount().createAccount(inputs);
+            authenticate.registerUser(inputs);
         } else if (action.equals("Sign In")) {
             ValidateInputs inputs = new ValidateInputs(
                 emailSignIn.getText(),
@@ -119,7 +121,7 @@ public class LoginForm extends JPanel implements ActionListener {
                 return;
             }
 
-            new SignIn().signIn(inputs);
+            bearerToken.getBearerByCreds(inputs.email, inputs.password);
         }
 
         MainWindow.WINDOW.getContentPane().removeAll();
