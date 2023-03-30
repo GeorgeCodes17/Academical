@@ -1,8 +1,8 @@
 package com.school.api.auth;
 
 import com.school.auth.ValidateInputs;
-import com.school.helpers.ConfigFile;
 import com.school.helpers.BearerToken;
+import com.school.helpers.ConfigFile;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
@@ -62,9 +62,9 @@ public class Authenticate {
         HttpResponse response = client.execute(getBearer);
         StatusLine status = response.getStatusLine();
         if (status.getStatusCode() != HttpStatus.SC_OK) {
-            throw new HttpResponseException(status.getStatusCode(), EntityUtils.toString(response.getEntity()));
+            System.out.println("Failed to auth");
+            return;
         }
-
         new BearerToken().storeToken(EntityUtils.toString(response.getEntity()));
     }
 
