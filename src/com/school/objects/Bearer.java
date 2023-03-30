@@ -3,13 +3,20 @@ package com.school.objects;
 import com.google.gson.Gson;
 
 import java.util.HashMap;
-import java.util.Optional;
 
 public class Bearer {
-    private String bearer;
+    private final String bearer;
 
-    public Bearer(Optional<String> bearer) {
-        this.bearer = bearer.isPresent() ? bearer.get() : null;
+    public Bearer() {
+        bearer = null;
+    }
+
+    public Bearer(String bearer) {
+        this.bearer = bearer;
+    }
+
+    public boolean isNull() {
+        return bearer == null;
     }
 
     public String getAccessToken() {

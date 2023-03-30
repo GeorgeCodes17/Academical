@@ -3,28 +3,30 @@ package com.school.helpers;
 import com.google.gson.Gson;
 import com.school.api.auth.Authenticate;
 import com.school.auth.enums.AuthStatusEnum;
-import com.school.objects.TokenObject;
+import com.school.objects.Bearer;
 import com.school.objects.User;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Map;
+import java.util.Optional;
 
 public class LoginHandler {
-    TokenObject tokenObject = new TokenObject(new BearerToken().getBearerToken());
+    private final Bearer bearer;
+
+    public LoginHandler() {
+        Optional<String> bearerToken = new BearerToken().getBearerToken();
+        bearer = bearerToken.map(Bearer::new).orElseGet(Bearer::new);
+    }
 
     public User authenticateAndGetUserInfo() {
-        if (authenticate().loggedIn()) {
-            return getUserInfo();
-        }
-        return new User();
+        return authenticate().loggedIn() ? getUserInfo() : new User();
     }
 
     public AuthStatusEnum authenticate() {
-        if (tokenObject.get() != null) {
-            if (authenticateViaSavedAccessToken().loggedIn() || authenticateViaRefreshToken().loggedIn()) {
-                return AuthStatusEnum.LOGGED_IN;
-            }
+        if (bearer.isNull() && (authenticateViaSavedAccessToken().loggedIn() ||
+                authenticateViaRefreshToken().loggedIn())) {
+            return AuthStatusEnum.LOGGED_IN;
         }
         return AuthStatusEnum.LOGGED_OUT;
     }
@@ -32,7 +34,7 @@ public class LoginHandler {
     public User getUserInfo() {
         String userInfo;
         try {
-            userInfo = new Authenticate().getUserInfo(tokenObject.getAccessToken());
+            userInfo = new Authenticate().getUserInfo(bearer.getAccessToken());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -58,7 +60,7 @@ public class LoginHandler {
 
     private AuthStatusEnum authenticateViaSavedAccessToken() {
         try {
-            new Authenticate().authorize(tokenObject.getAccessToken());
+            new Authenticate().authorize(bearer.getAccessToken());
         } catch (IOException e) {
             return AuthStatusEnum.LOGGED_OUT;
         }
@@ -67,7 +69,7 @@ public class LoginHandler {
 
     private AuthStatusEnum authenticateViaRefreshToken() {
         try {
-            new Authenticate().getBearerByRefresh(tokenObject.getRefreshToken());
+            new Authenticate().getBearerByRefresh(bearer.getRefreshToken());
         } catch (IOException | URISyntaxException e) {
             return AuthStatusEnum.LOGGED_OUT;
         }

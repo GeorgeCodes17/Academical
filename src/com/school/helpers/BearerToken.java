@@ -73,7 +73,7 @@ public class BearerToken {
             throw new RuntimeException(e);
         }
         if (emailAddress.isEmpty()) {
-            return Optional.empty();
+            return emailAddress;
         }
 
         try {
