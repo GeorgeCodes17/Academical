@@ -3,7 +3,7 @@ package com.school.api.auth;
 import com.school.auth.ValidateInputs;
 import com.school.helpers.BearerToken;
 import com.school.helpers.ConfigFile;
-import com.school.objects.Bearer;
+import com.school.objects.BearerObject;
 import com.school.objects.User;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -23,22 +23,12 @@ import java.util.Optional;
 import java.util.Properties;
 
 public class AuthenticateApi {
-    final HttpClient client = HttpClientBuilder.create().build();
-    final Properties config = new ConfigFile().config();
-    private final String API_URL = config.getProperty("API_URL");
-    final String OKTA_API_URL = config.getProperty("OKTA_API_URL");
+    private final HttpClient client = HttpClientBuilder.create().build();
+    private final Properties config = new ConfigFile().config();
     private final BearerToken bearerToken = new BearerToken();
 
-    private final String ACCESS_TOKEN;
-
-    public AuthenticateApi() {
-        Optional<String> bearerToken = new BearerToken().getBearerToken();
-        Bearer bearer = bearerToken.map(Bearer::new).orElseGet(Bearer::new);
-        ACCESS_TOKEN = bearer.getAccessToken();
-    }
-
     public User authorize(String accessToken) {
-        HttpPost getAuthenticated = new HttpPost(API_URL + "authenticate");
+        HttpPost getAuthenticated = new HttpPost(config.getProperty("API_URL") + "authenticate");
         getAuthenticated.addHeader("Authorization", accessToken);
 
         HttpResponse response;
@@ -52,9 +42,12 @@ public class AuthenticateApi {
     }
 
     public User getUserInfo() {
+        Optional<String> bearerRaw = new BearerToken().getBearerToken();
+        BearerObject bearer = bearerRaw.map(BearerObject::new).orElseGet(BearerObject::new);
+
         HttpClient client = HttpClientBuilder.create().build();
-        HttpGet getUserInfo = new HttpGet(OKTA_API_URL + "userinfo");
-        getUserInfo.addHeader("Authorization", "Bearer " + ACCESS_TOKEN);
+        HttpGet getUserInfo = new HttpGet(config.getProperty("OKTA_API_URL") + "userinfo");
+        getUserInfo.addHeader("Authorization", "Bearer " + bearer.getAccessToken());
 
         String userInfo;
         try {
@@ -73,7 +66,7 @@ public class AuthenticateApi {
 
     public User registerUser(ValidateInputs credentials) {
         HttpClient client = HttpClientBuilder.create().build();
-        HttpPost request = new HttpPost(API_URL + "register");
+        HttpPost request = new HttpPost(config.getProperty("API_URL") + "register");
         request.setHeader("Content-Type", "application/x-www-form-urlencoded");
 
         List<NameValuePair> params = new ArrayList<>();

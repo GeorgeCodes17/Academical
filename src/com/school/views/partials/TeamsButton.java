@@ -12,14 +12,13 @@ import java.net.URISyntaxException;
 
 public class TeamsButton {
     private final String TEAMS_ICON_PATH = "src/com/school/views/assets/chat.png";
-
     private final String TEAMS_LOGIN_URL = "https://go.microsoft.com/fwlink/p/?linkid=873020&culture=en-us&country=ww";
 
     public JPanel getTeamsButton() {
         JButton teamsButton = new JButton("Teams", new ImageIcon(TEAMS_ICON_PATH));
         teamsButton.setFont(new Font("Roboto", Font.PLAIN, 14));
-        teamsButton.setBackground(Colors.airSuperiorityBlue75);
-        teamsButton.setBorder(new RoundedBorder(15, Colors.darkLava));
+        teamsButton.setBackground(Colors.AIR_SUPERIORITY_BLUE_75);
+        teamsButton.setBorder(new RoundedBorder(15, Colors.DARK_LAVA));
         teamsButton.setPreferredSize(new Dimension(200,65));
         teamsButton.setIconTextGap(60);
         teamsButton.setHorizontalTextPosition(SwingConstants.LEFT);

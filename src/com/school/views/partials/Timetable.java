@@ -8,9 +8,8 @@ import javax.swing.border.MatteBorder;
 import java.awt.*;
 
 public class Timetable {
-
-    final Font HEADER_FONT = new Font("Roboto", Font.BOLD, 16);
-    final Font TIMETABLE_FONT = new Font("Roboto", Font.PLAIN, 14);
+    private final Font HEADER_FONT = new Font("Roboto", Font.BOLD, 16);
+    private final Font TIMETABLE_FONT = new Font("Roboto", Font.PLAIN, 14);
 
     public JPanel getTimetable() {
         JPanel timetable = new JPanel();
@@ -26,7 +25,7 @@ public class Timetable {
     private JPanel getTimetableBody() {
         JPanel timetableBody = new JPanel(new GridLayout(7, 4));
         timetableBody.setSize(300, timetableBody.getPreferredSize().height);
-        timetableBody.setBorder(new RoundedBorder(15, Colors.darkLava));
+        timetableBody.setBorder(new RoundedBorder(15, Colors.DARK_LAVA));
 
         timetableBody.add(timetableItem("Activity", true, true));
         timetableBody.add(timetableItem("Year", true, true));
@@ -63,7 +62,7 @@ public class Timetable {
         JLabel item = new JLabel(itemText, SwingConstants.CENTER);
         item.setFont(bold ? HEADER_FONT : TIMETABLE_FONT);
         if (bottomBorder) {
-            item.setBorder(new MatteBorder(0, 0, 1, 0, Colors.darkLava));
+            item.setBorder(new MatteBorder(0, 0, 1, 0, Colors.DARK_LAVA));
         }
         item.setPreferredSize(new Dimension(100, item.getPreferredSize().height));
 

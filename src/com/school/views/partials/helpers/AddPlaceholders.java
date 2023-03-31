@@ -35,7 +35,7 @@ public final class AddPlaceholders {
         });
 
         return textField;
-    };
+    }
 
     public JPasswordField forPassword(JPasswordField passwordField, FocusEvent e, String placeholderText) {
         passwordField.setForeground(Color.GRAY);
@@ -59,5 +59,5 @@ public final class AddPlaceholders {
         });
 
         return passwordField;
-    };
+    }
 }

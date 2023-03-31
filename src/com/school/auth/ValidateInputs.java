@@ -9,12 +9,12 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 
 public class ValidateInputs {
-    final Pattern emailRegex = Pattern.compile(String.valueOf(Pattern.compile("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")));
-
     public String firstName;
     public String lastName;
     public String email;
     public String password;
+
+    private final Pattern emailRegex = Pattern.compile(String.valueOf(Pattern.compile("^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")));
 
     public ValidateInputs(String email, char[] password) {
         this.email = email;

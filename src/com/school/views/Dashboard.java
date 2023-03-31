@@ -10,7 +10,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class Dashboard {
-    public User userInfo = new AuthenticateApi().getUserInfo();
+    private final User userInfo = new AuthenticateApi().getUserInfo();
 
     public JPanel displayDashboard() {
         JPanel dashboard = new JPanel();

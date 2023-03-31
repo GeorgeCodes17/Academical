@@ -9,16 +9,15 @@ import java.util.HashMap;
 import java.util.Optional;
 
 public class BearerToken {
-    private final GetEmailAddressStoredLocal emailAddressLocal = new GetEmailAddressStoredLocal();
-
+    private final emailAddressStoredLocal emailAddressStoredLocal = new emailAddressStoredLocal();
     private final String LOCAL_TOKEN_KEY = "Schoolio";
     private final TokenHandler tokenHandler = new TokenHandler();
 
     public void storeToken(String bearer) {
         String previousUserEmail = null;
         try {
-            if (emailAddressLocal.getEmailAddress().isPresent()) {
-                previousUserEmail = emailAddressLocal.getEmailAddress().get();
+            if (emailAddressStoredLocal.getEmailAddress().isPresent()) {
+                previousUserEmail = emailAddressStoredLocal.getEmailAddress().get();
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -31,14 +30,14 @@ public class BearerToken {
         OSXKeychain keychain;
         try {
             keychain = OSXKeychain.getInstance();
-            if (emailAddressLocal.getEmailAddress().isPresent()) {
+            if (emailAddressStoredLocal.getEmailAddress().isPresent()) {
                 keychain.deleteGenericPassword(LOCAL_TOKEN_KEY, previousUserEmail);
                 keychain.addGenericPassword(LOCAL_TOKEN_KEY, newUserEmail, bearer);
-                emailAddressLocal.storeNewEmail(newUserEmail);
+                emailAddressStoredLocal.storeNewEmail(newUserEmail);
                 return;
             }
             keychain.addGenericPassword(LOCAL_TOKEN_KEY, newUserEmail, bearer);
-            emailAddressLocal.storeNewEmail(newUserEmail);
+            emailAddressStoredLocal.storeNewEmail(newUserEmail);
         } catch (OSXKeychainException | IOException e) {
             throw new RuntimeException(e);
         }
@@ -47,7 +46,7 @@ public class BearerToken {
     public void deleteToken() {
         Optional<String> emailAddress;
         try {
-            emailAddress = emailAddressLocal.getEmailAddress();
+            emailAddress = emailAddressStoredLocal.getEmailAddress();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -67,7 +66,7 @@ public class BearerToken {
     public Optional<String> getBearerToken() {
         Optional<String> emailAddress;
         try {
-            emailAddress = emailAddressLocal.getEmailAddress();
+            emailAddress = emailAddressStoredLocal.getEmailAddress();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

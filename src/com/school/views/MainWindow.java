@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MainWindow {
-    public User userInfo = new LoginHandler().authenticateAndGetUserInfo();
+    private final User userInfo = new LoginHandler().authenticateAndGetUserInfo();
 
     public static final Font MAIN_FONT = new Font("Roboto", Font.PLAIN, 14);
     public static final JFrame WINDOW = new JFrame();

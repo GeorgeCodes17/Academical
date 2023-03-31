@@ -12,17 +12,15 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class Index {
-
-    private final JPanel header = new JPanel();
-    public static JLabel signOutLink = new JLabel("<html>Sign Out -></html>");
-    private final SignOutHandler signOutHandler = new SignOutHandler();
+    private final JLabel signOutLink = new JLabel("<html>Sign Out -></html>");
 
     public JPanel getHeaderLabel() {
+        JPanel header = new JPanel();
         header.setLayout(new BorderLayout());
-        header.setBackground(Colors.middleBlue);
+        header.setBackground(Colors.MIDDLE_BLUE);
 
         JLabel heading = new JLabel("Schoolio", SwingConstants.CENTER);
-        heading.setBackground(Colors.middleBlue);
+        heading.setBackground(Colors.MIDDLE_BLUE);
         heading.setFont(new Font("Roboto", Font.PLAIN, 32));
         heading.setBorder(new EmptyBorder(10,0,10,0));
 
@@ -35,7 +33,7 @@ public class Index {
 
     public JLabel getFooterLabel() {
         JLabel footer = new JLabel("Schoolio is a company, established in 2022, created by a developer who couldn't think of a good project to do", SwingConstants.CENTER);
-        footer.setBackground(Colors.middleBlue);
+        footer.setBackground(Colors.MIDDLE_BLUE);
         footer.setOpaque(true);
         footer.setBorder(new EmptyBorder(10,0,10, 0));
         return footer;
@@ -49,7 +47,7 @@ public class Index {
         signOutLink.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                signOutHandler.signOut();
+                new SignOutHandler().signOut();
                 MainWindow.WINDOW.getContentPane().removeAll();
                 MainWindow.WINDOW.add(new Index().getHeaderLabel(), BorderLayout.PAGE_START);
                 MainWindow.WINDOW.add(new LoginForm(), BorderLayout.CENTER);

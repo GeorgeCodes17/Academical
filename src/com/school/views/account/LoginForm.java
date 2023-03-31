@@ -15,8 +15,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class LoginForm extends JPanel implements ActionListener {
-    private final AuthenticateApi authenticate = new AuthenticateApi();
-    private final BearerTokenApi bearerToken = new BearerTokenApi();
+    private final AuthenticateApi authenticateApi = new AuthenticateApi();
+    private final BearerTokenApi bearerTokenApi = new BearerTokenApi();
     private final Index index = new Index();
 
     private java.awt.event.FocusEvent focusEvent;
@@ -37,7 +37,7 @@ public class LoginForm extends JPanel implements ActionListener {
         addPropertyChangeListener (e -> {if ("border" .equals (e .getPropertyName () )) throw new RuntimeException( ); });
 
         setLayout(new GridBagLayout());
-        setBackground(Colors.middleBlue);
+        setBackground(Colors.MIDDLE_BLUE);
 
         ((GridBagLayout)getLayout()).columnWidths = new int[] {25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25};
         ((GridBagLayout)getLayout()).rowHeights = new int[] {5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5};
@@ -109,7 +109,7 @@ public class LoginForm extends JPanel implements ActionListener {
                 return;
             }
 
-            authenticate.registerUser(inputs);
+            authenticateApi.registerUser(inputs);
         } else if (action.equals("Sign In")) {
             ValidateInputs inputs = new ValidateInputs(
                 emailSignIn.getText(),
@@ -121,7 +121,7 @@ public class LoginForm extends JPanel implements ActionListener {
                 return;
             }
 
-            bearerToken.getBearerByCreds(inputs.email, inputs.password);
+            bearerTokenApi.getBearerByCreds(inputs.email, inputs.password);
         }
 
         MainWindow.WINDOW.getContentPane().removeAll();

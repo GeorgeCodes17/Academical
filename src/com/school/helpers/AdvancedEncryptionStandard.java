@@ -8,7 +8,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Base64;
 public class AdvancedEncryptionStandard {
-    private SecretKeySpec secretKey;
+    private SecretKeySpec secretKeySpec;
 
     public void setKey(final String myKey) {
         MessageDigest sha;
@@ -17,7 +17,7 @@ public class AdvancedEncryptionStandard {
             sha = MessageDigest.getInstance("SHA-1");
             key = sha.digest(key);
             key = Arrays.copyOf(key, 16);
-            secretKey = new SecretKeySpec(key, "AES");
+            secretKeySpec = new SecretKeySpec(key, "AES");
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
@@ -26,7 +26,7 @@ public class AdvancedEncryptionStandard {
         try {
             setKey(secret);
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");
-            cipher.init(Cipher.DECRYPT_MODE, secretKey);
+            cipher.init(Cipher.DECRYPT_MODE, secretKeySpec);
             return new String(cipher.doFinal(Base64.getDecoder()
                     .decode(strToDecrypt)));
         } catch (Exception e) {

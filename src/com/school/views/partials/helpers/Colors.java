@@ -4,12 +4,12 @@ import java.awt.*;
 
 public class Colors {
 
-    public static Color darkLava = new Color(70, 55, 48);
-    public static Color blueSapphire = new Color(31, 86, 115);
-    public static Color airSuperiorityBlue = new Color(117, 159, 188);
-    public static Color middleBlue = new Color(144, 195, 200);
-    public static Color aliceBlue = new Color(214, 229, 235);
-    public static Color white = new Color(255, 255, 255);
+    public final static Color DARK_LAVA = new Color(70, 55, 48);
+    public final static Color BLUE_SAPPHIRE = new Color(31, 86, 115);
+    public final static Color AIR_SUPERIORITY_BLUE = new Color(117, 159, 188);
+    public final static Color MIDDLE_BLUE = new Color(144, 195, 200);
+    public final static Color ALICE_BLUE = new Color(214, 229, 235);
+    public final static Color WHITE = new Color(255, 255, 255);
 
-    public static Color airSuperiorityBlue75 = new Color(117, 159, 188, 192);
+    public final static Color AIR_SUPERIORITY_BLUE_75 = new Color(117, 159, 188, 192);
 }

@@ -15,16 +15,14 @@ import org.apache.http.util.EntityUtils;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 public class BearerTokenApi {
-    private final Properties CONFIG = new ConfigFile().config();
-    private final String API_URL = CONFIG.getProperty("API_URL");
+    private final String apiUrl = new ConfigFile().config().getProperty("API_URL");
     private final com.school.helpers.BearerToken bearerToken = new com.school.helpers.BearerToken();
 
     public User getBearerByRefresh(String refreshToken) {
         HttpClient client = HttpClientBuilder.create().build();
-        HttpPost getBearer = new HttpPost(API_URL + "get-bearer-by-refresh");
+        HttpPost getBearer = new HttpPost(apiUrl + "get-bearer-by-refresh");
         getBearer.addHeader("Content-Type", "application/x-www-form-urlencoded");
         getBearer.addHeader("Authorization", refreshToken);
 
@@ -51,7 +49,7 @@ public class BearerTokenApi {
 
     public User getBearerByCreds(String email, String password) {
         HttpClient client = HttpClientBuilder.create().build();
-        HttpPost request = new HttpPost(API_URL + "get-bearer-by-creds");
+        HttpPost request = new HttpPost(apiUrl + "get-bearer-by-creds");
 
         List<NameValuePair> params = new ArrayList<>();
         params.add(new BasicNameValuePair("username", email));

@@ -2,28 +2,29 @@ package com.school.helpers;
 
 import com.school.api.auth.AuthenticateApi;
 import com.school.api.auth.BearerTokenApi;
-import com.school.objects.Bearer;
+import com.school.objects.BearerObject;
 import com.school.objects.User;
 
 import java.util.Optional;
 
 public class LoginHandler {
-    private final Bearer bearer;
-    private final BearerTokenApi bearerToken = new BearerTokenApi();
-    private final AuthenticateApi authenticate = new AuthenticateApi();
+    private final BearerObject bearerObject;
+    private final BearerTokenApi bearerTokenApi = new BearerTokenApi();
+    private final AuthenticateApi authenticateApi = new AuthenticateApi();
 
     public LoginHandler() {
         Optional<String> bearerToken = new BearerToken().getBearerToken();
-        bearer = bearerToken.map(Bearer::new).orElseGet(Bearer::new);
+        bearerObject = bearerToken.map(BearerObject::new).orElseGet(BearerObject::new);
     }
 
     public User authenticateAndGetUserInfo() {
-        return authenticate().loggedIn() ? authenticate.getUserInfo() : new User();
+        User authed = authenticate();
+        return authed.loggedIn() ? authenticateApi.getUserInfo() : authed;
     }
 
     public User authenticate() {
-        boolean authenticated = bearer.isPresent() && (authenticate.authorize(bearer.getAccessToken()).signedIn() ||
-                bearerToken.getBearerByRefresh(bearer.getRefreshToken()).signedIn());
+        boolean authenticated = bearerObject.isPresent() && (authenticateApi.authorize(bearerObject.getAccessToken()).signedIn() ||
+                bearerTokenApi.getBearerByRefresh(bearerObject.getRefreshToken()).signedIn());
         return new User(authenticated);
     }
 }
