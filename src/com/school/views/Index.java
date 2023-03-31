@@ -13,6 +13,7 @@ import java.awt.event.MouseEvent;
 
 public class Index {
     private final JLabel signOutLink = new JLabel("<html>Sign Out -></html>");
+    private Index index = new Index();
 
     public JPanel getHeaderLabel() {
         JPanel header = new JPanel();
@@ -49,9 +50,9 @@ public class Index {
             public void mouseClicked(MouseEvent e) {
                 new SignOutHandler().signOut();
                 MainWindow.WINDOW.getContentPane().removeAll();
-                MainWindow.WINDOW.add(new Index().getHeaderLabel(), BorderLayout.PAGE_START);
+                MainWindow.WINDOW.add(index.getHeaderLabel(), BorderLayout.PAGE_START);
                 MainWindow.WINDOW.add(new LoginForm(), BorderLayout.CENTER);
-                MainWindow.WINDOW.add(new Index().getFooterLabel(), BorderLayout.PAGE_END);
+                MainWindow.WINDOW.add(index.getFooterLabel(), BorderLayout.PAGE_END);
                 MainWindow.WINDOW.repaint();
                 MainWindow.WINDOW.revalidate();
             }

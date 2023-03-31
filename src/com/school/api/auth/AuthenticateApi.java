@@ -84,7 +84,7 @@ public class AuthenticateApi {
             throw new RuntimeException(e);
         }
         int statusCode = response.getStatusLine().getStatusCode();
-        if (statusCode != 200) {
+        if (statusCode != HttpStatus.SC_OK) {
             return new User(false);
         }
 
