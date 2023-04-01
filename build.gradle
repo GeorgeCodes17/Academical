@@ -27,4 +27,4 @@ dependencies {
     implementation 'pt.davidafsilva.apple:jkeychain:1.1.0'
 }
 
-mainClassName = 'com.school.Launcher'
+mainClassName = 'com.Schoolio.Launcher'
