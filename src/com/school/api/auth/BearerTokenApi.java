@@ -22,13 +22,13 @@ public class BearerTokenApi {
 
     public User getBearerByRefresh(String refreshToken) {
         HttpClient client = HttpClientBuilder.create().build();
-        HttpPost getBearer = new HttpPost(apiUrl + "get-bearer-by-refresh");
-        getBearer.addHeader("Content-Type", "application/x-www-form-urlencoded");
-        getBearer.addHeader("Authorization", refreshToken);
+        HttpPost request = new HttpPost(apiUrl + "get-bearer-by-refresh");
+        request.addHeader("Content-Type", "application/x-www-form-urlencoded");
+        request.addHeader("Authorization", refreshToken);
 
         HttpResponse response;
         try {
-            response = client.execute(getBearer);
+            response = client.execute(request);
         } catch (IOException e) {
             System.out.println("Failed to call get bearer by refresh");
             throw new RuntimeException(e);

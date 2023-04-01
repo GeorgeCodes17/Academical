@@ -28,12 +28,12 @@ public class AuthenticateApi {
     private final BearerToken bearerToken = new BearerToken();
 
     public User authorize(String accessToken) {
-        HttpPost getAuthenticated = new HttpPost(config.getProperty("API_URL") + "authenticate");
-        getAuthenticated.addHeader("Authorization", accessToken);
+        HttpPost request = new HttpPost(config.getProperty("API_URL") + "secured/authenticate");
+        request.addHeader("Authorization", accessToken);
 
         HttpResponse response;
         try {
-            response = client.execute(getAuthenticated);
+            response = client.execute(request);
         } catch (IOException e) {
             System.out.println("IOException in authorize");
             throw new RuntimeException(e);
@@ -46,12 +46,12 @@ public class AuthenticateApi {
         BearerObject bearer = bearerRaw.map(BearerObject::new).orElseGet(BearerObject::new);
 
         HttpClient client = HttpClientBuilder.create().build();
-        HttpGet getUserInfo = new HttpGet(config.getProperty("OKTA_API_URL") + "userinfo");
-        getUserInfo.addHeader("Authorization", "Bearer " + bearer.getAccessToken());
+        HttpGet request = new HttpGet(config.getProperty("OKTA_API_URL") + "userinfo");
+        request.addHeader("Authorization", "Bearer " + bearer.getAccessToken());
 
         String userInfo;
         try {
-            HttpResponse response = client.execute(getUserInfo);
+            HttpResponse response = client.execute(request);
             int statusCode = response.getStatusLine().getStatusCode();
             if (statusCode != HttpStatus.SC_OK) {
                 System.out.println("Failed to getUserInfo");
