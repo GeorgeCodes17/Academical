@@ -14,10 +14,6 @@ public class MainWindow {
     public static final JFrame WINDOW = new JFrame();
 
     public MainWindow() {
-        if (!userInfo.signedIn()) {
-            System.out.println("Signed out");
-        }
-        UIManager.getDefaults().put(new JButton().getUIClassID(), "com.Schoolio.views.partials.helpers.RoundedButton");
         setFonts();
 
 //        WINDOW.setExtendedState(JFrame.MAXIMIZED_BOTH);

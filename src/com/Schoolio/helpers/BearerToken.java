@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Optional;
 
 public class BearerToken {
-    private final emailAddressStoredLocal emailAddressStoredLocal = new emailAddressStoredLocal();
+    private final EmailAddressStoredLocal emailAddressStoredLocal = new EmailAddressStoredLocal();
     private final String LOCAL_TOKEN_KEY = "Schoolio";
     private final TokenHandler tokenHandler = new TokenHandler();
 

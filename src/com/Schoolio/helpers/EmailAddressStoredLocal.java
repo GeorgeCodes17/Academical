@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.Optional;
 import java.util.Scanner;
 
-public class emailAddressStoredLocal {
+public class EmailAddressStoredLocal {
     private final String loginCachePath = new ConfigFile().config().getProperty("LOGIN_CACHE_PATH");
 
     public void storeNewEmail(String emailAddress) {

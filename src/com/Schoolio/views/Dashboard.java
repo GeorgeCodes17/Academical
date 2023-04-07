@@ -2,7 +2,7 @@ package com.Schoolio.views;
 
 import com.Schoolio.api.auth.AuthenticateApi;
 import com.Schoolio.objects.User;
-import com.Schoolio.views.partials.TeamsButton;
+import com.Schoolio.views.partials.TeamsButtonPanel;
 import com.Schoolio.views.partials.Timetable;
 
 import javax.swing.*;
@@ -18,7 +18,7 @@ public class Dashboard {
         dashboard.setBorder(BorderFactory.createEmptyBorder(45, 55, 20, 55));
 
         dashboard.add(getStatusBoard(), BorderLayout.LINE_START);
-        dashboard.add(new TeamsButton().getTeamsButton(), BorderLayout.CENTER);
+        dashboard.add(new TeamsButtonPanel().getTeamsPanel(), BorderLayout.CENTER);
         dashboard.add(new Timetable().getTimetable(), BorderLayout.LINE_END);
 
         return dashboard;

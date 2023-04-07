@@ -1,7 +1,6 @@
 package com.Schoolio.views.partials;
 
 import com.Schoolio.views.partials.helpers.Colors;
-import com.Schoolio.views.partials.helpers.RoundedBorder;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -10,19 +9,11 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class TeamsButton {
-    private final String TEAMS_ICON_PATH = "src/com/school/views/assets/chat.png";
+public class TeamsButtonPanel {
     private final String TEAMS_LOGIN_URL = "https://go.microsoft.com/fwlink/p/?linkid=873020&culture=en-us&country=ww";
 
-    public JPanel getTeamsButton() {
-        JButton teamsButton = new JButton("Teams", new ImageIcon(TEAMS_ICON_PATH));
-        teamsButton.setFont(new Font("Roboto", Font.PLAIN, 14));
-        teamsButton.setBackground(Colors.AIR_SUPERIORITY_BLUE_75);
-        teamsButton.setBorder(new RoundedBorder(15, Colors.DARK_LAVA));
-        teamsButton.setPreferredSize(new Dimension(200,65));
-        teamsButton.setIconTextGap(60);
-        teamsButton.setHorizontalTextPosition(SwingConstants.LEFT);
-
+    public JPanel getTeamsPanel() {
+        JButton teamsButton = new RoundedJButton("Teams", 180, 40, Colors.TEAMS_PURPLE, Color.WHITE);
         teamsButton.addActionListener(e -> {
             try {
                 Desktop.getDesktop().browse(new URI(TEAMS_LOGIN_URL));
