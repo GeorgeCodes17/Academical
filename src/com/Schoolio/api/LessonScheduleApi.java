@@ -37,7 +37,7 @@ public class LessonScheduleApi {
         HttpClient client = HttpClientBuilder.create().build();
 
         String sub = idTokenObj.get("payload").get("sub");
-        HttpGet request = new HttpGet(apiUrl + "/secured/timetable/get/" + sub);
+        HttpGet request = new HttpGet(apiUrl + "/secured/lesson-schedule/get/" + sub);
         request.addHeader("Authorization", bearer.getAccessToken());
 
         HttpResponse response;
