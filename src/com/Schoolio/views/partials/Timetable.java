@@ -1,15 +1,21 @@
 package com.Schoolio.views.partials;
 
+import com.Schoolio.api.LessonScheduleApi;
+import com.Schoolio.objects.LessonScheduleObject;
 import com.Schoolio.views.partials.helpers.Colors;
 import com.Schoolio.views.partials.helpers.RoundedBorder;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
+import java.util.Arrays;
+import java.util.Iterator;
 
 public class Timetable {
-    private final Font HEADER_FONT = new Font("Roboto", Font.BOLD, 16);
-    private final Font TIMETABLE_FONT = new Font("Roboto", Font.PLAIN, 14);
+    private final Font headerFont = new Font("Roboto", Font.BOLD, 16);
+    private final Font timetableFont = new Font("Roboto", Font.PLAIN, 14);
+    private final LessonScheduleApi lessonScheduleApi = new LessonScheduleApi();
 
     public JPanel getTimetable() {
         JPanel timetable = new JPanel();
@@ -17,50 +23,44 @@ public class Timetable {
 
         timetable.setLayout(new BoxLayout(timetable, BoxLayout.Y_AXIS));
 
-        timetable.add(getTimetableBody());
+        timetable.add(getTimetableBody(lessonScheduleApi.index()));
 
         return timetable;
     }
 
-    private JPanel getTimetableBody() {
-        JPanel timetableBody = new JPanel(new GridLayout(7, 4));
-        timetableBody.setSize(300, timetableBody.getPreferredSize().height);
+    private JPanel getTimetableBody(LessonScheduleObject[] lessonSchedule) {
+        JPanel timetableBody = new JPanel();
         timetableBody.setBorder(new RoundedBorder(15, Colors.DARK_LAVA));
 
-        timetableBody.add(timetableItem("Activity", true, true));
-        timetableBody.add(timetableItem("Year", true, true));
-        timetableBody.add(timetableItem("Start time", true, true));
+        if (lessonSchedule == null) {
+            JLabel noLessonsLabel = new JLabel("No lessons scheduled");
+            noLessonsLabel.setBorder(new EmptyBorder(25,0,0,0));
 
-        timetableBody.add(timetableItem("Trig", false, true));
-        timetableBody.add(timetableItem("9", false, true));
-        timetableBody.add(timetableItem("10:00", false, true));
+            timetableBody.add(noLessonsLabel);
+        } else {
+            timetableBody.setLayout(new GridLayout(lessonSchedule.length + 1, 3));
 
-        timetableBody.add(timetableItem("Algebra", false, true));
-        timetableBody.add(timetableItem("9", false, true));
-        timetableBody.add(timetableItem("11:00", false, true));
+            timetableBody.add(timetableEvent("Activity", true, true));
+            timetableBody.add(timetableEvent("Year", true, true));
+            timetableBody.add(timetableEvent("Start time", true, true));
 
-        timetableBody.add(timetableItem("Math", false, true));
-        timetableBody.add(timetableItem("10", false, true));
-        timetableBody.add(timetableItem("12:00", false, true));
+            Iterator<LessonScheduleObject> lessonScheduleIterator = Arrays.stream(lessonSchedule).iterator();
+            while (lessonScheduleIterator.hasNext()) {
+                LessonScheduleObject currentLesson = lessonScheduleIterator.next();
 
-        timetableBody.add(timetableItem("Trig", false, true));
-        timetableBody.add(timetableItem("11", false, true));
-        timetableBody.add(timetableItem("15:00", false, true));
-
-        timetableBody.add(timetableItem("Form", false, true));
-        timetableBody.add(timetableItem("11", false, true));
-        timetableBody.add(timetableItem("13:00", false, true));
-
-        timetableBody.add(timetableItem("Angles", false, false));
-        timetableBody.add(timetableItem("7", false, false));
-        timetableBody.add(timetableItem("13:35", false, false));
+                boolean bottomBorder = lessonScheduleIterator.hasNext();
+                timetableBody.add(timetableEvent(currentLesson.getLesson().getName(), false, bottomBorder));
+                timetableBody.add(timetableEvent(currentLesson.getYear().getName(), false, bottomBorder));
+                timetableBody.add(timetableEvent(currentLesson.getStart().toString(), false, bottomBorder));
+            }
+        }
 
         return timetableBody;
     }
 
-    private JLabel timetableItem(String itemText, boolean bold, boolean bottomBorder) {
+    private JLabel timetableEvent(String itemText, boolean bold, boolean bottomBorder) {
         JLabel item = new JLabel(itemText, SwingConstants.CENTER);
-        item.setFont(bold ? HEADER_FONT : TIMETABLE_FONT);
+        item.setFont(bold ? headerFont : timetableFont);
         if (bottomBorder) {
             item.setBorder(new MatteBorder(0, 0, 1, 0, Colors.DARK_LAVA));
         }

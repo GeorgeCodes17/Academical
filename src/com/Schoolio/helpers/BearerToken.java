@@ -23,9 +23,8 @@ public class BearerToken {
             throw new RuntimeException(e);
         }
         String idTokenEncoded = new Gson().fromJson(bearer, HashMap.class).get("id_token").toString();
-        HashMap<String,String> idTokenDecoded = tokenHandler.decodeJWT(idTokenEncoded);
-        HashMap<String, HashMap<String, String>> idTokenWKeys = tokenHandler.JWTToMap(idTokenDecoded);
-        String newUserEmail = idTokenWKeys.get("payload").get("email");
+        HashMap<String, HashMap<String, String>> idTokenDecoded = tokenHandler.decodeJWT(idTokenEncoded);
+        String newUserEmail = idTokenDecoded.get("payload").get("email");
 
         OSXKeychain keychain;
         try {

@@ -5,35 +5,30 @@ import com.google.gson.Gson;
 import java.util.HashMap;
 
 public class BearerObject {
-    private final String BEARER;
+    private final String bearer;
+    private final Gson gson = new Gson();
 
     public BearerObject() {
-        BEARER = null;
+        bearer = null;
     }
 
     public BearerObject(String bearer) {
-        this.BEARER = bearer;
+        this.bearer = bearer;
     }
 
     public boolean isPresent() {
-        return BEARER != null;
-    }
-
-    public boolean isEmpty() {
-        return BEARER == null;
+        return bearer != null;
     }
 
     public String getAccessToken() {
-        if (BEARER == null) {
-            return "";
-        }
-        return new Gson().fromJson(BEARER, HashMap.class).get("access_token").toString();
+        return gson.fromJson(bearer, HashMap.class).get("access_token").toString();
+    }
+
+    public String getIdToken() {
+        return gson.fromJson(bearer, HashMap.class).get("id_token").toString();
     }
 
     public String getRefreshToken() {
-        if (BEARER == null) {
-            return "";
-        }
-        return new Gson().fromJson(BEARER, HashMap.class).get("refresh_token").toString();
+        return gson.fromJson(bearer, HashMap.class).get("refresh_token").toString();
     }
 }
