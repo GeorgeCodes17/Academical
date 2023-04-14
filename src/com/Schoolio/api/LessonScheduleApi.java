@@ -36,9 +36,10 @@ public class LessonScheduleApi {
     public LessonScheduleObject[] index() {
         HttpClient client = HttpClientBuilder.create().build();
 
-        String sub = idTokenObj.get("payload").get("sub");
-        HttpGet request = new HttpGet(apiUrl + "/secured/lesson-schedule/get/" + sub);
+        String subId = idTokenObj.get("payload").get("sub");
+        HttpGet request = new HttpGet(apiUrl + "/secured/lesson-schedule/get");
         request.addHeader("Authorization", bearer.getAccessToken());
+        request.addHeader("SubId", subId);
 
         HttpResponse response;
         try {
