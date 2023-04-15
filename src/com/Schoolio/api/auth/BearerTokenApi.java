@@ -18,7 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BearerTokenApi {
-    private final String apiUrl = new ConfigFile().config().getProperty("API_URL");
+    private final ConfigFile configFile = new ConfigFile();
+    private final String apiUrl = configFile.config().getProperty("API_URL");
     private final com.Schoolio.helpers.BearerToken bearerToken = new com.Schoolio.helpers.BearerToken();
 
     public User getBearerByRefresh(String refreshToken) {

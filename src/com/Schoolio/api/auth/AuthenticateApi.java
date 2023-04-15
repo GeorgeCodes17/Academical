@@ -24,7 +24,8 @@ import java.util.Properties;
 
 public class AuthenticateApi {
     private final HttpClient client = HttpClientBuilder.create().build();
-    private final Properties config = new ConfigFile().config();
+    private final ConfigFile configFile = new ConfigFile();
+    private final Properties config = configFile.config();
     private final BearerToken bearerToken = new BearerToken();
 
     public User authorize(String accessToken) {

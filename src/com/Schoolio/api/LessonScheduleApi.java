@@ -22,7 +22,8 @@ import java.sql.Timestamp;
 import java.util.*;
 
 public class LessonScheduleApi {
-    private final String apiUrl = new ConfigFile().config().getProperty("API_URL");
+    private final ConfigFile configFile = new ConfigFile();
+    private final String apiUrl = configFile.config().getProperty("API_URL");
     private final BearerObject bearer;
     private final IdTokenObject idTokenObject;
 

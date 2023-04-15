@@ -8,7 +8,8 @@ import java.util.Optional;
 import java.util.Scanner;
 
 public class EmailAddressStoredLocal {
-    private final String loginCachePath = new ConfigFile().config().getProperty("LOGIN_CACHE_PATH");
+    private final ConfigFile configFile = new ConfigFile();
+    private final String loginCachePath = configFile.config().getProperty("LOGIN_CACHE_PATH");
 
     public void storeNewEmail(String emailAddress) {
         try {
