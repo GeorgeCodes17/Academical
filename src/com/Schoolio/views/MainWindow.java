@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MainWindow {
-    private final User userInfo = new LoginHandler().authenticateAndGetUserInfo();
+    private final User user = new LoginHandler().authenticateAndGetUserInfo();
 
     public static final Font MAIN_FONT = new Font("Roboto", Font.PLAIN, 14);
     public static final JFrame WINDOW = new JFrame();
@@ -26,7 +26,7 @@ public class MainWindow {
         Index index = new Index();
         WINDOW.add(index.getHeaderLabel(), BorderLayout.PAGE_START);
 
-        if(userInfo.signedIn()) {
+        if(user.signedIn()) {
             WINDOW.add(index.getHeaderLabel(), BorderLayout.PAGE_START);
             WINDOW.add(new Dashboard().displayDashboard(), BorderLayout.CENTER);
             WINDOW.add(index.getFooterLabel(), BorderLayout.PAGE_END);
