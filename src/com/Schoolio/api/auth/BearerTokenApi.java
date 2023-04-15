@@ -1,6 +1,7 @@
 package com.Schoolio.api.auth;
 
 import com.Schoolio.helpers.ConfigFile;
+import com.Schoolio.objects.BearerObject;
 import com.Schoolio.objects.User;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -39,9 +40,9 @@ public class BearerTokenApi {
             return new User(false);
         }
         try {
-            bearerToken.storeToken(EntityUtils.toString(response.getEntity()));
+            BearerObject bearerObject = new BearerObject(EntityUtils.toString(response.getEntity()));
+            bearerToken.storeToken(bearerObject);
         } catch (IOException e) {
-            System.out.println("Failed to store bearer token");
             throw new RuntimeException(e);
         }
         return new User(true);
@@ -69,7 +70,8 @@ public class BearerTokenApi {
         }
 
         try {
-            bearerToken.storeToken(EntityUtils.toString(response.getEntity()));
+            BearerObject bearerObject = new BearerObject(EntityUtils.toString(response.getEntity()));
+            bearerToken.storeToken(bearerObject);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

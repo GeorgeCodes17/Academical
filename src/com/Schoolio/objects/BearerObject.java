@@ -20,12 +20,16 @@ public class BearerObject {
         return bearer != null;
     }
 
+    public String getBearer() {
+        return bearer;
+    }
+
     public String getAccessToken() {
         return gson.fromJson(bearer, HashMap.class).get("access_token").toString();
     }
 
-    public String getIdToken() {
-        return gson.fromJson(bearer, HashMap.class).get("id_token").toString();
+    public IdTokenObject getIdToken() {
+        return new IdTokenObject(this);
     }
 
     public String getRefreshToken() {

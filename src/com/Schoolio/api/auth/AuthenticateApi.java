@@ -88,13 +88,12 @@ public class AuthenticateApi {
             return new User(false);
         }
 
-        String bearer;
         try {
-            bearer = EntityUtils.toString(response.getEntity());
+            BearerObject bearerObject = new BearerObject(EntityUtils.toString(response.getEntity()));
+            bearerToken.storeToken(bearerObject);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        bearerToken.storeToken(bearer);
         return new User(true);
     }
 }

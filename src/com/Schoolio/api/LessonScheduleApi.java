@@ -3,8 +3,8 @@ package com.Schoolio.api;
 import com.Schoolio.helpers.BearerToken;
 import com.Schoolio.helpers.ConfigFile;
 import com.Schoolio.helpers.GsonMultipleTimeFormats;
-import com.Schoolio.helpers.TokenHandler;
 import com.Schoolio.objects.BearerObject;
+import com.Schoolio.objects.IdTokenObject;
 import com.Schoolio.objects.LessonScheduleObject;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -24,22 +24,20 @@ import java.util.*;
 public class LessonScheduleApi {
     private final String apiUrl = new ConfigFile().config().getProperty("API_URL");
     private final BearerObject bearer;
-    private final HashMap<String,HashMap<String, String>> idTokenObj;
+    private final IdTokenObject idTokenObject;
 
     public LessonScheduleApi() {
         Optional<String> bearerRaw = new BearerToken().getBearerToken();
         bearer = bearerRaw.map(BearerObject::new).orElseGet(BearerObject::new);
-
-        idTokenObj = new TokenHandler().decodeJWT(bearer.getIdToken());
+        idTokenObject = new IdTokenObject(bearer);
     }
 
     public LessonScheduleObject[] index() {
         HttpClient client = HttpClientBuilder.create().build();
 
-        String subId = idTokenObj.get("payload").get("sub");
         HttpGet request = new HttpGet(apiUrl + "/secured/lesson-schedule/get");
         request.addHeader("Authorization", bearer.getAccessToken());
-        request.addHeader("SubId", subId);
+        request.addHeader("SubId", idTokenObject.getSub());
 
         HttpResponse response;
         try {
