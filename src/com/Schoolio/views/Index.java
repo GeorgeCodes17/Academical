@@ -26,6 +26,9 @@ public class Index {
 
         header.add(heading, BorderLayout.CENTER);
         if (new LoginHandler().authenticate().loggedIn()) {
+            JLabel spacer = new JLabel();
+            spacer.setPreferredSize(new Dimension(150, 15));
+            header.add(spacer, BorderLayout.LINE_START);
             header.add(getSignOutLink(), BorderLayout.LINE_END);
         }
         return header;
@@ -43,6 +46,7 @@ public class Index {
         signOutLink.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         signOutLink.setBorder(new EmptyBorder(0, 0, 0, 25));
         signOutLink.setFont(new Font("Roboto", Font.BOLD | Font.ITALIC, 12));
+        signOutLink.setPreferredSize(new Dimension(150, 15));
 
         signOutLink.addMouseListener(new MouseAdapter() {
             @Override
