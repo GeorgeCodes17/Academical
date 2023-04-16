@@ -18,8 +18,8 @@ public class Dashboard {
         dashboard.setBorder(BorderFactory.createEmptyBorder(45, 55, 20, 55));
 
         dashboard.add(getStatusBoard(), BorderLayout.LINE_START);
-        dashboard.add(new TeamsButtonPanel(), BorderLayout.CENTER);
-        dashboard.add(new Timetable(), BorderLayout.LINE_END);
+        dashboard.add(new TeamsButtonPanel().getTeamsPanel(), BorderLayout.CENTER);
+        dashboard.add(new Timetable().getTimetable(), BorderLayout.LINE_END);
 
         return dashboard;
     }
