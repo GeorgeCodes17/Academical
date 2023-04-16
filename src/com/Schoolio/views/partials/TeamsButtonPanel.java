@@ -9,10 +9,10 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class TeamsButtonPanel {
+public class TeamsButtonPanel extends JPanel {
     private final String TEAMS_LOGIN_URL = "https://go.microsoft.com/fwlink/p/?linkid=873020&culture=en-us&country=ww";
 
-    public JPanel getTeamsPanel() {
+    public TeamsButtonPanel() {
         JButton teamsButton = new RoundedJButton("Teams", 180, 40, Colors.TEAMS_PURPLE, Color.WHITE);
         teamsButton.addActionListener(e -> {
             try {
@@ -25,12 +25,9 @@ public class TeamsButtonPanel {
         JPanel teamsButtonWrapper = new JPanel();
         teamsButtonWrapper.add(teamsButton);
 
-        JPanel teamsButtonContainer = new JPanel();
-        teamsButtonContainer.setLayout(new BoxLayout(teamsButtonContainer, BoxLayout.X_AXIS));
-        teamsButtonContainer.setSize(800,400);
-        teamsButtonContainer.setBorder(new EmptyBorder(25, 0, 10, 0));
-        teamsButtonContainer.add(teamsButtonWrapper);
-
-        return teamsButtonContainer;
+        setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+        setSize(800,400);
+        setBorder(new EmptyBorder(25, 0, 10, 0));
+        add(teamsButtonWrapper);
     }
 }

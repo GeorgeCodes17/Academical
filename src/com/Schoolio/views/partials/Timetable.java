@@ -12,20 +12,17 @@ import java.awt.*;
 import java.util.Arrays;
 import java.util.Iterator;
 
-public class Timetable {
+public class Timetable extends JPanel{
     private final Font headerFont = new Font("Roboto", Font.BOLD, 16);
     private final Font timetableFont = new Font("Roboto", Font.PLAIN, 14);
     private final LessonScheduleApi lessonScheduleApi = new LessonScheduleApi();
 
-    public JPanel getTimetable() {
-        JPanel timetable = new JPanel();
-        timetable.setPreferredSize(new Dimension(300, timetable.getPreferredSize().height));
+    public Timetable() {
+        setPreferredSize(new Dimension(300, getPreferredSize().height));
 
-        timetable.setLayout(new BoxLayout(timetable, BoxLayout.Y_AXIS));
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        timetable.add(getTimetableBody(lessonScheduleApi.index()));
-
-        return timetable;
+        add(getTimetableBody(lessonScheduleApi.index()));
     }
 
     private JPanel getTimetableBody(LessonScheduleObject[] lessonSchedule) {
