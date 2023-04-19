@@ -9,19 +9,16 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-public class Dashboard {
+public class Dashboard extends JPanel {
     private final User userInfo = new AuthenticateApi().getUserInfo();
 
-    public JPanel displayDashboard() {
-        JPanel dashboard = new JPanel();
-        dashboard.setLayout(new BorderLayout());
-        dashboard.setBorder(BorderFactory.createEmptyBorder(45, 55, 20, 55));
+    public Dashboard() {
+        setLayout(new BorderLayout());
+        setBorder(BorderFactory.createEmptyBorder(45, 55, 20, 55));
 
-        dashboard.add(getStatusBoard(), BorderLayout.LINE_START);
-        dashboard.add(new TeamsButtonPanel().getTeamsPanel(), BorderLayout.CENTER);
-        dashboard.add(new Timetable().getTimetable(), BorderLayout.LINE_END);
-
-        return dashboard;
+        add(getStatusBoard(), BorderLayout.LINE_START);
+        add(new TeamsButtonPanel().getTeamsPanel(), BorderLayout.CENTER);
+        add(new Timetable().getTimetable(), BorderLayout.LINE_END);
     }
 
     private JPanel getStatusBoard() {

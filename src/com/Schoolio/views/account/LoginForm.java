@@ -126,7 +126,7 @@ public class LoginForm extends JPanel implements ActionListener {
 
         MainWindow.WINDOW.getContentPane().removeAll();
         MainWindow.WINDOW.add(index.getHeaderLabel(), BorderLayout.PAGE_START);
-        MainWindow.WINDOW.add(new Dashboard().displayDashboard(), BorderLayout.CENTER);
+        MainWindow.WINDOW.add(new Dashboard(), BorderLayout.CENTER);
         MainWindow.WINDOW.add(index.getFooterLabel(), BorderLayout.PAGE_END);
         MainWindow.WINDOW.repaint();
         MainWindow.WINDOW.revalidate();

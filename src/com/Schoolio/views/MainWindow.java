@@ -28,7 +28,7 @@ public class MainWindow {
         User user = new LoginHandler().authenticateAndGetUserInfo();
         WINDOW.add(index.getHeaderLabel(), BorderLayout.PAGE_START);
         if(user.signedIn()) {
-            WINDOW.add(new Dashboard().displayDashboard(), BorderLayout.CENTER);
+            WINDOW.add(new Dashboard(), BorderLayout.CENTER);
         } else {
             WINDOW.add(new LoginForm(), BorderLayout.CENTER);
         }
