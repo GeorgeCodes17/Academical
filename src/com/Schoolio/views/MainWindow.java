@@ -3,18 +3,19 @@ package com.Schoolio.views;
 import com.Schoolio.helpers.LoginHandler;
 import com.Schoolio.objects.User;
 import com.Schoolio.views.account.LoginForm;
+import com.sun.tools.javac.Main;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.URL;
 
 public class MainWindow {
-    private final User user = new LoginHandler().authenticateAndGetUserInfo();
-
     public static final Font MAIN_FONT = new Font("Roboto", Font.PLAIN, 14);
     public static final JFrame WINDOW = new JFrame();
 
     public MainWindow() {
         setFonts();
+        addAppIcon();
 
 //        WINDOW.setExtendedState(JFrame.MAXIMIZED_BOTH);
 //        WINDOW.setVisible(true);
@@ -24,17 +25,24 @@ public class MainWindow {
         WINDOW.getContentPane().setBackground(Color.white);
 
         Index index = new Index();
+        User user = new LoginHandler().authenticateAndGetUserInfo();
         WINDOW.add(index.getHeaderLabel(), BorderLayout.PAGE_START);
-
         if(user.signedIn()) {
-            WINDOW.add(index.getHeaderLabel(), BorderLayout.PAGE_START);
             WINDOW.add(new Dashboard().displayDashboard(), BorderLayout.CENTER);
-            WINDOW.add(index.getFooterLabel(), BorderLayout.PAGE_END);
         } else {
             WINDOW.add(new LoginForm(), BorderLayout.CENTER);
         }
 
         WINDOW.add(index.getFooterLabel(), BorderLayout.PAGE_END);
+    }
+
+    private void addAppIcon() {
+        String APP_ICON_PATH = "classroom-icon.png";
+        final Toolkit defaultToolkit = Toolkit.getDefaultToolkit();
+        final URL imageResource = Main.class.getClassLoader().getResource(APP_ICON_PATH);
+        final Image image = defaultToolkit.getImage(imageResource);
+        final Taskbar taskbar = Taskbar.getTaskbar();
+        taskbar.setIconImage(image);
     }
 
     private void setFonts() {
