@@ -28,6 +28,10 @@ dependencies {
     implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.9'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'pt.davidafsilva.apple:jkeychain:1.1.0'
+
+    implementation 'org.apache.logging.log4j:log4j-api:2.20.0'
+    implementation 'org.apache.logging.log4j:log4j-core:2.20.0'
+    implementation 'com.fasterxml.jackson:jackson-base:2.14.2'
 }
 
 mainClassName = 'com.Schoolio.Launcher'

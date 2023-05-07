@@ -37,3 +37,4 @@ lib
 start.sh
 .src/email-logged-in.txt
 /gradle/wrapper/gradle-wrapper.jar
+logs
