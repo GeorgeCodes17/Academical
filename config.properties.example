@@ -2,4 +2,4 @@ API_URL=
 OKTA_API_URL=
 
 LOGIN_CACHE_PATH=.src/email-logged-in.txt
-DEBUG_MODE=on
+CONSOLE_DEBUG=on

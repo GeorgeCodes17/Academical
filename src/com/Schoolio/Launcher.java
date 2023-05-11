@@ -9,17 +9,23 @@ import org.apache.logging.log4j.core.config.Configurator;
 
 public class Launcher {
 
-    private static final String DEBUG_MODE = new ConfigFile().config().getProperty("DEBUG_MODE");
+    private static final String DEBUG_MODE = new ConfigFile().config().getProperty("CONSOLE_DEBUG");
 
-    private static final Logger LOGGER = LogManager.getLogger("FileLogger");
+    private static final Logger LOGGER_ALL_LEVELS = LogManager.getRootLogger();
+    private static final Logger LOGGER_DEBUG = LogManager.getLogger("DebugLogger");
+    private static final Logger LOGGER = LogManager.getLogger("ConsoleLogger");
 
     public static void main(String[] args) {
-        if (DEBUG_MODE.equals("on")) {
-            Configurator.setLevel("FileLogger", Level.TRACE);
-        } else {
-            Configurator.setLevel("FileLogger", Level.OFF);
+        if (!DEBUG_MODE.equals("on")) {
+            Configurator.setLevel("ConsoleLogger", Level.OFF);
         }
 
         new MainWindow().show();
+    }
+
+    public static void logAll(Level level, String message) {
+        LOGGER_ALL_LEVELS.log(level, message);
+        LOGGER_DEBUG.log(level, message);
+        LOGGER.log(level, message);
     }
 }
