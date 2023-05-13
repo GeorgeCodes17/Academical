@@ -1,5 +1,6 @@
 package com.Schoolio.api;
 
+import com.Schoolio.Launcher;
 import com.Schoolio.helpers.BearerToken;
 import com.Schoolio.helpers.ConfigFile;
 import com.Schoolio.helpers.GsonMultipleTimeFormats;
@@ -14,6 +15,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
+import org.apache.logging.log4j.Level;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
@@ -45,10 +47,12 @@ public class LessonScheduleApi {
             response = client.execute(request);
             String responseContent = EntityUtils.toString(response.getEntity());
             if (response.getStatusLine().getStatusCode() != 200) {
-                System.out.println("Content empty/ failed to get. " + responseContent);
+                // TODO Add custom exception
+                Launcher.logAll(Level.INFO, "Failed to get lesson schedule at LessonScheduleApi.index");
             }
             return processTimetableData(responseContent);
         } catch (IOException e) {
+            Launcher.logAll(Level.FATAL, e.getMessage());
             throw new RuntimeException(e);
         }
     }

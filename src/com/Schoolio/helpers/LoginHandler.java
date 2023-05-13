@@ -23,7 +23,7 @@ public class LoginHandler {
     }
 
     public User authenticate() {
-        boolean authenticated = bearerObject.isPresent() && (authenticateApi.authorize(bearerObject.getAccessToken()).signedIn() ||
+        boolean authenticated = bearerObject.isPresent() && (authenticateApi.authenticate(bearerObject.getAccessToken()).signedIn() ||
                 bearerTokenApi.getBearerByRefresh(bearerObject.getRefreshToken()).signedIn());
         return new User(authenticated);
     }

@@ -1,5 +1,8 @@
 package com.Schoolio.helpers;
 
+import com.Schoolio.Launcher;
+import org.apache.logging.log4j.Level;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -17,7 +20,8 @@ public class EmailAddressStoredLocal {
             fileWriter.write(emailAddress);
             fileWriter.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            Launcher.logAll(Level.ERROR, e.getMessage());
+            throw new RuntimeException(e);
         }
     }
 
@@ -31,7 +35,8 @@ public class EmailAddressStoredLocal {
             }
             myReader.close();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            Launcher.logAll(Level.TRACE, e.getMessage());
+            throw new RuntimeException(e);
         }
         return Optional.ofNullable(emailAddress);
     }
@@ -43,6 +48,7 @@ public class EmailAddressStoredLocal {
             fileWriter.write("");
             fileWriter.close();
         } catch (IOException e) {
+            Launcher.logAll(Level.DEBUG, e.getMessage());
             throw new RuntimeException(e);
         }
     }

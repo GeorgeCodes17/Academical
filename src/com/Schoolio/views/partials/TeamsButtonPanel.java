@@ -1,6 +1,8 @@
 package com.Schoolio.views.partials;
 
+import com.Schoolio.Launcher;
 import com.Schoolio.views.partials.helpers.Colors;
+import org.apache.logging.log4j.Level;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -14,11 +16,12 @@ public class TeamsButtonPanel {
 
     public JPanel getTeamsPanel() {
         JButton teamsButton = new RoundedJButton("Teams", 180, 40, Colors.TEAMS_PURPLE, Color.WHITE);
-        teamsButton.addActionListener(e -> {
+        teamsButton.addActionListener(event -> {
             try {
                 Desktop.getDesktop().browse(new URI(TEAMS_LOGIN_URL));
-            } catch (IOException | URISyntaxException ex) {
-                throw new RuntimeException(ex);
+            } catch (IOException | URISyntaxException e) {
+                Launcher.logAll(Level.DEBUG, e.getMessage());
+                throw new RuntimeException(e);
             }
         });
 

@@ -1,5 +1,6 @@
 package com.Schoolio.api.auth;
 
+import com.Schoolio.Launcher;
 import com.Schoolio.auth.ValidateInputs;
 import com.Schoolio.helpers.BearerToken;
 import com.Schoolio.helpers.ConfigFile;
@@ -15,6 +16,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.apache.logging.log4j.Level;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,7 +30,7 @@ public class AuthenticateApi {
     private final Properties config = configFile.config();
     private final BearerToken bearerToken = new BearerToken();
 
-    public User authorize(String accessToken) {
+    public User authenticate(String accessToken) {
         HttpPost request = new HttpPost(config.getProperty("API_URL") + "secured/authenticate");
         request.addHeader("Authorization", accessToken);
 
@@ -36,7 +38,7 @@ public class AuthenticateApi {
         try {
             response = client.execute(request);
         } catch (IOException e) {
-            System.out.println("IOException in authorize");
+            Launcher.logAll(Level.FATAL, e.getMessage());
             throw new RuntimeException(e);
         }
         return new User(response.getStatusLine().getStatusCode() == 200);
@@ -55,11 +57,13 @@ public class AuthenticateApi {
             HttpResponse response = client.execute(request);
             int statusCode = response.getStatusLine().getStatusCode();
             if (statusCode != HttpStatus.SC_OK) {
-                System.out.println("Failed to getUserInfo");
+                // TODO Add custom exception catch clause
+                Launcher.logAll(Level.WARN, "Failed to get user info at AuthenticateApi.getUserInfo");
                 return new User(false);
             }
             userInfo = EntityUtils.toString(response.getEntity());
         } catch (IOException e) {
+            Launcher.logAll(Level.FATAL, e.getMessage());
             throw new RuntimeException(e);
         }
         return new User().mapUserInfoObject(userInfo);
@@ -81,18 +85,20 @@ public class AuthenticateApi {
             request.setEntity(new UrlEncodedFormEntity(params));
             response = client.execute(request);
         } catch (IOException e) {
-            System.out.println("Failed to call endpoint at registerUser");
+            Launcher.logAll(Level.FATAL, e.getMessage());
             throw new RuntimeException(e);
         }
         int statusCode = response.getStatusLine().getStatusCode();
         if (statusCode != HttpStatus.SC_OK) {
-            return new User(false);
+            // TODO Add custom exception catch clause
+            Launcher.logAll(Level.INFO, "Failed to register user at AuthenticateApi.registerUser");
         }
 
         try {
             BearerObject bearerObject = new BearerObject(EntityUtils.toString(response.getEntity()));
             bearerToken.storeToken(bearerObject);
         } catch (IOException e) {
+            Launcher.logAll(Level.FATAL, e.getMessage());
             throw new RuntimeException(e);
         }
         return new User(true);

@@ -1,6 +1,9 @@
 package com.Schoolio.helpers;
 
+import com.Schoolio.Launcher;
 import com.google.gson.*;
+import org.apache.logging.log4j.Level;
+
 import java.lang.reflect.Type;
 import java.sql.Time;
 import java.sql.Timestamp;
@@ -19,7 +22,8 @@ public class GsonMultipleTimeFormats {
                 Date date = TIME_FORMAT.parse(json.getAsString());
                 return new Time(date.getTime());
             } catch (ParseException e) {
-                throw new JsonParseException("Unable to parse time", e);
+                Launcher.logAll(Level.DEBUG, e.getMessage());
+                throw new RuntimeException(e);
             }
         }
     }
@@ -30,7 +34,8 @@ public class GsonMultipleTimeFormats {
                 Date date = TIMESTAMP_FORMAT.parse(json.getAsString());
                 return new Timestamp(date.getTime());
             } catch (ParseException e) {
-                throw new JsonParseException("Unable to parse timestamp", e);
+                Launcher.logAll(Level.DEBUG, e.getMessage());
+                throw new JsonParseException(e);
             }
         }
     }

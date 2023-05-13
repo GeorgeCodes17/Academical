@@ -1,5 +1,6 @@
 package com.Schoolio.api.auth;
 
+import com.Schoolio.Launcher;
 import com.Schoolio.helpers.ConfigFile;
 import com.Schoolio.objects.BearerObject;
 import com.Schoolio.objects.User;
@@ -12,6 +13,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.apache.logging.log4j.Level;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -32,18 +34,19 @@ public class BearerTokenApi {
         try {
             response = client.execute(request);
         } catch (IOException e) {
-            System.out.println("Failed to call get bearer by refresh");
+            Launcher.logAll(Level.FATAL, e.getMessage());
             throw new RuntimeException(e);
         }
         int statusCode = response.getStatusLine().getStatusCode();
         if (statusCode != HttpStatus.SC_OK) {
-            System.out.println("Failed to auth");
+            Launcher.logAll(Level.TRACE, "Couldn't get bearer token using refresh at BearerTokenApi.getBearerByRefresh");
             return new User(false);
         }
         try {
             BearerObject bearerObject = new BearerObject(EntityUtils.toString(response.getEntity()));
             bearerToken.storeToken(bearerObject);
         } catch (IOException e) {
+            Launcher.logAll(Level.FATAL, e.getMessage());
             throw new RuntimeException(e);
         }
         return new User(true);
@@ -62,11 +65,12 @@ public class BearerTokenApi {
             request.setEntity(new UrlEncodedFormEntity(params));
             response = client.execute(request);
         } catch (IOException e) {
-            System.out.println("Failed to call endpoint at getBearerByCreds");
+            Launcher.logAll(Level.FATAL,e.getMessage());
             throw new RuntimeException(e);
         }
         int statusCode = response.getStatusLine().getStatusCode();
         if (statusCode != HttpStatus.SC_OK) {
+            Launcher.logAll(Level.ERROR, "Couldn't get bearer token using user credentials (sign in user) at BearerTokenApi.getBearerByCreds");
             return new User(false);
         }
 
@@ -74,6 +78,7 @@ public class BearerTokenApi {
             BearerObject bearerObject = new BearerObject(EntityUtils.toString(response.getEntity()));
             bearerToken.storeToken(bearerObject);
         } catch (IOException e) {
+            Launcher.logAll(Level.FATAL, e.getMessage());
             throw new RuntimeException(e);
         }
         return new User(true);
