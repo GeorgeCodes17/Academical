@@ -1,12 +1,14 @@
 package com.Schoolio.views;
 
-import com.Schoolio.helpers.LoginHandler;
+import com.Schoolio.api.auth.AuthenticateApi;
+import com.Schoolio.exceptions.GetUserInfoException;
 import com.Schoolio.objects.User;
 import com.Schoolio.views.account.LoginForm;
 import com.sun.tools.javac.Main;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 import java.net.URL;
 
 public class MainWindow {
@@ -25,7 +27,12 @@ public class MainWindow {
         WINDOW.getContentPane().setBackground(Color.white);
 
         Index index = new Index();
-        User user = new LoginHandler().authenticateAndGetUserInfo();
+        User user;
+        try {
+            user = new AuthenticateApi().getUserInfo();
+        } catch (GetUserInfoException | IOException e) {
+            user = new User(false);
+        }
         WINDOW.add(index.getHeaderLabel(), BorderLayout.PAGE_START);
         if(user.signedIn()) {
             WINDOW.add(new Dashboard(), BorderLayout.CENTER);

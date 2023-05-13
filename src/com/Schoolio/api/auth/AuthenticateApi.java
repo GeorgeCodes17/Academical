@@ -2,6 +2,7 @@ package com.Schoolio.api.auth;
 
 import com.Schoolio.Launcher;
 import com.Schoolio.auth.ValidateInputs;
+import com.Schoolio.exceptions.GetUserInfoException;
 import com.Schoolio.helpers.BearerToken;
 import com.Schoolio.helpers.ConfigFile;
 import com.Schoolio.objects.BearerObject;
@@ -44,7 +45,7 @@ public class AuthenticateApi {
         return new User(response.getStatusLine().getStatusCode() == 200);
     }
 
-    public User getUserInfo() {
+    public User getUserInfo() throws GetUserInfoException, IOException {
         Optional<String> bearerRaw = new BearerToken().getBearerToken();
         BearerObject bearer = bearerRaw.map(BearerObject::new).orElseGet(BearerObject::new);
 
@@ -52,21 +53,15 @@ public class AuthenticateApi {
         HttpGet request = new HttpGet(config.getProperty("OKTA_API_URL") + "userinfo");
         request.addHeader("Authorization", "Bearer " + bearer.getAccessToken());
 
-        String userInfo;
-        try {
-            HttpResponse response = client.execute(request);
-            int statusCode = response.getStatusLine().getStatusCode();
-            if (statusCode != HttpStatus.SC_OK) {
-                // TODO Add custom exception catch clause
-                Launcher.logAll(Level.WARN, "Failed to get user info at AuthenticateApi.getUserInfo");
-                return new User(false);
-            }
-            userInfo = EntityUtils.toString(response.getEntity());
-        } catch (IOException e) {
-            Launcher.logAll(Level.FATAL, e.getMessage());
-            throw new RuntimeException(e);
+        String responseBody;
+        HttpResponse response = client.execute(request);
+        responseBody = EntityUtils.toString(response.getEntity());
+        int statusCode = response.getStatusLine().getStatusCode();
+        if (statusCode != HttpStatus.SC_OK) {
+            Launcher.logAll(Level.WARN, responseBody);
+            throw new GetUserInfoException(responseBody);
         }
-        return new User().mapUserInfoObject(userInfo);
+        return new User().mapUserInfoObject(responseBody);
     }
 
     public User registerUser(ValidateInputs credentials) {

@@ -1,6 +1,7 @@
 package com.Schoolio.views;
 
 import com.Schoolio.api.auth.AuthenticateApi;
+import com.Schoolio.exceptions.GetUserInfoException;
 import com.Schoolio.objects.User;
 import com.Schoolio.views.partials.TeamsButtonPanel;
 import com.Schoolio.views.partials.Timetable;
@@ -8,9 +9,19 @@ import com.Schoolio.views.partials.Timetable;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.io.IOException;
 
 public class Dashboard extends JPanel {
-    private final User userInfo = new AuthenticateApi().getUserInfo();
+    private User userInfo;
+
+    {
+        try {
+            userInfo = new AuthenticateApi().getUserInfo();
+        } catch (GetUserInfoException | IOException e) {
+            // TODO Replace with a UI popup to say it failed to get user info
+            userInfo = new User(false);
+        }
+    }
 
     public Dashboard() {
         setLayout(new BorderLayout());

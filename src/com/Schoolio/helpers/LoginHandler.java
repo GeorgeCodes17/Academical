@@ -17,11 +17,6 @@ public class LoginHandler {
         bearerObject = bearerToken.map(BearerObject::new).orElseGet(BearerObject::new);
     }
 
-    public User authenticateAndGetUserInfo() {
-        User authed = authenticate();
-        return authed.loggedIn() ? authenticateApi.getUserInfo() : authed;
-    }
-
     public User authenticate() {
         boolean authenticated = bearerObject.isPresent() && (authenticateApi.authenticate(bearerObject.getAccessToken()).signedIn() ||
                 bearerTokenApi.getBearerByRefresh(bearerObject.getRefreshToken()).signedIn());
