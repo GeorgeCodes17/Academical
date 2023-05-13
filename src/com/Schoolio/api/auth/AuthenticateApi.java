@@ -3,6 +3,7 @@ package com.Schoolio.api.auth;
 import com.Schoolio.Launcher;
 import com.Schoolio.auth.ValidateInputs;
 import com.Schoolio.exceptions.GetUserInfoException;
+import com.Schoolio.exceptions.RegisterUserException;
 import com.Schoolio.helpers.BearerToken;
 import com.Schoolio.helpers.ConfigFile;
 import com.Schoolio.objects.BearerObject;
@@ -64,7 +65,7 @@ public class AuthenticateApi {
         return new User().mapUserInfoObject(responseBody);
     }
 
-    public User registerUser(ValidateInputs credentials) {
+    public User registerUser(ValidateInputs credentials) throws IOException, RegisterUserException {
         HttpClient client = HttpClientBuilder.create().build();
         HttpPost request = new HttpPost(config.getProperty("API_URL") + "register");
         request.setHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -75,18 +76,13 @@ public class AuthenticateApi {
         params.add(new BasicNameValuePair("first_name", credentials.firstName));
         params.add(new BasicNameValuePair("last_name", credentials.lastName));
 
-        HttpResponse response;
-        try {
-            request.setEntity(new UrlEncodedFormEntity(params));
-            response = client.execute(request);
-        } catch (IOException e) {
-            Launcher.logAll(Level.FATAL, e.getMessage());
-            throw new RuntimeException(e);
-        }
+        request.setEntity(new UrlEncodedFormEntity(params));
+        HttpResponse response = client.execute(request);
+        String responseBody = EntityUtils.toString(response.getEntity());
         int statusCode = response.getStatusLine().getStatusCode();
         if (statusCode != HttpStatus.SC_OK) {
-            // TODO Add custom exception catch clause
-            Launcher.logAll(Level.INFO, "Failed to register user at AuthenticateApi.registerUser");
+            Launcher.logAll(Level.INFO, responseBody);
+            throw new RegisterUserException(responseBody);
         }
 
         try {

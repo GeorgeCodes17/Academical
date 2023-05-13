@@ -3,6 +3,7 @@ package com.Schoolio.views.account;
 import com.Schoolio.api.auth.AuthenticateApi;
 import com.Schoolio.api.auth.BearerTokenApi;
 import com.Schoolio.auth.ValidateInputs;
+import com.Schoolio.exceptions.RegisterUserException;
 import com.Schoolio.views.Dashboard;
 import com.Schoolio.views.Index;
 import com.Schoolio.views.MainWindow;
@@ -13,6 +14,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class LoginForm extends JPanel implements ActionListener {
     private final AuthenticateApi authenticateApi = new AuthenticateApi();
@@ -94,8 +96,8 @@ public class LoginForm extends JPanel implements ActionListener {
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-        String action = e.getActionCommand();
+    public void actionPerformed(ActionEvent event) {
+        String action = event.getActionCommand();
         if (action.equals("Create Account")) {
             ValidateInputs inputs = new ValidateInputs(
                 firstNameCreate.getText(),
@@ -105,11 +107,17 @@ public class LoginForm extends JPanel implements ActionListener {
             );
 
             if (inputs.validateRegister().isPresent()) {
+                // TODO Add the logging in here
                 System.out.println("FAIL");
                 return;
             }
 
-            authenticateApi.registerUser(inputs);
+            try {
+                authenticateApi.registerUser(inputs);
+            } catch (RegisterUserException | IOException ex) {
+                // TODO If fails do something
+                throw new RuntimeException(ex);
+            }
         } else if (action.equals("Sign In")) {
             ValidateInputs inputs = new ValidateInputs(
                 emailSignIn.getText(),
