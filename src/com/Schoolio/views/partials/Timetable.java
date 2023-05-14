@@ -1,6 +1,7 @@
 package com.Schoolio.views.partials;
 
 import com.Schoolio.api.LessonScheduleApi;
+import com.Schoolio.exceptions.GetLessonScheduleException;
 import com.Schoolio.objects.LessonScheduleObject;
 import com.Schoolio.views.partials.helpers.Colors;
 import com.Schoolio.views.partials.helpers.RoundedBorder;
@@ -23,7 +24,14 @@ public class Timetable {
 
         timetable.setLayout(new BoxLayout(timetable, BoxLayout.Y_AXIS));
 
-        timetable.add(getTimetableBody(lessonScheduleApi.index()));
+        LessonScheduleObject[] lessonSchedule = new LessonScheduleObject[0];
+        try {
+            lessonSchedule = lessonScheduleApi.index();
+        } catch (GetLessonScheduleException e) {
+            // TODO Do something visually when error occurs
+            throw new RuntimeException(e);
+        }
+        timetable.add(getTimetableBody(lessonSchedule));
 
         return timetable;
     }

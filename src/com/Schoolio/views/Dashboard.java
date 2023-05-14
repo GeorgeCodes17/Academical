@@ -18,7 +18,7 @@ public class Dashboard extends JPanel {
         try {
             userInfo = new AuthenticateApi().getUserInfo();
         } catch (GetUserInfoException | IOException e) {
-            // TODO Replace with a UI popup to say it failed to get user info
+            // TODO Replace with a UI popup to say it failed to get user infos
             userInfo = new User(false);
         }
     }

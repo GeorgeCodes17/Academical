@@ -59,7 +59,7 @@ public class AuthenticateApi {
         responseBody = EntityUtils.toString(response.getEntity());
         int statusCode = response.getStatusLine().getStatusCode();
         if (statusCode != HttpStatus.SC_OK) {
-            Launcher.logAll(Level.WARN, responseBody);
+            Launcher.logAll(Level.WARN, "Failed to get user info at AuthenticateApi.getUserInfo: " + responseBody);
             throw new GetUserInfoException(responseBody);
         }
         return new User().mapUserInfoObject(responseBody);
@@ -81,7 +81,7 @@ public class AuthenticateApi {
         String responseBody = EntityUtils.toString(response.getEntity());
         int statusCode = response.getStatusLine().getStatusCode();
         if (statusCode != HttpStatus.SC_OK) {
-            Launcher.logAll(Level.INFO, responseBody);
+            Launcher.logAll(Level.INFO, "Failed to register user at AuthenticateApi.registerUser: " + responseBody);
             throw new RegisterUserException(responseBody);
         }
 

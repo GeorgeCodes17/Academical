@@ -1,5 +1,6 @@
 package com.Schoolio.views.account;
 
+import com.Schoolio.Launcher;
 import com.Schoolio.api.auth.AuthenticateApi;
 import com.Schoolio.api.auth.BearerTokenApi;
 import com.Schoolio.auth.ValidateInputs;
@@ -9,6 +10,7 @@ import com.Schoolio.views.Index;
 import com.Schoolio.views.MainWindow;
 import com.Schoolio.views.partials.helpers.AddPlaceholders;
 import com.Schoolio.views.partials.helpers.Colors;
+import org.apache.logging.log4j.Level;
 
 import javax.swing.*;
 import java.awt.*;
@@ -107,15 +109,14 @@ public class LoginForm extends JPanel implements ActionListener {
             );
 
             if (inputs.validateRegister().isPresent()) {
-                // TODO Add the logging in here
-                System.out.println("FAIL");
+                Launcher.logAll(Level.TRACE, "Input validation failed for registering account");
                 return;
             }
 
             try {
                 authenticateApi.registerUser(inputs);
             } catch (RegisterUserException | IOException ex) {
-                // TODO If fails do something
+                // TODO If fails do something visually
                 throw new RuntimeException(ex);
             }
         } else if (action.equals("Sign In")) {

@@ -31,6 +31,7 @@ public class MainWindow {
         try {
             user = new AuthenticateApi().getUserInfo();
         } catch (GetUserInfoException | IOException e) {
+            // TODO Replace with a UI popup to say it failed to get user info
             user = new User(false);
         }
         WINDOW.add(index.getHeaderLabel(), BorderLayout.PAGE_START);

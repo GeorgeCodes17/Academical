@@ -1,6 +1,7 @@
 package com.Schoolio.api;
 
 import com.Schoolio.Launcher;
+import com.Schoolio.exceptions.GetLessonScheduleException;
 import com.Schoolio.helpers.BearerToken;
 import com.Schoolio.helpers.ConfigFile;
 import com.Schoolio.helpers.GsonMultipleTimeFormats;
@@ -35,7 +36,7 @@ public class LessonScheduleApi {
         idTokenObject = new IdTokenObject(bearer);
     }
 
-    public LessonScheduleObject[] index() {
+    public LessonScheduleObject[] index() throws GetLessonScheduleException{
         HttpClient client = HttpClientBuilder.create().build();
 
         HttpGet request = new HttpGet(apiUrl + "/secured/lesson-schedule/get");
@@ -47,13 +48,13 @@ public class LessonScheduleApi {
             response = client.execute(request);
             String responseContent = EntityUtils.toString(response.getEntity());
             if (response.getStatusLine().getStatusCode() != 200) {
-                // TODO Add custom exception
-                Launcher.logAll(Level.INFO, "Failed to get lesson schedule at LessonScheduleApi.index");
+                Launcher.logAll(Level.INFO, "Failed to get lesson schedule at LessonScheduleApi.index: " + responseContent);
+                throw new GetLessonScheduleException(responseContent);
             }
             return processTimetableData(responseContent);
         } catch (IOException e) {
             Launcher.logAll(Level.FATAL, e.getMessage());
-            throw new RuntimeException(e);
+            throw new GetLessonScheduleException(e.getMessage());
         }
     }
 
