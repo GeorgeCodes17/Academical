@@ -126,7 +126,7 @@ public class LoginForm extends JPanel implements ActionListener {
             );
 
             if (inputs.validateSignIn().isPresent()) {
-                System.out.println("FAIL");
+                Launcher.logAll(Level.TRACE, "Input validation failed for signing in user");
                 return;
             }
 
