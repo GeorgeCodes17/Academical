@@ -24,7 +24,7 @@ public class Timetable {
 
         timetable.setLayout(new BoxLayout(timetable, BoxLayout.Y_AXIS));
 
-        LessonScheduleObject[] lessonSchedule = new LessonScheduleObject[0];
+        LessonScheduleObject[] lessonSchedule;
         try {
             lessonSchedule = lessonScheduleApi.index();
         } catch (GetLessonScheduleException e) {

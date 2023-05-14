@@ -31,7 +31,7 @@ public class ValidateInputs {
         this.password = new String(password);
     }
 
-    public Optional<Map<ValidateAccountEnum, Boolean>> validateSignIn() {
+    public Optional<Map<ValidateAccountEnum, Boolean>> validateSignIn() throws ValidateInputsException {
         email = StringEscapeUtils.escapeHtml4(email);
         password = StringEscapeUtils.escapeHtml4(password);
 
@@ -39,11 +39,15 @@ public class ValidateInputs {
         if (!emailRegex.matcher(email).matches()) {
             errorBag.put(ValidateAccountEnum.EMAIL, true);
         }
-        if (password.equals("pppp") || password.length() < 7 || password.length() > 20) {
+        if (password.equals("pppp") || password.length() < 8 || password.length() > 20) {
             errorBag.put(ValidateAccountEnum.PASSWORD, true);
         }
 
-        return errorBag.isEmpty() ? Optional.empty() : Optional.of(errorBag);
+        if (!errorBag.isEmpty()) {
+            Launcher.logAll(Level.TRACE, "Sign in input validation failed");
+            throw new ValidateInputsException("Sign in input validation failed");
+        }
+        return Optional.of(errorBag);
     }
 
     public Optional<Map<ValidateAccountEnum, Boolean>> validateRegister() throws ValidateInputsException {
@@ -61,11 +65,11 @@ public class ValidateInputs {
         if (!emailRegex.matcher(email).matches()) {
             errorBag.put(ValidateAccountEnum.EMAIL, true);
         }
-        if (password.equals("pppp") || password.length() < 7 || password.length() > 20) {
+        if (password.equals("pppp") || password.length() < 8 || password.length() > 20) {
             errorBag.put(ValidateAccountEnum.PASSWORD, true);
         }
 
-        if (errorBag.isEmpty()) {
+        if (!errorBag.isEmpty()) {
             Launcher.logAll(Level.TRACE, "Register user input validation failed");
             throw new ValidateInputsException("Register user input validation failed");
         }

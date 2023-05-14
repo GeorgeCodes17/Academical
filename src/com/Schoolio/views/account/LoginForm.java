@@ -5,6 +5,7 @@ import com.Schoolio.api.auth.AuthenticateApi;
 import com.Schoolio.api.auth.BearerTokenApi;
 import com.Schoolio.auth.ValidateInputs;
 import com.Schoolio.exceptions.RegisterUserException;
+import com.Schoolio.exceptions.SignInUserException;
 import com.Schoolio.exceptions.ValidateInputsException;
 import com.Schoolio.views.Dashboard;
 import com.Schoolio.views.Index;
@@ -143,12 +144,18 @@ public class LoginForm extends JPanel implements ActionListener {
                 passwordSignIn.getPassword()
             );
 
-            if (inputs.validateSignIn().isPresent()) {
-                Launcher.logAll(Level.TRACE, "Input validation failed for signing in user");
+            try {
+                inputs.validateSignIn();
+                bearerTokenApi.getBearerByCreds(inputs.email, inputs.password);
+            } catch (ValidateInputsException e) {
+                Launcher.logAll(Level.TRACE, e.getMessage());
+                displayErrorMessage("Account inputs invalid");
+                return;
+            } catch (IOException | SignInUserException e) {
+                Launcher.logAll(Level.TRACE, e.getMessage());
+                displayErrorMessage("Failed to sign user in");
                 return;
             }
-
-            bearerTokenApi.getBearerByCreds(inputs.email, inputs.password);
         }
 
         showMainWindow();

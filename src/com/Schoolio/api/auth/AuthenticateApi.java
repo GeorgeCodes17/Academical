@@ -4,6 +4,7 @@ import com.Schoolio.Launcher;
 import com.Schoolio.auth.ValidateInputs;
 import com.Schoolio.exceptions.GetUserInfoException;
 import com.Schoolio.exceptions.RegisterUserException;
+import com.Schoolio.exceptions.ValidateInputsException;
 import com.Schoolio.helpers.BearerToken;
 import com.Schoolio.helpers.ConfigFile;
 import com.Schoolio.objects.BearerObject;
@@ -69,7 +70,7 @@ public class AuthenticateApi {
         return new User().mapUserInfoObject(responseBody);
     }
 
-    public User registerUser(ValidateInputs credentials) throws IOException, RegisterUserException {
+    public User registerUser(ValidateInputs credentials) throws IOException, RegisterUserException, ValidateInputsException {
         HttpClient client = HttpClientBuilder.create().build();
         HttpPost request = new HttpPost(config.getProperty("API_URL") + "register");
         request.setHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -84,18 +85,16 @@ public class AuthenticateApi {
         HttpResponse response = client.execute(request);
         String responseBody = EntityUtils.toString(response.getEntity());
         int statusCode = response.getStatusLine().getStatusCode();
-        if (statusCode != HttpStatus.SC_OK) {
+        if (statusCode == HttpStatus.SC_BAD_REQUEST) {
+            Launcher.logAll(Level.TRACE, "Bad request at AuthenticateApi.registerUser: " + responseBody);
+            throw new ValidateInputsException("AuthenticateApi.registerUser: " + responseBody);
+        } else if (statusCode != HttpStatus.SC_OK) {
             Launcher.logAll(Level.INFO, "Failed to register user at AuthenticateApi.registerUser: " + responseBody);
             throw new RegisterUserException(responseBody);
         }
 
-        try {
-            BearerObject bearerObject = new BearerObject(EntityUtils.toString(response.getEntity()));
-            bearerToken.storeToken(bearerObject);
-        } catch (IOException e) {
-            Launcher.logAll(Level.FATAL, "Failed to get bearer token at AuthenticateApi.registerUser: " + e.getMessage());
-            throw new RegisterUserException(e.getMessage());
-        }
+        BearerObject bearerObject = new BearerObject(responseBody);
+        bearerToken.storeToken(bearerObject);
         return new User(true);
     }
 }

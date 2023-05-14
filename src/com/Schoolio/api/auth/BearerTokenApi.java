@@ -1,6 +1,8 @@
 package com.Schoolio.api.auth;
 
 import com.Schoolio.Launcher;
+import com.Schoolio.exceptions.SignInUserException;
+import com.Schoolio.exceptions.ValidateInputsException;
 import com.Schoolio.helpers.ConfigFile;
 import com.Schoolio.objects.BearerObject;
 import com.Schoolio.objects.User;
@@ -52,7 +54,7 @@ public class BearerTokenApi {
         return new User(true);
     }
 
-    public User getBearerByCreds(String email, String password) {
+    public User getBearerByCreds(String email, String password) throws SignInUserException, IOException, ValidateInputsException {
         HttpClient client = HttpClientBuilder.create().build();
         HttpPost request = new HttpPost(apiUrl + "get-bearer-by-creds");
 
@@ -61,26 +63,22 @@ public class BearerTokenApi {
         params.add(new BasicNameValuePair("password", password));
 
         HttpResponse response;
-        try {
-            request.setEntity(new UrlEncodedFormEntity(params));
-            response = client.execute(request);
-        } catch (IOException e) {
-            Launcher.logAll(Level.FATAL,e.getMessage());
-            throw new RuntimeException(e);
-        }
+        request.setEntity(new UrlEncodedFormEntity(params));
+        response = client.execute(request);
+        String responseBody = EntityUtils.toString(response.getEntity());
+
         int statusCode = response.getStatusLine().getStatusCode();
-        if (statusCode != HttpStatus.SC_OK) {
-            Launcher.logAll(Level.ERROR, "Couldn't get bearer token using user credentials (sign in user) at BearerTokenApi.getBearerByCreds");
-            return new User(false);
+        if (statusCode == HttpStatus.SC_BAD_REQUEST) {
+            Launcher.logAll(Level.TRACE, "Bad request at BearerTokenApi.getBearerByCreds: " + responseBody);
+            throw new ValidateInputsException("BearerTokenApi.getBearerByCreds: " + responseBody);
+        } else if (statusCode != HttpStatus.SC_OK) {
+            Launcher.logAll(Level.TRACE, "Couldn't get bearer token using user credentials (sign in user) at BearerTokenApi.getBearerByCreds");
+            throw new SignInUserException("Couldn't get bearer token using user credentials (sign in user) at BearerTokenApi.getBearerByCreds");
         }
 
-        try {
-            BearerObject bearerObject = new BearerObject(EntityUtils.toString(response.getEntity()));
-            bearerToken.storeToken(bearerObject);
-        } catch (IOException e) {
-            Launcher.logAll(Level.FATAL, e.getMessage());
-            throw new RuntimeException(e);
-        }
+        BearerObject bearerObject = new BearerObject(responseBody);
+        bearerToken.storeToken(bearerObject);
+
         return new User(true);
     }
 }
