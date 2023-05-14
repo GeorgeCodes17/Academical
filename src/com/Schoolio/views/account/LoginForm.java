@@ -5,6 +5,7 @@ import com.Schoolio.api.auth.AuthenticateApi;
 import com.Schoolio.api.auth.BearerTokenApi;
 import com.Schoolio.auth.ValidateInputs;
 import com.Schoolio.exceptions.RegisterUserException;
+import com.Schoolio.exceptions.ValidateInputsException;
 import com.Schoolio.views.Dashboard;
 import com.Schoolio.views.Index;
 import com.Schoolio.views.MainWindow;
@@ -32,6 +33,14 @@ public class LoginForm extends JPanel implements ActionListener {
     JTextField lastNameCreate = new JTextField();
     JButton createAcctBtn = new JButton();
     JButton signInBtn = new JButton();
+    JLabel errorMessage = new JLabel();
+
+    Timer errorMessageDisplayTimer = new Timer(10000, new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            errorMessage.setVisible(false);
+        }
+    });
 
     public LoginForm() {
         initComponents();
@@ -50,51 +59,59 @@ public class LoginForm extends JPanel implements ActionListener {
 
         emailCreate.setText("Email");
         new AddPlaceholders(emailCreate, focusEvent, "Email");
-        add(emailCreate, new GridBagConstraints(3, 17, 8, 1, 0.0, 0.0,
+        add(emailCreate, new GridBagConstraints(3, 16, 8, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 5), 0, 0));
 
         emailSignIn.setText("Email");
         new AddPlaceholders(emailSignIn, focusEvent, "Email");
-        add(emailSignIn, new GridBagConstraints(12, 20, 8, 1, 0.0, 0.0,
+        add(emailSignIn, new GridBagConstraints(12, 19, 8, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 5), 0, 0));
 
         passwordCreate.setText("pppp");
         new AddPlaceholders(passwordCreate, focusEvent, "pppp");
-        add(passwordCreate, new GridBagConstraints(3, 20, 8, 1, 0.0, 0.0,
+        add(passwordCreate, new GridBagConstraints(3, 19, 8, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 5), 0, 0));
 
         passwordSignIn.setText("pppp");
         new AddPlaceholders(passwordSignIn, focusEvent, "pppp");
-        add(passwordSignIn, new GridBagConstraints(12, 23, 8, 1, 0.0, 0.0,
+        add(passwordSignIn, new GridBagConstraints(12, 22, 8, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 5), 0, 0));
 
         firstNameCreate.setText("First name");
         new AddPlaceholders(firstNameCreate, focusEvent, "First name");
-        add(firstNameCreate, new GridBagConstraints(3, 23, 8, 1, 0.0, 0.0,
+        add(firstNameCreate, new GridBagConstraints(3, 22, 8, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 5), 0, 0));
 
         lastNameCreate.setText("Last name");
         new AddPlaceholders(lastNameCreate, focusEvent, "Last name");
-        add(lastNameCreate, new GridBagConstraints(3, 26, 8, 1, 0.0, 0.0,
+        add(lastNameCreate, new GridBagConstraints(3, 25, 8, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 5), 0, 0));
 
         createAcctBtn.setText("Create Account");
         createAcctBtn.addActionListener(this);
-        add(createAcctBtn, new GridBagConstraints(3, 34, 8, 1, 0.0, 0.0,
+        add(createAcctBtn, new GridBagConstraints(3, 35, 8, 1, 0.0, 0.0,
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 new Insets(0, 0, 5, 5), 0, 0));
 
         signInBtn.setText("Sign In");
         signInBtn.addActionListener(this);
-        add(signInBtn, new GridBagConstraints(12, 34, 8, 1, 0.0, 0.0,
+        add(signInBtn, new GridBagConstraints(12, 35, 8, 1, 0.0, 0.0,
             GridBagConstraints.CENTER, GridBagConstraints.BOTH,
             new Insets(0, 0, 5, 5), 0, 0));
+
+        errorMessage.setFont(new Font("Roboto", Font.ITALIC, 14));
+        errorMessage.setHorizontalAlignment(JLabel.CENTER);
+        errorMessage.setForeground(Color.RED);
+        errorMessage.setVisible(false);
+        add(errorMessage, new GridBagConstraints(7, 32, 8, 1, 0.0, 0.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                new Insets(0, 0, 5, 5), 0, 0));
     }
 
     @Override
@@ -108,16 +125,17 @@ public class LoginForm extends JPanel implements ActionListener {
                 passwordCreate.getPassword()
             );
 
-            if (inputs.validateRegister().isPresent()) {
-                Launcher.logAll(Level.TRACE, "Input validation failed for registering account");
-                return;
-            }
-
             try {
+                inputs.validateRegister();
                 authenticateApi.registerUser(inputs);
-            } catch (RegisterUserException | IOException ex) {
-                // TODO If fails do something visually
-                throw new RuntimeException(ex);
+            } catch (ValidateInputsException e) {
+                Launcher.logAll(Level.TRACE, e.getMessage());
+                displayErrorMessage("Account inputs invalid");
+                return;
+            } catch (RegisterUserException | IOException e) {
+                Launcher.logAll(Level.TRACE, e.getMessage());
+                displayErrorMessage("Failed to create account");
+                return;
             }
         } else if (action.equals("Sign In")) {
             ValidateInputs inputs = new ValidateInputs(
@@ -133,11 +151,21 @@ public class LoginForm extends JPanel implements ActionListener {
             bearerTokenApi.getBearerByCreds(inputs.email, inputs.password);
         }
 
+        showMainWindow();
+    }
+
+    public void showMainWindow() {
         MainWindow.WINDOW.getContentPane().removeAll();
         MainWindow.WINDOW.add(index.getHeaderLabel(), BorderLayout.PAGE_START);
         MainWindow.WINDOW.add(new Dashboard(), BorderLayout.CENTER);
         MainWindow.WINDOW.add(index.getFooterLabel(), BorderLayout.PAGE_END);
         MainWindow.WINDOW.repaint();
         MainWindow.WINDOW.revalidate();
+    }
+
+    public void displayErrorMessage(String message) {
+        errorMessage.setText(message);
+        errorMessage.setVisible(true);
+        errorMessageDisplayTimer.start();
     }
 }

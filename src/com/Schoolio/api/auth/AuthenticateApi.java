@@ -49,6 +49,10 @@ public class AuthenticateApi {
     public User getUserInfo() throws GetUserInfoException, IOException {
         Optional<String> bearerRaw = new BearerToken().getBearerToken();
         BearerObject bearer = bearerRaw.map(BearerObject::new).orElseGet(BearerObject::new);
+        if (bearerRaw.isEmpty()) {
+            Launcher.logAll(Level.TRACE, "User is not logged in");
+            throw new GetUserInfoException("User is not logged in");
+        }
 
         HttpClient client = HttpClientBuilder.create().build();
         HttpGet request = new HttpGet(config.getProperty("OKTA_API_URL") + "userinfo");
@@ -89,8 +93,8 @@ public class AuthenticateApi {
             BearerObject bearerObject = new BearerObject(EntityUtils.toString(response.getEntity()));
             bearerToken.storeToken(bearerObject);
         } catch (IOException e) {
-            Launcher.logAll(Level.FATAL, e.getMessage());
-            throw new RuntimeException(e);
+            Launcher.logAll(Level.FATAL, "Failed to get bearer token at AuthenticateApi.registerUser: " + e.getMessage());
+            throw new RegisterUserException(e.getMessage());
         }
         return new User(true);
     }

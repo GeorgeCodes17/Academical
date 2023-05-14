@@ -1,7 +1,10 @@
 package com.Schoolio.auth;
 
+import com.Schoolio.Launcher;
 import com.Schoolio.enums.ValidateAccountEnum;
+import com.Schoolio.exceptions.ValidateInputsException;
 import org.apache.commons.text.StringEscapeUtils;
+import org.apache.logging.log4j.Level;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +46,7 @@ public class ValidateInputs {
         return errorBag.isEmpty() ? Optional.empty() : Optional.of(errorBag);
     }
 
-    public Optional<Map<ValidateAccountEnum, Boolean>> validateRegister() {
+    public Optional<Map<ValidateAccountEnum, Boolean>> validateRegister() throws ValidateInputsException {
         firstName = StringEscapeUtils.escapeHtml4(firstName);
         lastName = StringEscapeUtils.escapeHtml4(lastName);
         email = StringEscapeUtils.escapeHtml4(email);
@@ -62,6 +65,10 @@ public class ValidateInputs {
             errorBag.put(ValidateAccountEnum.PASSWORD, true);
         }
 
-        return errorBag.isEmpty() ? Optional.empty() : Optional.of(errorBag);
+        if (errorBag.isEmpty()) {
+            Launcher.logAll(Level.TRACE, "Register user input validation failed");
+            throw new ValidateInputsException("Register user input validation failed");
+        }
+        return Optional.of(errorBag);
     }
 }
