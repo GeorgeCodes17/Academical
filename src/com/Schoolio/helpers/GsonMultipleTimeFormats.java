@@ -22,7 +22,7 @@ public class GsonMultipleTimeFormats {
                 Date date = TIME_FORMAT.parse(json.getAsString());
                 return new Time(date.getTime());
             } catch (ParseException e) {
-                Launcher.logAll(Level.DEBUG, e.getMessage());
+                Launcher.logAll(Level.DEBUG, e);
                 throw new RuntimeException(e);
             }
         }
@@ -34,7 +34,7 @@ public class GsonMultipleTimeFormats {
                 Date date = TIMESTAMP_FORMAT.parse(json.getAsString());
                 return new Timestamp(date.getTime());
             } catch (ParseException e) {
-                Launcher.logAll(Level.DEBUG, e.getMessage());
+                Launcher.logAll(Level.DEBUG, e);
                 throw new JsonParseException(e);
             }
         }

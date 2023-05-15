@@ -130,11 +130,11 @@ public class LoginForm extends JPanel implements ActionListener {
                 inputs.validateRegister();
                 authenticateApi.registerUser(inputs);
             } catch (ValidateInputsException e) {
-                Launcher.logAll(Level.TRACE, e.getMessage());
+                Launcher.logAll(Level.TRACE, e);
                 displayErrorMessage("Account inputs invalid");
                 return;
             } catch (RegisterUserException | IOException e) {
-                Launcher.logAll(Level.TRACE, e.getMessage());
+                Launcher.logAll(Level.TRACE, e);
                 displayErrorMessage("Failed to create account");
                 return;
             }
@@ -148,11 +148,11 @@ public class LoginForm extends JPanel implements ActionListener {
                 inputs.validateSignIn();
                 bearerTokenApi.getBearerByCreds(inputs.email, inputs.password);
             } catch (ValidateInputsException e) {
-                Launcher.logAll(Level.TRACE, e.getMessage());
+                Launcher.logAll(Level.TRACE, e);
                 displayErrorMessage("Account inputs invalid");
                 return;
             } catch (IOException | SignInUserException e) {
-                Launcher.logAll(Level.TRACE, e.getMessage());
+                Launcher.logAll(Level.TRACE, e);
                 displayErrorMessage("Failed to sign user in");
                 return;
             }

@@ -36,19 +36,19 @@ public class BearerTokenApi {
         try {
             response = client.execute(request);
         } catch (IOException e) {
-            Launcher.logAll(Level.FATAL, e.getMessage());
+            Launcher.logAll(Level.FATAL, e);
             throw new RuntimeException(e);
         }
         int statusCode = response.getStatusLine().getStatusCode();
         if (statusCode != HttpStatus.SC_OK) {
-            Launcher.logAll(Level.TRACE, "Couldn't get bearer token using refresh at BearerTokenApi.getBearerByRefresh");
+            Launcher.logAll(Level.TRACE, new Exception("Couldn't get bearer token using refresh at BearerTokenApi.getBearerByRefresh"));
             return new User(false);
         }
         try {
             BearerObject bearerObject = new BearerObject(EntityUtils.toString(response.getEntity()));
             bearerToken.storeToken(bearerObject);
         } catch (IOException e) {
-            Launcher.logAll(Level.FATAL, e.getMessage());
+            Launcher.logAll(Level.FATAL, e);
             throw new RuntimeException(e);
         }
         return new User(true);
@@ -69,11 +69,13 @@ public class BearerTokenApi {
 
         int statusCode = response.getStatusLine().getStatusCode();
         if (statusCode == HttpStatus.SC_BAD_REQUEST) {
-            Launcher.logAll(Level.TRACE, "Bad request at BearerTokenApi.getBearerByCreds: " + responseBody);
-            throw new ValidateInputsException("BearerTokenApi.getBearerByCreds: " + responseBody);
+            ValidateInputsException e = new ValidateInputsException("Bad request: " + responseBody);
+            Launcher.logAll(Level.TRACE, e);
+            throw e;
         } else if (statusCode != HttpStatus.SC_OK) {
-            Launcher.logAll(Level.TRACE, "Couldn't get bearer token using user credentials (sign in user) at BearerTokenApi.getBearerByCreds");
-            throw new SignInUserException("Couldn't get bearer token using user credentials (sign in user) at BearerTokenApi.getBearerByCreds");
+            SignInUserException e = new SignInUserException("Couldn't get bearer token using user credentials (sign in user)");
+            Launcher.logAll(Level.TRACE,  e);
+            throw e;
         }
 
         BearerObject bearerObject = new BearerObject(responseBody);

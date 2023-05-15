@@ -4,6 +4,7 @@ import com.Schoolio.Launcher;
 import org.apache.logging.log4j.Level;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Properties;
 
 public class ConfigFile {
@@ -13,8 +14,8 @@ public class ConfigFile {
             Properties getConfigFile = new Properties();
             getConfigFile.load(configFile);
             return getConfigFile;
-        } catch (Exception e) {
-            Launcher.logAll(Level.FATAL, e.getMessage());
+        } catch (IOException e) {
+            Launcher.logAll(Level.FATAL, e);
             throw new RuntimeException(e);
         }
     }

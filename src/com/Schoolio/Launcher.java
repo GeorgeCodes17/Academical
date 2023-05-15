@@ -25,7 +25,7 @@ public class Launcher {
         try {
             USER = new AuthenticateApi().getUserInfo();
         } catch (GetUserInfoException | IOException e) {
-            Launcher.logAll(Level.ERROR, "Failed to get user info/ login at Launcher anonymous constructor");
+            Launcher.logAll(Level.ERROR, e);
             USER = new User(false);
         }
     }
@@ -38,7 +38,7 @@ public class Launcher {
         new MainWindow().show();
     }
 
-    public static void logAll(Level level, String message) {
+    public static void logAll(Level level, Exception message) {
         LOGGER_ALL_LEVELS.log(level, message);
         LOGGER_DEBUG.log(level, message);
         LOGGER.log(level, message);

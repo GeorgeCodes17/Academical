@@ -20,7 +20,7 @@ public class EmailAddressStoredLocal {
             fileWriter.write(emailAddress);
             fileWriter.close();
         } catch (IOException e) {
-            Launcher.logAll(Level.ERROR, e.getMessage());
+            Launcher.logAll(Level.ERROR, e);
             throw new RuntimeException(e);
         }
     }
@@ -35,7 +35,7 @@ public class EmailAddressStoredLocal {
             }
             myReader.close();
         } catch (FileNotFoundException e) {
-            Launcher.logAll(Level.TRACE, e.getMessage());
+            Launcher.logAll(Level.TRACE, e);
             throw new RuntimeException(e);
         }
         return Optional.ofNullable(emailAddress);
@@ -48,7 +48,7 @@ public class EmailAddressStoredLocal {
             fileWriter.write("");
             fileWriter.close();
         } catch (IOException e) {
-            Launcher.logAll(Level.DEBUG, e.getMessage());
+            Launcher.logAll(Level.DEBUG, e);
             throw new RuntimeException(e);
         }
     }

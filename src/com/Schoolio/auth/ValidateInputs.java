@@ -44,8 +44,9 @@ public class ValidateInputs {
         }
 
         if (!errorBag.isEmpty()) {
-            Launcher.logAll(Level.TRACE, "Sign in input validation failed");
-            throw new ValidateInputsException("Sign in input validation failed");
+            ValidateInputsException e = new ValidateInputsException("Sign in input validation failed");
+            Launcher.logAll(Level.TRACE, e);
+            throw e;
         }
         return Optional.of(errorBag);
     }
@@ -70,8 +71,9 @@ public class ValidateInputs {
         }
 
         if (!errorBag.isEmpty()) {
-            Launcher.logAll(Level.TRACE, "Register user input validation failed");
-            throw new ValidateInputsException("Register user input validation failed");
+            ValidateInputsException e = new ValidateInputsException("Register user input validation failed");
+            Launcher.logAll(Level.TRACE, e);
+            throw e;
         }
         return Optional.of(errorBag);
     }

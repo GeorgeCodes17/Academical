@@ -20,7 +20,7 @@ public class TeamsButtonPanel {
             try {
                 Desktop.getDesktop().browse(new URI(TEAMS_LOGIN_URL));
             } catch (IOException | URISyntaxException e) {
-                Launcher.logAll(Level.DEBUG, e.getMessage());
+                Launcher.logAll(Level.DEBUG, e);
                 throw new RuntimeException(e);
             }
         });

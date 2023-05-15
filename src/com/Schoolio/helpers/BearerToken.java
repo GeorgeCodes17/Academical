@@ -29,7 +29,7 @@ public class BearerToken {
             keychain.addGenericPassword(LOCAL_TOKEN_KEY, newUserEmail, bearerObject.getBearer());
             emailAddressStoredLocal.storeNewEmail(newUserEmail);
         } catch (OSXKeychainException | IOException e) {
-            Launcher.logAll(Level.FATAL, e.getMessage());
+            Launcher.logAll(Level.FATAL, e);
             throw new RuntimeException(e);
         }
     }
@@ -39,7 +39,7 @@ public class BearerToken {
         try {
             emailAddress = emailAddressStoredLocal.getEmailAddress().isPresent() ? emailAddressStoredLocal.getEmailAddress().get() : null;
         } catch (IOException e) {
-            Launcher.logAll(Level.FATAL, e.getMessage());
+            Launcher.logAll(Level.FATAL, e);
             throw new RuntimeException(e);
         }
         OSXKeychain keychain;
@@ -47,7 +47,7 @@ public class BearerToken {
             keychain = OSXKeychain.getInstance();
             keychain.deleteGenericPassword("Schoolio", emailAddress);
         } catch (OSXKeychainException e) {
-            Launcher.logAll(Level.FATAL, e.getMessage());
+            Launcher.logAll(Level.FATAL, e);
             throw new RuntimeException(e);
         }
     }
@@ -57,7 +57,7 @@ public class BearerToken {
         try {
             emailAddress = emailAddressStoredLocal.getEmailAddress();
         } catch (IOException e) {
-            Launcher.logAll(Level.FATAL, e.getMessage());
+            Launcher.logAll(Level.FATAL, e);
             throw new RuntimeException(e);
         }
         if (emailAddress.isEmpty()) {
@@ -68,7 +68,7 @@ public class BearerToken {
             OSXKeychain keychain = OSXKeychain.getInstance();
             return keychain.findGenericPassword(LOCAL_TOKEN_KEY, emailAddress.get());
         } catch (OSXKeychainException e) {
-            Launcher.logAll(Level.FATAL, e.getMessage());
+            Launcher.logAll(Level.FATAL, e);
             throw new RuntimeException(e);
         }
     }

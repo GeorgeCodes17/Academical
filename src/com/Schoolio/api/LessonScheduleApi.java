@@ -48,13 +48,13 @@ public class LessonScheduleApi {
             response = client.execute(request);
             String responseContent = EntityUtils.toString(response.getEntity());
             if (response.getStatusLine().getStatusCode() != 200) {
-                Launcher.logAll(Level.INFO, "Failed to get lesson schedule at LessonScheduleApi.index: " + responseContent);
+                Launcher.logAll(Level.INFO, new GetLessonScheduleException("Failed to get lesson schedule at: " + responseContent));
                 throw new GetLessonScheduleException(responseContent);
             }
             return processTimetableData(responseContent);
         } catch (IOException e) {
-            Launcher.logAll(Level.FATAL, e.getMessage());
-            throw new GetLessonScheduleException(e.getMessage());
+            Launcher.logAll(Level.FATAL, e);
+            throw new GetLessonScheduleException(e);
         }
     }
 

@@ -41,7 +41,7 @@ public class AuthenticateApi {
         try {
             response = client.execute(request);
         } catch (IOException e) {
-            Launcher.logAll(Level.FATAL, e.getMessage());
+            Launcher.logAll(Level.FATAL, e);
             throw new RuntimeException(e);
         }
         return new User(response.getStatusLine().getStatusCode() == 200);
@@ -51,8 +51,8 @@ public class AuthenticateApi {
         Optional<String> bearerRaw = new BearerToken().getBearerToken();
         BearerObject bearer = bearerRaw.map(BearerObject::new).orElseGet(BearerObject::new);
         if (bearerRaw.isEmpty()) {
-            Launcher.logAll(Level.TRACE, "User is not logged in");
-            throw new GetUserInfoException("User is not logged in");
+            Launcher.logAll(Level.TRACE, new GetUserInfoException("User is not logged in"));
+            return new User(false);
         }
 
         HttpClient client = HttpClientBuilder.create().build();
@@ -64,8 +64,9 @@ public class AuthenticateApi {
         responseBody = EntityUtils.toString(response.getEntity());
         int statusCode = response.getStatusLine().getStatusCode();
         if (statusCode != HttpStatus.SC_OK) {
-            Launcher.logAll(Level.WARN, "Failed to get user info at AuthenticateApi.getUserInfo: " + responseBody);
-            throw new GetUserInfoException(responseBody);
+            GetUserInfoException e = new GetUserInfoException("Failed to get user info at AuthenticateApi.getUserInfo: " + responseBody);
+            Launcher.logAll(Level.WARN, e);
+            throw e;
         }
         return new User().mapUserInfoObject(responseBody);
     }
@@ -86,10 +87,10 @@ public class AuthenticateApi {
         String responseBody = EntityUtils.toString(response.getEntity());
         int statusCode = response.getStatusLine().getStatusCode();
         if (statusCode == HttpStatus.SC_BAD_REQUEST) {
-            Launcher.logAll(Level.TRACE, "Bad request at AuthenticateApi.registerUser: " + responseBody);
+            Launcher.logAll(Level.TRACE, new ValidateInputsException("Bad request at AuthenticateApi.registerUser: " + responseBody));
             throw new ValidateInputsException("AuthenticateApi.registerUser: " + responseBody);
         } else if (statusCode != HttpStatus.SC_OK) {
-            Launcher.logAll(Level.INFO, "Failed to register user at AuthenticateApi.registerUser: " + responseBody);
+            Launcher.logAll(Level.INFO, new RegisterUserException("Failed to register user at AuthenticateApi.registerUser: " + responseBody));
             throw new RegisterUserException(responseBody);
         }
 
