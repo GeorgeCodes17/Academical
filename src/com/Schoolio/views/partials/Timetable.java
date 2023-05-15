@@ -18,18 +18,20 @@ public class Timetable {
     private final Font timetableFont = new Font("Roboto", Font.PLAIN, 14);
     private final LessonScheduleApi lessonScheduleApi = new LessonScheduleApi();
 
+    private final JLabel noLessonsLabel = new JLabel("No lessons scheduled");
+
     public JPanel getTimetable() {
         JPanel timetable = new JPanel();
         timetable.setPreferredSize(new Dimension(300, timetable.getPreferredSize().height));
 
         timetable.setLayout(new BoxLayout(timetable, BoxLayout.Y_AXIS));
 
-        LessonScheduleObject[] lessonSchedule;
+        LessonScheduleObject[] lessonSchedule = null;
         try {
             lessonSchedule = lessonScheduleApi.index();
         } catch (GetLessonScheduleException e) {
-            // TODO Do something visually when error occurs
-            throw new RuntimeException(e);
+            noLessonsLabel.setText("Failed to retrieve lesson schedule");
+            noLessonsLabel.setForeground(Color.RED);
         }
         timetable.add(getTimetableBody(lessonSchedule));
 
@@ -41,7 +43,6 @@ public class Timetable {
         timetableBody.setBorder(new RoundedBorder(15, Colors.DARK_LAVA));
 
         if (lessonSchedule == null) {
-            JLabel noLessonsLabel = new JLabel("No lessons scheduled");
             noLessonsLabel.setBorder(new EmptyBorder(25,0,0,0));
 
             timetableBody.add(noLessonsLabel);
