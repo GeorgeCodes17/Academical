@@ -1,14 +1,11 @@
 package com.Schoolio.views;
 
-import com.Schoolio.api.auth.AuthenticateApi;
-import com.Schoolio.exceptions.GetUserInfoException;
-import com.Schoolio.objects.User;
+import com.Schoolio.Launcher;
 import com.Schoolio.views.account.LoginForm;
 import com.sun.tools.javac.Main;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
 import java.net.URL;
 
 public class MainWindow {
@@ -27,15 +24,9 @@ public class MainWindow {
         WINDOW.getContentPane().setBackground(Color.white);
 
         Index index = new Index();
-        User user;
-        try {
-            user = new AuthenticateApi().getUserInfo();
-        } catch (GetUserInfoException | IOException e) {
-            // TODO Replace with a UI popup to say it failed to get user info
-            user = new User(false);
-        }
+
         WINDOW.add(index.getHeaderLabel(), BorderLayout.PAGE_START);
-        if(user.signedIn()) {
+        if(Launcher.USER.signedIn()) {
             WINDOW.add(new Dashboard(), BorderLayout.CENTER);
         } else {
             WINDOW.add(new LoginForm(), BorderLayout.CENTER);
