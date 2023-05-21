@@ -6,7 +6,6 @@ import com.Schoolio.exceptions.GetLessonScheduleException;
 import com.Schoolio.objects.LessonScheduleObject;
 import com.Schoolio.views.partials.helpers.Colors;
 import com.Schoolio.views.partials.helpers.RoundedBorder;
-import com.sun.tools.javac.Main;
 import net.miginfocom.swing.MigLayout;
 import org.apache.logging.log4j.Level;
 
@@ -14,7 +13,6 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.Iterator;
 
@@ -39,14 +37,7 @@ public class Timetable {
             noLessonsLabel.setForeground(Color.RED);
         }
 
-        RoundedJButton addButton = new RoundedJButton(Colors.AIR_SUPERIORITY_BLUE, Color.WHITE);
-
-        final URL addIcon = Main.class.getClassLoader().getResource("plus-20.png");
-        final Toolkit toolkit = Toolkit.getDefaultToolkit();
-        final Image iconImage = toolkit.getImage(addIcon);
-        addButton.setIcon(new ImageIcon(iconImage));
-
-        timetable.add(addButton, "align right, wrap");
+        timetable.add(new AddLessonButton(), "align right, wrap");
         timetable.add(getTimetableBody(lessonSchedule), "grow");
 
         return timetable;
