@@ -4,6 +4,7 @@ import com.Schoolio.helpers.LoginHandler;
 import com.Schoolio.helpers.SignOutHandler;
 import com.Schoolio.views.account.LoginForm;
 import com.Schoolio.views.partials.helpers.Colors;
+import com.Schoolio.views.windows.MainWindow;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

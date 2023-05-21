@@ -1,6 +1,8 @@
-package com.Schoolio.views;
+package com.Schoolio.views.windows;
 
 import com.Schoolio.Launcher;
+import com.Schoolio.views.Dashboard;
+import com.Schoolio.views.Index;
 import com.Schoolio.views.account.LoginForm;
 import com.sun.tools.javac.Main;
 

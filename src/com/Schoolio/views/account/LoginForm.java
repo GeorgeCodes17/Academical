@@ -9,7 +9,7 @@ import com.Schoolio.exceptions.SignInUserException;
 import com.Schoolio.exceptions.ValidateInputsException;
 import com.Schoolio.views.Dashboard;
 import com.Schoolio.views.Index;
-import com.Schoolio.views.MainWindow;
+import com.Schoolio.views.windows.MainWindow;
 import com.Schoolio.views.partials.helpers.AddPlaceholders;
 import com.Schoolio.views.partials.helpers.Colors;
 import org.apache.logging.log4j.Level;

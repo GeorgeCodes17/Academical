@@ -4,7 +4,7 @@ import com.Schoolio.api.auth.AuthenticateApi;
 import com.Schoolio.exceptions.GetUserInfoException;
 import com.Schoolio.helpers.ConfigFile;
 import com.Schoolio.objects.User;
-import com.Schoolio.views.MainWindow;
+import com.Schoolio.views.windows.MainWindow;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
