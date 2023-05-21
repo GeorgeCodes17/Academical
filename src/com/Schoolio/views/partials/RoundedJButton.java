@@ -12,7 +12,25 @@ public class RoundedJButton extends JButton {
         super(text);
         setBackground(backgroundColor);
         setForeground(foregroundColor);
+        setOpaque(true);
         setPreferredSize(new Dimension(width, height));
+        setUI(new RoundedButtonUi());
+
+        addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent e) {
+                setBackground(darkenedColor(backgroundColor));
+            }
+            public void mouseExited(MouseEvent e) {
+                setBackground(backgroundColor);
+            }
+        });
+    }
+
+    public RoundedJButton(Color backgroundColor, Color foregroundColor) {
+        super();
+        setBackground(backgroundColor);
+        setForeground(foregroundColor);
+        setOpaque(true);
         setUI(new RoundedButtonUi());
 
         addMouseListener(new MouseAdapter() {

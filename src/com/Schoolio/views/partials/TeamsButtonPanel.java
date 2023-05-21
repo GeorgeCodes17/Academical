@@ -15,7 +15,7 @@ public class TeamsButtonPanel {
     private final String TEAMS_LOGIN_URL = "https://go.microsoft.com/fwlink/p/?linkid=873020&culture=en-us&country=ww";
 
     public JPanel getTeamsPanel() {
-        JButton teamsButton = new RoundedJButton("Teams", 180, 40, Colors.TEAMS_PURPLE, Color.WHITE);
+        JButton teamsButton = new RoundedJButton("Teams", 160, 40, Colors.TEAMS_PURPLE, Color.WHITE);
         teamsButton.addActionListener(event -> {
             try {
                 Desktop.getDesktop().browse(new URI(TEAMS_LOGIN_URL));

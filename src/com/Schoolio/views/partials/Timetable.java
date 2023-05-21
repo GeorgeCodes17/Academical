@@ -6,12 +6,15 @@ import com.Schoolio.exceptions.GetLessonScheduleException;
 import com.Schoolio.objects.LessonScheduleObject;
 import com.Schoolio.views.partials.helpers.Colors;
 import com.Schoolio.views.partials.helpers.RoundedBorder;
+import com.sun.tools.javac.Main;
+import net.miginfocom.swing.MigLayout;
 import org.apache.logging.log4j.Level;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.Iterator;
 
@@ -25,8 +28,7 @@ public class Timetable {
     public JPanel getTimetable() {
         JPanel timetable = new JPanel();
         timetable.setPreferredSize(new Dimension(300, timetable.getPreferredSize().height));
-
-        timetable.setLayout(new BoxLayout(timetable, BoxLayout.Y_AXIS));
+        timetable.setLayout(new MigLayout("fill", "[100%]", "[15%][85%]"));
 
         LessonScheduleObject[] lessonSchedule = null;
         try {
@@ -36,7 +38,16 @@ public class Timetable {
             noLessonsLabel.setText("Failed to retrieve lesson schedule");
             noLessonsLabel.setForeground(Color.RED);
         }
-        timetable.add(getTimetableBody(lessonSchedule));
+
+        RoundedJButton addButton = new RoundedJButton(Colors.AIR_SUPERIORITY_BLUE, Color.WHITE);
+
+        final URL addIcon = Main.class.getClassLoader().getResource("plus-20.png");
+        final Toolkit toolkit = Toolkit.getDefaultToolkit();
+        final Image iconImage = toolkit.getImage(addIcon);
+        addButton.setIcon(new ImageIcon(iconImage));
+
+        timetable.add(addButton, "align right, wrap");
+        timetable.add(getTimetableBody(lessonSchedule), "grow");
 
         return timetable;
     }
@@ -46,7 +57,7 @@ public class Timetable {
         timetableBody.setBorder(new RoundedBorder(15, Colors.DARK_LAVA));
 
         if (lessonSchedule == null) {
-            noLessonsLabel.setBorder(new EmptyBorder(25,0,0,0));
+            noLessonsLabel.setBorder(new EmptyBorder(40,0,0,0));
 
             timetableBody.add(noLessonsLabel);
         } else {
