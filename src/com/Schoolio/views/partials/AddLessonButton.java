@@ -1,6 +1,7 @@
 package com.Schoolio.views.partials;
 
 import com.Schoolio.views.partials.helpers.Colors;
+import com.Schoolio.views.windows.AddLessonWindow;
 import com.sun.tools.javac.Main;
 
 import javax.swing.*;
@@ -15,7 +16,7 @@ public class AddLessonButton extends RoundedJButton{
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                System.out.println("Add click");
+                new AddLessonWindow();
             }
         });
 

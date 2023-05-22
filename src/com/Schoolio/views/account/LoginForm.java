@@ -23,7 +23,7 @@ import java.io.IOException;
 public class LoginForm extends JPanel implements ActionListener {
     private final AuthenticateApi authenticateApi = new AuthenticateApi();
     private final BearerTokenApi bearerTokenApi = new BearerTokenApi();
-    private final Index index = new Index();
+    private final Index index = new Index(false);
 
     private java.awt.event.FocusEvent focusEvent;
     JTextField emailCreate = new JTextField();

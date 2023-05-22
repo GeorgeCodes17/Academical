@@ -1,19 +1,35 @@
 package com.Schoolio.views;
 
-import com.Schoolio.helpers.LoginHandler;
+import com.Schoolio.Launcher;
+import com.Schoolio.api.auth.AuthenticateApi;
+import com.Schoolio.exceptions.GetUserInfoException;
 import com.Schoolio.helpers.SignOutHandler;
+import com.Schoolio.objects.User;
 import com.Schoolio.views.account.LoginForm;
 import com.Schoolio.views.partials.helpers.Colors;
 import com.Schoolio.views.windows.MainWindow;
+import org.apache.logging.log4j.Level;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 public class Index {
     private final JLabel signOutLink = new JLabel("<html>Sign Out -></html>");
+
+    public Index(boolean withAuth) {
+        if (withAuth) {
+            try {
+                Launcher.USER = new AuthenticateApi().getUserInfo();
+            } catch (GetUserInfoException | IOException e) {
+                Launcher.logAll(Level.ERROR, e);
+                Launcher.USER = new User(false);
+            }
+        }
+    }
 
     public JPanel getHeaderLabel() {
         JPanel header = new JPanel();
@@ -26,7 +42,7 @@ public class Index {
         heading.setBorder(new EmptyBorder(10,0,10,0));
 
         header.add(heading, BorderLayout.CENTER);
-        if (new LoginHandler().authenticate().loggedIn()) {
+        if (Launcher.USER.loggedIn()) {
             JLabel spacer = new JLabel();
             spacer.setPreferredSize(new Dimension(150, 15));
             header.add(spacer, BorderLayout.LINE_START);
