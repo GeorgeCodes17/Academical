@@ -11,7 +11,7 @@ public class LessonWindow extends JFrame {
     private final Index index = new Index(false);
 
     public LessonWindow() {
-        setSize(600, 500);
+        setSize(600, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle("Add Lesson");
         setVisible(true);

@@ -1,15 +1,17 @@
 package com.Schoolio.views.partials;
 
+import com.Schoolio.views.components.DayOfWeekRadio;
+
 import javax.swing.*;
 
 public class DayOfWeekSelector extends Box {
-    private final JRadioButton mondayRadio = new JRadioButton("Mon");
-    private final JRadioButton tuesdayRadio = new JRadioButton("Tue");
-    private final JRadioButton wednesdayRadio = new JRadioButton("Wed");
-    private final JRadioButton thursdayRadio = new JRadioButton("Thu");
-    private final JRadioButton fridayRadio = new JRadioButton("Fri");
-    private final JRadioButton saturdayRadio = new JRadioButton("Sat");
-    private final JRadioButton sundayRadio = new JRadioButton("Sun");
+    private final JRadioButton mondayRadio = new DayOfWeekRadio("Mon");
+    private final JRadioButton tuesdayRadio = new DayOfWeekRadio("Tue");
+    private final JRadioButton wednesdayRadio = new DayOfWeekRadio("Wed");
+    private final JRadioButton thursdayRadio = new DayOfWeekRadio("Thu");
+    private final JRadioButton fridayRadio = new DayOfWeekRadio("Fri");
+    private final JRadioButton saturdayRadio = new DayOfWeekRadio("Sat");
+    private final JRadioButton sundayRadio = new DayOfWeekRadio("Sun");
 
     public DayOfWeekSelector() {
         super(BoxLayout.X_AXIS);

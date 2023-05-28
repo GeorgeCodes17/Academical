@@ -17,6 +17,9 @@ public class LessonWindowInner extends JPanel {
         lessonSelector.setMaximumSize(new Dimension(200, 50));
         lessonSelector.setBorder(inputsMargin);
 
+        JLabel dayOfWeekText = new JLabel("Day of week");
+        dayOfWeekText.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        dayOfWeekText.setBorder(inputsMargin);
         Box dayOfWeekSelector = new DayOfWeekSelector();
         dayOfWeekSelector.setBorder(inputsMargin);
 
@@ -32,11 +35,16 @@ public class LessonWindowInner extends JPanel {
         JPanel endTimeInput = new TimeSelector(9, 40);
         endTimeInput.setBorder(inputsMargin);
 
+        JButton submitBtn = new JButton("Submit");
+        submitBtn.setAlignmentX(JButton.CENTER_ALIGNMENT);
+
         add(lessonSelector);
+        add(dayOfWeekText);
         add(dayOfWeekSelector);
         add(startTimeText);
         add(startTimeInput);
         add(endTimeText);
         add(endTimeInput);
+        add(submitBtn);
     }
 }
