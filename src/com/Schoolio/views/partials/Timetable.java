@@ -37,7 +37,7 @@ public class Timetable {
             noLessonsLabel.setForeground(Color.RED);
         }
 
-        timetable.add(new AddLessonButton(), "align right, wrap");
+        timetable.add(new LessonButton(), "align right, wrap");
         timetable.add(getTimetableBody(lessonSchedule), "grow");
 
         return timetable;
