@@ -11,6 +11,7 @@ public class LessonWindowInner extends JPanel {
     public LessonWindowInner() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBorder(new EmptyBorder(35, 0, 35, 0));
+        setBackground(Color.WHITE);
 
         String[] lessons = {"Maths", "Science"};
         JComboBox<String> lessonSelector = new JComboBox<>(lessons);
@@ -46,5 +47,6 @@ public class LessonWindowInner extends JPanel {
         add(endTimeText);
         add(endTimeInput);
         add(submitBtn);
+        revalidate();
     }
 }

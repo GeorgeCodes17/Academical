@@ -16,8 +16,8 @@ public class TimeSelector extends JPanel {
         SpinnerNumberModel hourModel = new SpinnerNumberModel(defaultHour, 0, 23, 1);
         SpinnerNumberModel minuteModel = new SpinnerNumberModel(defaultMinute, 0, 59, 1);
 
-        hourSpinner = new JSpinner(hourModel);
-        minuteSpinner = new JSpinner(minuteModel);
+        hourSpinner.setModel(hourModel);
+        minuteSpinner.setModel(minuteModel);
 
         Dimension spinnerSize = new Dimension(50, 20);
         hourSpinner.setPreferredSize(spinnerSize);
@@ -28,6 +28,7 @@ public class TimeSelector extends JPanel {
         editor = new JSpinner.NumberEditor(minuteSpinner);
         minuteSpinner.setEditor(editor);
 
+        setOpaque(false);
         add(new JLabel("Hour:"));
         add(hourSpinner);
         add(new JLabel("Minute:"));
