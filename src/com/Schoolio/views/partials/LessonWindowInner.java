@@ -1,8 +1,16 @@
 package com.Schoolio.views.partials;
 
+import com.Schoolio.Launcher;
+import com.Schoolio.api.LessonApi;
+import com.Schoolio.exceptions.LessonException;
+import com.Schoolio.objects.LessonObject;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.logging.log4j.Level;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.io.IOException;
 
 public class LessonWindowInner extends JPanel {
 
@@ -13,8 +21,9 @@ public class LessonWindowInner extends JPanel {
         setBorder(new EmptyBorder(35, 0, 35, 0));
         setBackground(Color.WHITE);
 
-        String[] lessons = {"Maths", "Science"};
-        JComboBox<String> lessonSelector = new JComboBox<>(lessons);
+        String[] lessonOptions = getLessonOptions();
+
+        JComboBox<String> lessonSelector = new JComboBox<>(lessonOptions);
         lessonSelector.setMaximumSize(new Dimension(200, 50));
         lessonSelector.setBorder(inputsMargin);
 
@@ -48,5 +57,20 @@ public class LessonWindowInner extends JPanel {
         add(endTimeInput);
         add(submitBtn);
         revalidate();
+    }
+
+    public String[] getLessonOptions() {
+        LessonApi lessonApi = new LessonApi();
+        String[] lessonOptions = new String[0];
+        try {
+            LessonObject[] lessonObjects = lessonApi.index();
+            for (LessonObject lessonObject : lessonObjects) {
+                String lessonOptionName = String.format("Year %s %s", lessonObject.getYear().getName(), lessonObject.getName());
+                lessonOptions = ArrayUtils.add(lessonOptions, lessonOptionName);
+            }
+        } catch (LessonException | IOException e) {
+            Launcher.logAll(Level.INFO, new LessonException("Failed to get 'Add Lesson' form fields data: " + e));
+        }
+        return lessonOptions;
     }
 }

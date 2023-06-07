@@ -1,8 +1,10 @@
 package com.Schoolio.objects;
 
+import com.google.gson.annotations.SerializedName;
+
 public class YearObject {
-    private final int id;
-    private final String name;
+    @SerializedName("id") private final int id;
+    @SerializedName("year") private final String name;
 
     public YearObject(int id, String name) {
         this.id = id;

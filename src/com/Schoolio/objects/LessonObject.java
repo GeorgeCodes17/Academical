@@ -1,12 +1,14 @@
 package com.Schoolio.objects;
 
+import com.google.gson.annotations.SerializedName;
+
 public class LessonObject {
-    private final int id;
-    private final String name;
-    private int fkYear;
-    private String createdAt;
-    private String updatedAt;
-    private String deletedAt;
+    @SerializedName("id") private final int id;
+    @SerializedName("name") private final String name;
+    @SerializedName("year") private YearObject year;
+    @SerializedName("created_at") private String createdAt;
+    @SerializedName("updated_at") private String updatedAt;
+    @SerializedName("deleted_at") private String deletedAt;
 
     public LessonObject(int id, String name) {
         this.id = id;
@@ -21,8 +23,8 @@ public class LessonObject {
         return name;
     }
 
-    public int getFkYear() {
-        return fkYear;
+    public YearObject getYear() {
+        return year;
     }
 
     public String getCreatedAt() {
