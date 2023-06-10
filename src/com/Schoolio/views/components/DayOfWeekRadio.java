@@ -9,4 +9,9 @@ public class DayOfWeekRadio extends JRadioButton {
         super(day);
         setFont(MainWindow.MAIN_FONT);
     }
+
+    public DayOfWeekRadio(String day, Boolean isDefault) {
+        super(day, isDefault);
+        setFont(MainWindow.MAIN_FONT);
+    }
 }

@@ -2,10 +2,11 @@ package com.Schoolio.views.partials;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.Time;
 
 public class TimeSelector extends JPanel {
-    private JSpinner hourSpinner = new JSpinner();
-    private JSpinner minuteSpinner = new JSpinner();
+    private final JSpinner hourSpinner = new JSpinner();
+    private final JSpinner minuteSpinner = new JSpinner();
 
     public TimeSelector(int defaultHour, int defaultMinute) {
         setLayout(new FlowLayout());
@@ -33,5 +34,12 @@ public class TimeSelector extends JPanel {
         add(hourSpinner);
         add(new JLabel("Minute:"));
         add(minuteSpinner);
+    }
+
+    public Time getSelection() {
+        int hourValue = Integer.parseInt(hourSpinner.getValue().toString());
+        String time = hourValue < 9 ? "0" : "";
+        time += hourSpinner.getValue().toString() + ":" + minuteSpinner.getValue().toString() + ":00";
+        return Time.valueOf(time);
     }
 }
