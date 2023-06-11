@@ -39,7 +39,7 @@ public class LessonScheduleApi {
     public LessonScheduleObject[] index() throws GetLessonScheduleException{
         HttpClient client = HttpClientBuilder.create().build();
 
-        HttpGet request = new HttpGet(apiUrl + "/secured/lesson-schedule/get");
+        HttpGet request = new HttpGet(apiUrl + "/secured/lesson-schedule");
         request.addHeader("Authorization", bearer.getAccessToken());
         request.addHeader("SubId", idTokenObject.getSub());
 
