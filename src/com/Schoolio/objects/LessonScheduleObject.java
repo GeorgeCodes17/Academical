@@ -6,11 +6,9 @@ import com.google.gson.annotations.SerializedName;
 import java.sql.Time;
 import java.sql.Timestamp;
 
-//TODO refactor this to remove YearObject, as it is already in the LessonObject object
 public class LessonScheduleObject {
     @SerializedName("id") private Integer id = null;
     @SerializedName("lesson") private final LessonObject lesson;
-    @SerializedName("year") private final YearObject year;
     @SerializedName("day_of_week") private final DayOfWeekEnum dayOfWeek;
     @SerializedName("start") private final Time start;
     @SerializedName("end") private final Time end;
@@ -21,7 +19,6 @@ public class LessonScheduleObject {
     public LessonScheduleObject(
             int id,
             LessonObject lesson,
-            YearObject year,
             DayOfWeekEnum dayOfWeek,
             Time start,
             Time end,
@@ -31,7 +28,6 @@ public class LessonScheduleObject {
     ) {
         this.id = id;
         this.lesson = lesson;
-        this.year = year;
         this.dayOfWeek = dayOfWeek;
         this.start = start;
         this.end = end;
@@ -42,13 +38,11 @@ public class LessonScheduleObject {
 
     public LessonScheduleObject(
             LessonObject lesson,
-            YearObject year,
             DayOfWeekEnum dayOfWeek,
             Time start,
             Time end
     ) {
         this.lesson = lesson;
-        this.year = year;
         this.dayOfWeek = dayOfWeek;
         this.start = start;
         this.end = end;
@@ -60,10 +54,6 @@ public class LessonScheduleObject {
 
     public LessonObject getLesson() {
         return lesson;
-    }
-
-    public YearObject getYear() {
-        return year;
     }
 
     public DayOfWeekEnum getDayOfWeek() {

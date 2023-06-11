@@ -64,7 +64,7 @@ public class Timetable {
 
                 boolean bottomBorder = lessonScheduleIterator.hasNext();
                 timetableBody.add(timetableEvent(currentLesson.getLesson().getName(), false, bottomBorder));
-                timetableBody.add(timetableEvent(currentLesson.getYear().getName(), false, bottomBorder));
+                timetableBody.add(timetableEvent(currentLesson.getLesson().getYear().getName(), false, bottomBorder));
                 timetableBody.add(timetableEvent(currentLesson.getStart().toString(), false, bottomBorder));
             }
         }

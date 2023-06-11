@@ -60,7 +60,6 @@ public class LessonWindowInner extends JPanel {
                 DayOfWeekEnum dayOfWeekEnum = getDayOfWeek();
                 LessonScheduleObject lessonToAdd = new LessonScheduleObject(
                         lessonSelected.lessonObject(),
-                        lessonSelected.lessonObject().getYear(),
                         dayOfWeekEnum,
                         startTimeInput.getSelection(),
                         endTimeInput.getSelection()
