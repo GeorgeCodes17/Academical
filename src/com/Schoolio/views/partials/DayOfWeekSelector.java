@@ -12,8 +12,6 @@ public class DayOfWeekSelector extends Box {
     private final JRadioButton wednesdayRadio = new DayOfWeekRadio("Wed");
     private final JRadioButton thursdayRadio = new DayOfWeekRadio("Thu");
     private final JRadioButton fridayRadio = new DayOfWeekRadio("Fri");
-    private final JRadioButton saturdayRadio = new DayOfWeekRadio("Sat");
-    private final JRadioButton sundayRadio = new DayOfWeekRadio("Sun");
 
     public DayOfWeekSelector() {
         super(BoxLayout.X_AXIS);
@@ -23,15 +21,11 @@ public class DayOfWeekSelector extends Box {
         buttonGroup.add(wednesdayRadio);
         buttonGroup.add(thursdayRadio);
         buttonGroup.add(fridayRadio);
-        buttonGroup.add(saturdayRadio);
-        buttonGroup.add(sundayRadio);
 
         add(mondayRadio);
         add(tuesdayRadio);
         add(wednesdayRadio);
         add(thursdayRadio);
         add(fridayRadio);
-        add(saturdayRadio);
-        add(sundayRadio);
     }
 }

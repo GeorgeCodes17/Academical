@@ -2,11 +2,12 @@ package com.Schoolio.views.partials;
 
 import com.Schoolio.Launcher;
 import com.Schoolio.api.LessonApi;
+import com.Schoolio.api.LessonScheduleApi;
 import com.Schoolio.enums.DayOfWeekEnum;
 import com.Schoolio.exceptions.LessonException;
-import com.Schoolio.objects.LessonItem;
-import com.Schoolio.objects.LessonObject;
-import com.Schoolio.objects.LessonScheduleObject;
+import com.Schoolio.exceptions.LessonScheduleException;
+import com.Schoolio.helpers.BearerToken;
+import com.Schoolio.objects.*;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.Level;
 
@@ -16,11 +17,23 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.Optional;
 
 public class LessonWindowInner extends JPanel {
 
     private final EmptyBorder inputsMargin = new EmptyBorder(0, 0, 16, 0);
     private final DayOfWeekSelector dayOfWeekSelector;
+    private final LessonScheduleApi lessonScheduleApi = new LessonScheduleApi();
+
+    private final BearerObject bearer;
+    private final IdTokenObject idTokenObject;
+
+    {
+        Optional<String> bearerRaw = new BearerToken().getBearerToken();
+        bearer = bearerRaw.map(BearerObject::new).orElseGet(BearerObject::new);
+        idTokenObject = new IdTokenObject(bearer);
+    }
 
     public LessonWindowInner() {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -64,6 +77,16 @@ public class LessonWindowInner extends JPanel {
                         startTimeInput.getSelection(),
                         endTimeInput.getSelection()
                 );
+
+                try {
+                    lessonScheduleApi.store(idTokenObject.getSub(), lessonToAdd);
+                } catch (LessonScheduleException | UnsupportedEncodingException ex) {
+                    try {
+                        throw new LessonScheduleException(ex);
+                    } catch (LessonScheduleException exc) {
+                        throw new RuntimeException(exc);
+                    }
+                }
             }
         });
 

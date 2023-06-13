@@ -2,7 +2,7 @@ package com.Schoolio.views.partials;
 
 import com.Schoolio.Launcher;
 import com.Schoolio.api.LessonScheduleApi;
-import com.Schoolio.exceptions.GetLessonScheduleException;
+import com.Schoolio.exceptions.LessonScheduleException;
 import com.Schoolio.objects.LessonScheduleObject;
 import com.Schoolio.views.partials.helpers.Colors;
 import com.Schoolio.views.partials.helpers.RoundedBorder;
@@ -31,7 +31,7 @@ public class Timetable {
         LessonScheduleObject[] lessonSchedule = null;
         try {
             lessonSchedule = lessonScheduleApi.index();
-        } catch (GetLessonScheduleException e) {
+        } catch (LessonScheduleException e) {
             Launcher.logAll(Level.WARN, e);
             noLessonsLabel.setText("Failed to retrieve lesson schedule");
             noLessonsLabel.setForeground(Color.RED);

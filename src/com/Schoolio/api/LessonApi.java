@@ -24,7 +24,7 @@ public class LessonApi {
 
     public LessonObject[] index() throws LessonException, IOException {
         HttpClient client = HttpClientBuilder.create().build();
-        HttpGet request = new HttpGet(apiUrl + "/lesson");
+        HttpGet request = new HttpGet(apiUrl + "lesson");
 
         HttpResponse response = client.execute(request);
         String responseContent = EntityUtils.toString(response.getEntity());
