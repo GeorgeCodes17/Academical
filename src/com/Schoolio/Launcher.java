@@ -24,8 +24,8 @@ public class Launcher {
     static {
         try {
             USER = new AuthenticateApi().getUserInfo();
-        } catch (GetUserInfoException | IOException e) {
-            Launcher.logAll(Level.ERROR, e);
+        } catch (IOException e) {
+            Launcher.logAll(Level.TRACE, e);
             USER = new User(false);
         }
     }

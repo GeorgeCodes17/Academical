@@ -47,7 +47,7 @@ public class AuthenticateApi {
         return new User(response.getStatusLine().getStatusCode() == 200);
     }
 
-    public User getUserInfo() throws GetUserInfoException, IOException {
+    public User getUserInfo() throws IOException {
         Optional<String> bearerRaw = new BearerToken().getBearerToken();
         BearerObject bearer = bearerRaw.map(BearerObject::new).orElseGet(BearerObject::new);
         if (bearerRaw.isEmpty()) {
@@ -64,9 +64,8 @@ public class AuthenticateApi {
         responseBody = EntityUtils.toString(response.getEntity());
         int statusCode = response.getStatusLine().getStatusCode();
         if (statusCode != HttpStatus.SC_OK) {
-            GetUserInfoException e = new GetUserInfoException("Failed to get user info at AuthenticateApi.getUserInfo: " + responseBody);
-            Launcher.logAll(Level.WARN, e);
-            throw e;
+            Launcher.logAll(Level.TRACE, new GetUserInfoException("Failed to get user info at AuthenticateApi.getUserInfo: " + responseBody));
+            return new User();
         }
         return new User().mapUserInfoObject(responseBody);
     }
