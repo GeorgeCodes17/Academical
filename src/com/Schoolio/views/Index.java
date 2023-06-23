@@ -24,8 +24,8 @@ public class Index {
         if (withAuth) {
             try {
                 Launcher.USER = new AuthenticateApi().getUserInfo();
-            } catch (GetUserInfoException | IOException e) {
-                Launcher.logAll(Level.ERROR, e);
+            } catch (IOException e) {
+                Launcher.logAll(Level.FATAL, e);
                 Launcher.USER = new User(false);
             }
         }
