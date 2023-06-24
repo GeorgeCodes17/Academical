@@ -25,7 +25,7 @@ public class LessonWindow extends JFrame {
         lessonWindowBorder.setBorder(new LineBorder(Color.WHITE, 36, true));
         lessonWindowBorder.setLayout(new BoxLayout(lessonWindowBorder, BoxLayout.Y_AXIS));
 
-        JPanel lessonWindowInner = new LessonWindowInner();
+        LessonWindowInner lessonWindowInner = new LessonWindowInner();
 
         lessonWindowBorder.add(lessonWindowInner);
         lessonWindowContainer.add(lessonWindowBorder);

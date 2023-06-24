@@ -65,7 +65,7 @@ public class AuthenticateApi {
         int statusCode = response.getStatusLine().getStatusCode();
         if (statusCode != HttpStatus.SC_OK) {
             Launcher.logAll(Level.TRACE, new GetUserInfoException("Failed to get user info at AuthenticateApi.getUserInfo: " + responseBody));
-            return new User();
+            return new User(false);
         }
         return new User().mapUserInfoObject(responseBody);
     }

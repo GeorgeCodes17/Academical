@@ -2,7 +2,6 @@ package com.Schoolio.views;
 
 import com.Schoolio.Launcher;
 import com.Schoolio.api.auth.AuthenticateApi;
-import com.Schoolio.exceptions.GetUserInfoException;
 import com.Schoolio.helpers.SignOutHandler;
 import com.Schoolio.objects.User;
 import com.Schoolio.views.account.LoginForm;
@@ -68,7 +67,8 @@ public class Index {
         signOutLink.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new SignOutHandler().signOut();
+                Launcher.USER = new SignOutHandler().signOut();
+                closeParentJFrame(signOutLink);
                 MainWindow.WINDOW.getContentPane().removeAll();
                 MainWindow.WINDOW.add(getHeaderLabel(), BorderLayout.PAGE_START);
                 MainWindow.WINDOW.add(new LoginForm(), BorderLayout.CENTER);
@@ -89,5 +89,16 @@ public class Index {
         });
 
         return signOutLink;
+    }
+
+    private void closeParentJFrame(JLabel label) {
+        Container parent = label.getParent();
+        while (parent != null) {
+            if (parent instanceof JFrame frame) {
+                frame.dispose();
+                break;
+            }
+            parent = parent.getParent();
+        }
     }
 }
