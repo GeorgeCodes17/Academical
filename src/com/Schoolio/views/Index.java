@@ -18,9 +18,22 @@ import java.io.IOException;
 
 public class Index {
     private final JLabel signOutLink = new JLabel("<html>Sign Out -></html>");
+    private boolean isFinalWindow = false;
 
-    public Index(boolean withAuth) {
-        if (withAuth) {
+    public Index(boolean refreshAuth) {
+        if (refreshAuth) {
+            try {
+                Launcher.USER = new AuthenticateApi().getUserInfo();
+            } catch (IOException e) {
+                Launcher.logAll(Level.FATAL, e);
+                Launcher.USER = new User(false);
+            }
+        }
+    }
+
+    public Index(boolean refreshAuth, boolean isFinalWindow) {
+        this.isFinalWindow = isFinalWindow;
+        if (refreshAuth) {
             try {
                 Launcher.USER = new AuthenticateApi().getUserInfo();
             } catch (IOException e) {
@@ -68,7 +81,9 @@ public class Index {
             @Override
             public void mouseClicked(MouseEvent e) {
                 Launcher.USER = new SignOutHandler().signOut();
-                closeParentJFrame(signOutLink);
+                if (!isFinalWindow) {
+                    closeParentJFrame(signOutLink);
+                }
                 MainWindow.WINDOW.getContentPane().removeAll();
                 MainWindow.WINDOW.add(getHeaderLabel(), BorderLayout.PAGE_START);
                 MainWindow.WINDOW.add(new LoginForm(), BorderLayout.CENTER);

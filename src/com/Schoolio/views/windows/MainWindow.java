@@ -25,7 +25,7 @@ public class MainWindow {
         WINDOW.setSize(800, 500);
         WINDOW.getContentPane().setBackground(Color.white);
 
-        Index index = new Index(false);
+        Index index = new Index(false, true);
 
         WINDOW.add(index.getHeaderLabel(), BorderLayout.PAGE_START);
         if(Launcher.USER.signedIn()) {
