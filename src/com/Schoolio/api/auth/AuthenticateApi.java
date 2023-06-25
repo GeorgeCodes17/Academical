@@ -34,7 +34,7 @@ public class AuthenticateApi {
     private final BearerToken bearerToken = new BearerToken();
 
     public User authenticate(String accessToken) {
-        HttpPost request = new HttpPost(config.getProperty("API_URL") + "secured/authenticate");
+        HttpPost request = new HttpPost(config.getProperty("SCHOOLIO_API_URL") + "secured/authenticate");
         request.addHeader("Authorization", accessToken);
 
         HttpResponse response;
@@ -72,7 +72,7 @@ public class AuthenticateApi {
 
     public User registerUser(ValidateInputs credentials) throws IOException, RegisterUserException, ValidateInputsException {
         HttpClient client = HttpClientBuilder.create().build();
-        HttpPost request = new HttpPost(config.getProperty("API_URL") + "register");
+        HttpPost request = new HttpPost(config.getProperty("SCHOOLIO_API_URL") + "register");
         request.setHeader("Content-Type", "application/x-www-form-urlencoded");
 
         List<NameValuePair> params = new ArrayList<>();

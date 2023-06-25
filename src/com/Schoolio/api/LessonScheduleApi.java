@@ -31,7 +31,7 @@ import java.util.*;
 
 public class LessonScheduleApi {
     private final ConfigFile configFile = new ConfigFile();
-    private final String apiUrl = configFile.config().getProperty("API_URL");
+    private final String apiUrl = configFile.config().getProperty("SCHOOLIO_API_URL");
     private final BearerObject bearer;
     private final IdTokenObject idTokenObject;
 

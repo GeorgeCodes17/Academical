@@ -20,7 +20,7 @@ import java.sql.Timestamp;
 
 public class LessonApi {
     private final ConfigFile configFile = new ConfigFile();
-    private final String apiUrl = configFile.config().getProperty("API_URL");
+    private final String apiUrl = configFile.config().getProperty("SCHOOLIO_API_URL");
 
     public LessonObject[] index() throws LessonException, IOException {
         HttpClient client = HttpClientBuilder.create().build();

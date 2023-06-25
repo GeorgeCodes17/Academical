@@ -23,7 +23,7 @@ import java.util.List;
 
 public class BearerTokenApi {
     private final ConfigFile configFile = new ConfigFile();
-    private final String apiUrl = configFile.config().getProperty("API_URL");
+    private final String apiUrl = configFile.config().getProperty("SCHOOLIO_API_URL");
     private final com.Schoolio.helpers.BearerToken bearerToken = new com.Schoolio.helpers.BearerToken();
 
     public User getBearerByRefresh(String refreshToken) {
