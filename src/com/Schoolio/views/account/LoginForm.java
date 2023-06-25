@@ -36,12 +36,7 @@ public class LoginForm extends JPanel implements ActionListener {
     JButton signInBtn = new JButton();
     JLabel errorMessage = new JLabel();
 
-    Timer errorMessageDisplayTimer = new Timer(10000, new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            errorMessage.setVisible(false);
-        }
-    });
+    Timer errorMessageDisplayTimer = new Timer(10000, e -> errorMessage.setVisible(false));
 
     public LoginForm() {
         initComponents();
@@ -162,6 +157,7 @@ public class LoginForm extends JPanel implements ActionListener {
     }
 
     public void showMainWindow() {
+        Index index = new Index(true, true);
         MainWindow.WINDOW.getContentPane().removeAll();
         MainWindow.WINDOW.add(index.getHeaderLabel(), BorderLayout.PAGE_START);
         MainWindow.WINDOW.add(new Dashboard(), BorderLayout.CENTER);
