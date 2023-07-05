@@ -35,4 +35,4 @@ dependencies {
     implementation 'com.miglayout:miglayout-swing:11.1'
 }
 
-mainClassName = 'com.Schoolio.Launcher'
+mainClassName = 'com.Academical.Launcher'

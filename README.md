@@ -1,4 +1,4 @@
-# Schoolio
+# Academical
 
 ### Description
 This is a school management software meant for teachers & school administrators. It has features like setting a lesson schedule, a dashboard with information like all your lessons and a link to Teams.
@@ -17,7 +17,7 @@ This is a school management software meant for teachers & school administrators.
 ### Installation
 1. Navigate to root of project
 2. Run `gradle build` to install dependencies
-3. Ensure Schoolio API is running & `SCHOOLIO_API_URL` value in config.properties file matches
+3. Ensure Academical API is running & `ACADEMICAL_API_URL` value in config.properties file matches
 4. Run `gradle run` to run the app
 
 ### Naming Convention
