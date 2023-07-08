@@ -1,6 +1,7 @@
 package com.Academical.objects;
 
 import com.Academical.enums.DayOfWeekEnum;
+import com.Academical.enums.WeekOptionEnum;
 import com.google.gson.annotations.SerializedName;
 
 import java.sql.Time;
@@ -9,6 +10,7 @@ import java.sql.Timestamp;
 public class LessonScheduleObject {
     @SerializedName("id") private Integer id = null;
     @SerializedName("lesson") private final LessonObject lesson;
+    @SerializedName("week_option") private final WeekOptionEnum weekOption;
     @SerializedName("day_of_week") private final DayOfWeekEnum dayOfWeek;
     @SerializedName("start") private final Time start;
     @SerializedName("end") private final Time end;
@@ -19,6 +21,7 @@ public class LessonScheduleObject {
     public LessonScheduleObject(
             int id,
             LessonObject lesson,
+            WeekOptionEnum weekOption,
             DayOfWeekEnum dayOfWeek,
             Time start,
             Time end,
@@ -28,6 +31,7 @@ public class LessonScheduleObject {
     ) {
         this.id = id;
         this.lesson = lesson;
+        this.weekOption = weekOption;
         this.dayOfWeek = dayOfWeek;
         this.start = start;
         this.end = end;
@@ -38,11 +42,13 @@ public class LessonScheduleObject {
 
     public LessonScheduleObject(
             LessonObject lesson,
+            WeekOptionEnum weekOption,
             DayOfWeekEnum dayOfWeek,
             Time start,
             Time end
     ) {
         this.lesson = lesson;
+        this.weekOption = weekOption;
         this.dayOfWeek = dayOfWeek;
         this.start = start;
         this.end = end;
@@ -54,6 +60,10 @@ public class LessonScheduleObject {
 
     public LessonObject getLesson() {
         return lesson;
+    }
+
+    public WeekOptionEnum getWeekOption() {
+        return weekOption;
     }
 
     public DayOfWeekEnum getDayOfWeek() {

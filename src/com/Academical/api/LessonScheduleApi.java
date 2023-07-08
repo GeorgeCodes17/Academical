@@ -102,6 +102,7 @@ public class LessonScheduleApi {
         List<NameValuePair> params = new ArrayList<>();
         params.add(new BasicNameValuePair("lesson", String.valueOf(lessonSchedule.getLesson().getId())));
         params.add(new BasicNameValuePair("assigned_by", idTokenObject.getEmail()));
+        params.add(new BasicNameValuePair("week_option", lessonSchedule.getWeekOption().getValue()));
         params.add(new BasicNameValuePair("day_of_week", lessonSchedule.getDayOfWeek().toString()));
         params.add(new BasicNameValuePair("start", lessonSchedule.getStart().toString()));
         params.add(new BasicNameValuePair("end", lessonSchedule.getEnd().toString()));

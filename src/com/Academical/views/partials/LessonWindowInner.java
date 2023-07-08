@@ -4,6 +4,7 @@ import com.Academical.Launcher;
 import com.Academical.api.LessonApi;
 import com.Academical.api.LessonScheduleApi;
 import com.Academical.enums.DayOfWeekEnum;
+import com.Academical.enums.WeekOptionEnum;
 import com.Academical.exceptions.LessonException;
 import com.Academical.exceptions.LessonScheduleException;
 import com.Academical.helpers.BearerToken;
@@ -40,6 +41,11 @@ public class LessonWindowInner extends JPanel {
         setBorder(new EmptyBorder(35, 0, 35, 0));
         setBackground(Color.WHITE);
 
+        WeekOptionEnum[] weekOptions = new WeekOptionEnum[] {WeekOptionEnum.A, WeekOptionEnum.B};
+        JComboBox<WeekOptionEnum> weekOptionSelector = new JComboBox<>(weekOptions);
+        weekOptionSelector.setMaximumSize(new Dimension(200, 50));
+        weekOptionSelector.setBorder(inputsMargin);
+
         DefaultComboBoxModel<LessonItem> lessonOptions = getLessonOptions();
 
         JComboBox<LessonItem> lessonSelector = new JComboBox<>(lessonOptions);
@@ -71,8 +77,10 @@ public class LessonWindowInner extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 LessonItem lessonSelected = (LessonItem) lessonSelector.getSelectedItem();
                 DayOfWeekEnum dayOfWeekEnum = getDayOfWeek();
+
                 LessonScheduleObject lessonToAdd = new LessonScheduleObject(
                         lessonSelected.lessonObject(),
+                        (WeekOptionEnum) weekOptionSelector.getSelectedItem(),
                         dayOfWeekEnum,
                         startTimeInput.getSelection(),
                         endTimeInput.getSelection()
@@ -90,6 +98,7 @@ public class LessonWindowInner extends JPanel {
             }
         });
 
+        add(weekOptionSelector);
         add(lessonSelector);
         add(dayOfWeekText);
         add(dayOfWeekSelector);
