@@ -43,13 +43,12 @@ public class LessonWindowInner extends JPanel {
 
         WeekOptionEnum[] weekOptions = new WeekOptionEnum[] {WeekOptionEnum.A, WeekOptionEnum.B};
         JComboBox<WeekOptionEnum> weekOptionSelector = new JComboBox<>(weekOptions);
-        weekOptionSelector.setMaximumSize(new Dimension(200, 50));
+        weekOptionSelector.setMinimumSize(new Dimension(weekOptionSelector.getMinimumSize().width, 50));
         weekOptionSelector.setBorder(inputsMargin);
 
         DefaultComboBoxModel<LessonItem> lessonOptions = getLessonOptions();
-
         JComboBox<LessonItem> lessonSelector = new JComboBox<>(lessonOptions);
-        lessonSelector.setMaximumSize(new Dimension(200, 50));
+        lessonSelector.setMinimumSize(new Dimension(lessonSelector.getMinimumSize().width, 50));
         lessonSelector.setBorder(inputsMargin);
 
         JLabel dayOfWeekText = new JLabel("Day of week");
