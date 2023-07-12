@@ -28,7 +28,7 @@ public class MainWindow {
         Index index = new Index(false, true);
 
         WINDOW.add(index.getHeaderLabel(), BorderLayout.PAGE_START);
-        if(Launcher.USER.signedIn()) {
+        if(Launcher.USER.loggedIn()) {
             WINDOW.add(new Dashboard(), BorderLayout.CENTER);
         } else {
             WINDOW.add(new LoginForm(), BorderLayout.CENTER);

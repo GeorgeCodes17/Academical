@@ -5,6 +5,7 @@ import com.Academical.api.auth.BearerTokenApi;
 import com.Academical.objects.BearerObject;
 import com.Academical.objects.User;
 
+import java.io.IOException;
 import java.util.Optional;
 
 public class LoginHandler {
@@ -18,8 +19,19 @@ public class LoginHandler {
     }
 
     public User authenticate() {
-        boolean authenticated = bearerObject.isPresent() && (authenticateApi.authenticate(bearerObject.getAccessToken()).signedIn() ||
-                bearerTokenApi.getBearerByRefresh(bearerObject.getRefreshToken()).signedIn());
-        return new User(authenticated);
+        if (!bearerObject.isPresent()) {
+            return new User(false);
+        }
+
+        try {
+            User userInfo = authenticateApi.getUserInfo();
+            if (userInfo.loggedIn()) {
+                return userInfo;
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return bearerTokenApi.getBearerByRefresh(bearerObject.getRefreshToken());
     }
 }

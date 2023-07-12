@@ -25,10 +25,6 @@ public record User(
         this(loggedIn, null, null, null, null, null, null, null, null, 0.0, false);
     }
 
-    public boolean signedIn() {
-        return this.loggedIn;
-    }
-
     public User mapUserInfoObject(String userInfo) {
         Map userMap = new Gson().fromJson(userInfo, Map.class);
 

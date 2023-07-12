@@ -2,6 +2,7 @@ package com.Academical.views;
 
 import com.Academical.Launcher;
 import com.Academical.api.auth.AuthenticateApi;
+import com.Academical.helpers.LoginHandler;
 import com.Academical.helpers.SignOutHandler;
 import com.Academical.objects.User;
 import com.Academical.views.account.LoginForm;
@@ -22,12 +23,7 @@ public class Index {
 
     public Index(boolean refreshAuth) {
         if (refreshAuth) {
-            try {
-                Launcher.USER = new AuthenticateApi().getUserInfo();
-            } catch (IOException e) {
-                Launcher.logAll(Level.FATAL, e);
-                Launcher.USER = new User(false);
-            }
+            Launcher.USER = new LoginHandler().authenticate();
         }
     }
 
