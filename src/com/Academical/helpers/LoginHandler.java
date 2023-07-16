@@ -1,9 +1,11 @@
 package com.Academical.helpers;
 
+import com.Academical.Launcher;
 import com.Academical.api.auth.AuthenticateApi;
 import com.Academical.api.auth.BearerTokenApi;
 import com.Academical.objects.BearerObject;
 import com.Academical.objects.User;
+import org.apache.logging.log4j.Level;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -29,7 +31,8 @@ public class LoginHandler {
                 return userInfo;
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            Launcher.logAll(Level.TRACE, e);
+            return new User(false);
         }
 
         return bearerTokenApi.getBearerByRefresh(bearerObject.getRefreshToken());
