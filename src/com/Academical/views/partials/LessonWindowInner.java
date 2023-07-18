@@ -3,8 +3,10 @@ package com.Academical.views.partials;
 import com.Academical.Launcher;
 import com.Academical.api.LessonApi;
 import com.Academical.api.LessonScheduleApi;
+import com.Academical.api.WeekOptionApi;
 import com.Academical.enums.DayOfWeekEnum;
 import com.Academical.enums.WeekOptionEnum;
+import com.Academical.exceptions.GetWeekOptionException;
 import com.Academical.exceptions.LessonException;
 import com.Academical.exceptions.LessonScheduleException;
 import com.Academical.helpers.BearerToken;
@@ -27,6 +29,14 @@ public class LessonWindowInner extends JPanel {
     private final DayOfWeekSelector dayOfWeekSelector;
     private final LessonScheduleApi lessonScheduleApi = new LessonScheduleApi();
 
+    private WeekOptionEnum currentWeekOption;
+    {
+        try {
+            currentWeekOption = new WeekOptionApi().index();
+        } catch (GetWeekOptionException | IOException e) {
+            Launcher.logAll(Level.WARN, e);
+        }
+    }
     private final BearerObject bearer;
     private final IdTokenObject idTokenObject;
 
@@ -41,8 +51,12 @@ public class LessonWindowInner extends JPanel {
         setBorder(new EmptyBorder(35, 0, 35, 0));
         setBackground(Color.WHITE);
 
+        JLabel weekOptionsText = new JLabel("Week Option (defaults to current week)");
+        weekOptionsText.setAlignmentX(JLabel.CENTER_ALIGNMENT);
+        weekOptionsText.setBorder(inputsMargin);
         WeekOptionEnum[] weekOptions = new WeekOptionEnum[] {WeekOptionEnum.A, WeekOptionEnum.B};
         JComboBox<WeekOptionEnum> weekOptionSelector = new JComboBox<>(weekOptions);
+        weekOptionSelector.setSelectedItem(currentWeekOption);
         weekOptionSelector.setMinimumSize(new Dimension(weekOptionSelector.getMinimumSize().width, 50));
         weekOptionSelector.setBorder(inputsMargin);
 
@@ -97,6 +111,8 @@ public class LessonWindowInner extends JPanel {
             }
         });
 
+        add(dayOfWeekText);
+        add(weekOptionsText);
         add(weekOptionSelector);
         add(lessonSelector);
         add(dayOfWeekText);
