@@ -47,7 +47,7 @@ public class Timetable {
         JPanel timetableBody = new JPanel();
         timetableBody.setBorder(new RoundedBorder(15, Colors.DARK_LAVA));
 
-        if (lessonSchedule == null) {
+        if (lessonSchedule == null || lessonSchedule.length <= 1) {
             noLessonsLabel.setBorder(new EmptyBorder(40,0,0,0));
 
             timetableBody.add(noLessonsLabel);
