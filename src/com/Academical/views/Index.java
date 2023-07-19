@@ -1,21 +1,17 @@
 package com.Academical.views;
 
 import com.Academical.Launcher;
-import com.Academical.api.auth.AuthenticateApi;
 import com.Academical.helpers.LoginHandler;
 import com.Academical.helpers.SignOutHandler;
-import com.Academical.objects.User;
 import com.Academical.views.account.LoginForm;
 import com.Academical.views.partials.helpers.Colors;
 import com.Academical.views.windows.MainWindow;
-import org.apache.logging.log4j.Level;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
 
 public class Index {
     private final JLabel signOutLink = new JLabel("<html>Sign Out -></html>");
@@ -30,12 +26,7 @@ public class Index {
     public Index(boolean refreshAuth, boolean isFinalWindow) {
         this.isFinalWindow = isFinalWindow;
         if (refreshAuth) {
-            try {
-                Launcher.USER = new AuthenticateApi().getUserInfo();
-            } catch (IOException e) {
-                Launcher.logAll(Level.FATAL, e);
-                Launcher.USER = new User(false);
-            }
+            Launcher.USER = new LoginHandler().authenticate();
         }
     }
 

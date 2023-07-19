@@ -26,7 +26,7 @@ public class LoginHandler {
         }
 
         try {
-            User userInfo = authenticateApi.getUserInfo();
+            User userInfo = authenticateApi.getUserInfo(bearerObject.getAccessToken());
             if (userInfo.loggedIn()) {
                 return userInfo;
             }
