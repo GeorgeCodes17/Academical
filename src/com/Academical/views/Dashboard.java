@@ -16,7 +16,7 @@ public class Dashboard extends JPanel {
 
         add(getStatusBoard(), BorderLayout.LINE_START);
         add(new TeamsButtonPanel().getTeamsPanel(), BorderLayout.CENTER);
-        add(new Timetable().getTimetable(), BorderLayout.LINE_END);
+        add(new Timetable(), BorderLayout.LINE_END);
     }
 
     private JPanel getStatusBoard() {

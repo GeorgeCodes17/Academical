@@ -16,17 +16,16 @@ import java.awt.*;
 import java.util.Arrays;
 import java.util.Iterator;
 
-public class Timetable {
+public class Timetable extends JPanel {
     private final Font headerFont = new Font("Roboto", Font.BOLD, 16);
     private final Font timetableFont = new Font("Roboto", Font.PLAIN, 14);
     private final LessonScheduleApi lessonScheduleApi = new LessonScheduleApi();
 
     private final JLabel noLessonsLabel = new JLabel("No lessons scheduled");
 
-    public JPanel getTimetable() {
-        JPanel timetable = new JPanel();
-        timetable.setPreferredSize(new Dimension(300, timetable.getPreferredSize().height));
-        timetable.setLayout(new MigLayout("fill", "[100%]", "[15%][85%]"));
+    public Timetable() {
+        setPreferredSize(new Dimension(300, getPreferredSize().height));
+        setLayout(new MigLayout("fill", "[100%]", "[15%][85%]"));
 
         LessonScheduleObject[] lessonSchedule = null;
         try {
@@ -37,10 +36,8 @@ public class Timetable {
             noLessonsLabel.setForeground(Color.RED);
         }
 
-        timetable.add(new LessonButton(), "align right, wrap");
-        timetable.add(getTimetableBody(lessonSchedule), "grow");
-
-        return timetable;
+        add(new LessonButton(), "align right, wrap");
+        add(getTimetableBody(lessonSchedule), "grow");
     }
 
     private JPanel getTimetableBody(LessonScheduleObject[] lessonSchedule) {
