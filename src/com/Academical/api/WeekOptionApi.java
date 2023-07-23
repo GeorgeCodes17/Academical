@@ -31,7 +31,6 @@ public class WeekOptionApi {
                 Launcher.logAll(Level.WARN, getWeekOptionException);
                 throw getWeekOptionException;
             }
-            System.out.println(responseContent);
         } catch (IOException e) {
             Launcher.logAll(Level.FATAL, e);
             throw e;

@@ -13,6 +13,8 @@ import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.config.CookieSpecs;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -24,7 +26,6 @@ import org.apache.logging.log4j.Level;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Properties;
 
 public class AuthenticateApi {
@@ -48,7 +49,12 @@ public class AuthenticateApi {
     }
 
     public User getUserInfo(String accessToken) throws IOException {
-        HttpClient client = HttpClientBuilder.create().build();
+        RequestConfig requestConfig = RequestConfig.custom()
+                .setCookieSpec(CookieSpecs.STANDARD)
+                .build();
+        HttpClient client = HttpClientBuilder.create()
+                .setDefaultRequestConfig(requestConfig)
+                .build();
         HttpGet request = new HttpGet(config.getProperty("OKTA_API_URL") + "userinfo");
         request.addHeader("Authorization", "Bearer " + accessToken);
 
