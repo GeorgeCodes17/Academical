@@ -6,6 +6,7 @@ import com.Academical.exceptions.LessonScheduleException;
 import com.Academical.objects.LessonScheduleObject;
 import com.Academical.views.partials.helpers.Colors;
 import com.Academical.views.partials.helpers.RoundedBorder;
+import com.Academical.views.partials.timetable.LessonButton;
 import net.miginfocom.swing.MigLayout;
 import org.apache.logging.log4j.Level;
 

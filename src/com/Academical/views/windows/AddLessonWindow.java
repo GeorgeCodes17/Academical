@@ -8,10 +8,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 
-public class LessonWindow extends JFrame {
+public class AddLessonWindow extends JFrame {
     private final Index index = new Index(false);
 
-    public LessonWindow() {
+    public AddLessonWindow() {
         setSize(600, 600);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle("Add Lesson");

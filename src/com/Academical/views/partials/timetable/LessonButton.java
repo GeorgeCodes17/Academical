@@ -1,7 +1,8 @@
-package com.Academical.views.partials;
+package com.Academical.views.partials.timetable;
 
+import com.Academical.views.partials.RoundedJButton;
 import com.Academical.views.partials.helpers.Colors;
-import com.Academical.views.windows.LessonWindow;
+import com.Academical.views.windows.AddLessonWindow;
 import com.sun.tools.javac.Main;
 
 import javax.swing.*;
@@ -10,13 +11,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.URL;
 
-public class LessonButton extends RoundedJButton{
+public class LessonButton extends RoundedJButton {
     public LessonButton() {
         super(Colors.AIR_SUPERIORITY_BLUE, Color.WHITE);
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new LessonWindow();
+                new AddLessonWindow();
             }
         });
 

@@ -3,6 +3,7 @@ package com.Academical.views;
 import com.Academical.Launcher;
 import com.Academical.views.partials.TeamsButtonPanel;
 import com.Academical.views.partials.Timetable;
+import com.Academical.views.partials.timetable.ShowAllButton;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -16,7 +17,9 @@ public class Dashboard extends JPanel {
 
         add(getStatusBoard(), BorderLayout.LINE_START);
         add(new TeamsButtonPanel().getTeamsPanel(), BorderLayout.CENTER);
-        add(new Timetable(), BorderLayout.LINE_END);
+        Timetable timetable = new Timetable();
+        timetable.add(new ShowAllButton(), "align center, dock south");
+        add(timetable, BorderLayout.LINE_END);
     }
 
     private JPanel getStatusBoard() {
