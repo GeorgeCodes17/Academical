@@ -1,4 +1,4 @@
-package com.Academical.helpers;
+package com.Academical.helpers.gson_deserializers;
 
 import com.Academical.Launcher;
 import com.google.gson.*;

@@ -24,7 +24,7 @@ public class Timetable extends JPanel {
 
     private final JLabel noLessonsLabel = new JLabel("No lessons scheduled");
 
-    public Timetable() {
+    public Timetable(boolean showAllFields) {
         setPreferredSize(new Dimension(300, getPreferredSize().height));
         setLayout(new MigLayout("fill", "[100%]", "[15%][85%]"));
 
@@ -38,10 +38,10 @@ public class Timetable extends JPanel {
         }
 
         add(new LessonButton(), "align right, wrap");
-        add(getTimetableBody(lessonSchedule), "grow");
+        add(getTimetableBody(lessonSchedule, showAllFields), "grow");
     }
 
-    private JPanel getTimetableBody(LessonScheduleObject[] lessonSchedule) {
+    private JPanel getTimetableBody(LessonScheduleObject[] lessonSchedule, boolean showAllFields) {
         JPanel timetableBody = new JPanel();
         timetableBody.setBorder(new RoundedBorder(15, Colors.DARK_LAVA));
 
@@ -52,18 +52,40 @@ public class Timetable extends JPanel {
         } else {
             timetableBody.setLayout(new GridLayout(lessonSchedule.length + 1, 3));
 
-            timetableBody.add(timetableEvent("Activity", true, true));
-            timetableBody.add(timetableEvent("Year", true, true));
-            timetableBody.add(timetableEvent("Start time", true, true));
+            if (showAllFields) {
+                timetableBody.add(timetableEvent("Assigned By", true, true));
+                timetableBody.add(timetableEvent("Lesson", true, true));
+                timetableBody.add(timetableEvent("Week Option", true, true));
+                timetableBody.add(timetableEvent("Day of Week", true, true));
+                timetableBody.add(timetableEvent("Year", true, true));
+                timetableBody.add(timetableEvent("Start time", true, true));
+                timetableBody.add(timetableEvent("End time", true, true));
+                timetableBody.add(timetableEvent("Updated at", true, true));
+            } else {
+                timetableBody.add(timetableEvent("Activity", true, true));
+                timetableBody.add(timetableEvent("Year", true, true));
+                timetableBody.add(timetableEvent("Start time", true, true));
+            }
 
             Iterator<LessonScheduleObject> lessonScheduleIterator = Arrays.stream(lessonSchedule).iterator();
             while (lessonScheduleIterator.hasNext()) {
                 LessonScheduleObject currentLesson = lessonScheduleIterator.next();
-
                 boolean bottomBorder = lessonScheduleIterator.hasNext();
-                timetableBody.add(timetableEvent(currentLesson.getLesson().getName(), false, bottomBorder));
-                timetableBody.add(timetableEvent(currentLesson.getLesson().getYear().getName(), false, bottomBorder));
-                timetableBody.add(timetableEvent(currentLesson.getStart().toString(), false, bottomBorder));
+
+                if (showAllFields) {
+                    timetableBody.add(timetableEvent(currentLesson.getAssignedBy(), false, bottomBorder));
+                    timetableBody.add(timetableEvent(currentLesson.getLesson().getName(), false, bottomBorder));
+                    timetableBody.add(timetableEvent(currentLesson.getWeekOption().toString(), false, bottomBorder));
+                    timetableBody.add(timetableEvent(currentLesson.getDayOfWeek().toString(), false, bottomBorder));
+                    timetableBody.add(timetableEvent(currentLesson.getLesson().getYear().getName(), false, bottomBorder));
+                    timetableBody.add(timetableEvent(currentLesson.getStart().toString(), false, bottomBorder));
+                    timetableBody.add(timetableEvent(currentLesson.getEnd().toString(), false, bottomBorder));
+                    timetableBody.add(timetableEvent(currentLesson.getUpdatedAt().toString(), false, bottomBorder));
+                } else {
+                    timetableBody.add(timetableEvent(currentLesson.getLesson().getName(), false, bottomBorder));
+                    timetableBody.add(timetableEvent(currentLesson.getLesson().getYear().getName(), false, bottomBorder));
+                    timetableBody.add(timetableEvent(currentLesson.getStart().toString(), false, bottomBorder));
+                }
             }
         }
 

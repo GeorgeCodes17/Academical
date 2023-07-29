@@ -2,7 +2,7 @@ package com.Academical.api;
 
 import com.Academical.exceptions.LessonException;
 import com.Academical.helpers.ConfigFile;
-import com.Academical.helpers.GsonMultipleTimeFormats;
+import com.Academical.helpers.gson_deserializers.GsonMultipleTimeFormats;
 import com.Academical.objects.LessonObject;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

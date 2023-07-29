@@ -10,13 +10,13 @@ public enum WeekOptionEnum {
         this.value = value;
     }
 
-    public String getValue() {
+    @Override
+    public String toString() {
         return value;
     }
 
     public static WeekOptionEnum fromString(String text) {
         return switch (text) {
-            case "a" -> WeekOptionEnum.A;
             case "b" -> WeekOptionEnum.B;
             default -> WeekOptionEnum.A;
         };

@@ -1,10 +1,12 @@
 package com.Academical.api;
 
 import com.Academical.Launcher;
+import com.Academical.enums.WeekOptionEnum;
 import com.Academical.exceptions.LessonScheduleException;
 import com.Academical.helpers.BearerToken;
 import com.Academical.helpers.ConfigFile;
-import com.Academical.helpers.GsonMultipleTimeFormats;
+import com.Academical.helpers.gson_deserializers.GsonMultipleTimeFormats;
+import com.Academical.helpers.gson_deserializers.WeekOptionEnumDeserializer;
 import com.Academical.objects.BearerObject;
 import com.Academical.objects.IdTokenObject;
 import com.Academical.objects.LessonScheduleObject;
@@ -93,6 +95,7 @@ public class LessonScheduleApi {
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Time.class, new GsonMultipleTimeFormats.TimeDeserializer())
                 .registerTypeAdapter(Timestamp.class, new GsonMultipleTimeFormats.TimestampDeserializer())
+                .registerTypeAdapter(WeekOptionEnum.class, new WeekOptionEnumDeserializer())
                 .create();
         return gson.fromJson(data, type);
 
@@ -102,7 +105,7 @@ public class LessonScheduleApi {
         List<NameValuePair> params = new ArrayList<>();
         params.add(new BasicNameValuePair("lesson", String.valueOf(lessonSchedule.getLesson().getId())));
         params.add(new BasicNameValuePair("assigned_by", idTokenObject.getEmail()));
-        params.add(new BasicNameValuePair("week_option", lessonSchedule.getWeekOption().getValue()));
+        params.add(new BasicNameValuePair("week_option", lessonSchedule.getWeekOption().toString()));
         params.add(new BasicNameValuePair("day_of_week", lessonSchedule.getDayOfWeek().toString()));
         params.add(new BasicNameValuePair("start", lessonSchedule.getStart().toString()));
         params.add(new BasicNameValuePair("end", lessonSchedule.getEnd().toString()));
