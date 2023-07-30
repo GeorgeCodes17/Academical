@@ -16,7 +16,7 @@ public class Dashboard extends JPanel {
         setBorder(BorderFactory.createEmptyBorder(45, 55, 20, 55));
 
         add(getStatusBoard(), BorderLayout.LINE_START);
-        add(new TeamsButtonPanel().getTeamsPanel(), BorderLayout.CENTER);
+        add(new TeamsButtonPanel(), BorderLayout.CENTER);
         Timetable timetable = new Timetable(false);
         timetable.add(new ShowAllButton(), "align center, dock south");
         add(timetable, BorderLayout.LINE_END);
