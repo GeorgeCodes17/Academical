@@ -5,12 +5,16 @@ import com.Academical.views.windows.ShowLessonsWindow;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class ShowAllButton extends JLabel {
-    String defaultText = "<html>Show All -></html>";
-    String hoverText = "<html><u>Show All -></u></html>";
+    private final String defaultText = "<html>Show All -></html>";
+    private final String hoverText = "<html><u>Show All -></u></html>";
+
+    private static ShowLessonsWindow showLessonsWindow;
 
     public ShowAllButton() {
         setBorder(new EmptyBorder(15, 0, 0, 0));
@@ -23,7 +27,8 @@ public class ShowAllButton extends JLabel {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                new ShowLessonsWindow();
+                showLessonsWindow = new ShowLessonsWindow();
+                showLessonsWindow.addKeyListener(new EscapeKeyListener());
             }
 
             @Override
@@ -36,5 +41,20 @@ public class ShowAllButton extends JLabel {
                 setText(defaultText);
             }
         });
+    }
+
+    private static class EscapeKeyListener implements KeyListener {
+        @Override
+        public void keyTyped(KeyEvent e) {}
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                showLessonsWindow.dispose();
+            }
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {}
     }
 }

@@ -12,6 +12,7 @@ public class ShowLessonsWindow extends JFrame {
 
     public ShowLessonsWindow() {
         setSize(1450, 600);
+        setFocusable(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setTitle("Show All Lessons");
         setVisible(true);

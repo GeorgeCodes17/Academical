@@ -8,6 +8,8 @@ import com.sun.tools.javac.Main;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.net.URL;
 
 public class MainWindow {
@@ -24,6 +26,9 @@ public class MainWindow {
         WINDOW.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         WINDOW.setSize(800, 500);
         WINDOW.getContentPane().setBackground(Color.white);
+
+        WINDOW.setFocusable(true);
+        WINDOW.addKeyListener(new EscapeKeyListener());
 
         Index index = new Index(false, true);
 
@@ -55,5 +60,20 @@ public class MainWindow {
 
     public void show() {
         WINDOW.setVisible(true);
+    }
+
+    private static class EscapeKeyListener implements KeyListener {
+        @Override
+        public void keyTyped(KeyEvent e) {}
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                System.exit(0);
+            }
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {}
     }
 }
