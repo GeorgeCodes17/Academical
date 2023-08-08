@@ -1,7 +1,7 @@
 # Academical
 
-<img width="1026" alt="screenshot-of-academical" src="https://github.com/GeorgeCodes17/Academical/assets/87329153/7e40ebe5-e3ae-421d-af7d-3343467ce932">
-
+<br>
+<img width="450" alt="screenshot-of-dashboard" src="https://github.com/GeorgeCodes17/Academical/assets/87329153/7e40ebe5-e3ae-421d-af7d-3343467ce932">
 
 ### Description
 This is a school management software meant for teachers & school administrators. It has features like setting a lesson schedule, a dashboard with information like all your lessons and a link to Teams.
