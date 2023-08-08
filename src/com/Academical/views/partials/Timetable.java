@@ -3,6 +3,7 @@ package com.Academical.views.partials;
 import com.Academical.Launcher;
 import com.Academical.api.LessonScheduleApi;
 import com.Academical.exceptions.LessonScheduleException;
+import com.Academical.helpers.TimeConverter;
 import com.Academical.objects.LessonScheduleObject;
 import com.Academical.views.partials.helpers.Colors;
 import com.Academical.views.partials.helpers.RoundedBorder;
@@ -14,6 +15,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
+import java.sql.Time;
 import java.util.Arrays;
 import java.util.Iterator;
 
@@ -78,18 +80,22 @@ public class Timetable extends JPanel {
                     timetableBody.add(timetableEvent(currentLesson.getWeekOption().toString(), false, bottomBorder));
                     timetableBody.add(timetableEvent(currentLesson.getDayOfWeek().toString(), false, bottomBorder));
                     timetableBody.add(timetableEvent(currentLesson.getLesson().getYear().getName(), false, bottomBorder));
-                    timetableBody.add(timetableEvent(currentLesson.getStart().toString(), false, bottomBorder));
-                    timetableBody.add(timetableEvent(currentLesson.getEnd().toString(), false, bottomBorder));
+                    timetableBody.add(timetableEvent(formatTime(currentLesson.getStart()), false, bottomBorder));
+                    timetableBody.add(timetableEvent(formatTime(currentLesson.getEnd()), false, bottomBorder));
                     timetableBody.add(timetableEvent(currentLesson.getUpdatedAt().toString(), false, bottomBorder));
                 } else {
                     timetableBody.add(timetableEvent(currentLesson.getLesson().getName(), false, bottomBorder));
                     timetableBody.add(timetableEvent(currentLesson.getLesson().getYear().getName(), false, bottomBorder));
-                    timetableBody.add(timetableEvent(currentLesson.getStart().toString(), false, bottomBorder));
+                    timetableBody.add(timetableEvent(formatTime(currentLesson.getStart()), false, bottomBorder));
                 }
             }
         }
 
         return timetableBody;
+    }
+
+    private String formatTime(Time time) {
+        return TimeConverter.NO_SECONDS.format(time);
     }
 
     private JLabel timetableEvent(String itemText, boolean bold, boolean bottomBorder) {
