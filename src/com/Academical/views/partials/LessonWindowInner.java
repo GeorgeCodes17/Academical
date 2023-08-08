@@ -108,6 +108,7 @@ public class LessonWindowInner extends JPanel {
                         throw new RuntimeException(exc);
                     }
                 }
+                SwingUtilities.getWindowAncestor(submitBtn).dispose();
             }
         });
 
